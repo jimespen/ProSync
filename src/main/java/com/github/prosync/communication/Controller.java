@@ -1,4 +1,4 @@
-package network;
+package com.github.prosync.communication;
 
 /**
  * Created by huseby on 10/3/14.
@@ -17,16 +17,15 @@ public class Controller {
 
 	/**
 	 * GET Request method for sending commands to GoPro Cameras
-	 * @param url    Example: new URL("http://10.5.5.9/bacpac/SH?t=testtest&p=%01")
-	 * @param userAgent Example: Mozilla/5.0
-	 * @return returns true if successful, false if not
+	 * @param url    Example: new URL("http://10.5.5.9/camera/SH?t=<password>&p=%01")
+	 * @return true if successful, false if not
 	 */
-	public boolean getRequest(URL url, String userAgent) {
+	public boolean getRequest(URL url) {
 		try {
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("GET");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
 
-			int responseCode = con.getResponseCode();
+			int responseCode = connection.getResponseCode();
 			System.out.println("\nSending 'GET' request to URL : " + url);
 			System.out.println("Response Code : " + responseCode);
 		} catch (Exception e) {
@@ -37,18 +36,18 @@ public class Controller {
 	}
 
 	/**
-	 * HTTP File retriver, used to downloading files from GoPro Cameras
-	 * @param url Example: new URL("http://10.5.5.9/bacpac/SH?t=testtest&p=%01")
-	 * @param saveLocation Example: new File("C:\File.mp4")
-	 * @return returns true if successful, false if not
+	 * HTTP File retriever, used to downloading files from GoPro Cameras
+	 * @param url Example: new URL("http://10.5.5.9:8080/DCIM/105GOPRO/File.mp4")
+	 * @param file Example: new File("File.mp4")
+	 * @return true if successful, false if not
 	 */
-	public boolean getFileHTTP(URL url, File saveLocation) {
-		URLConnection con = null;
+	public boolean getFileHTTP(URL url, File file) {
+		URLConnection connection = null;
 		int i;
 		try {
-			con = url.openConnection();
-			BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(saveLocation.getName()));
+			connection = url.openConnection();
+			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file.getName()));
 
 			while ((i = bis.read()) != -1) {
 				bos.write(i);

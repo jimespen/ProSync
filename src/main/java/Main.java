@@ -3,7 +3,6 @@
  */
 public class Main {
 	public static void main(String[] args) {
-		TestClass TestClass = new TestClass();
-		TestClass.testPrint();
+
 	}
 }
