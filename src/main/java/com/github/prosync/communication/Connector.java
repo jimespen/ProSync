@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.MalformedInputException;
 
-public class Controller {
+public class Connector {
 
 
 	// HTTP GET request
