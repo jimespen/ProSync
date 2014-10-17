@@ -14,6 +14,14 @@ public class CameraController extends Controller {
 	Connector connector;
 	static final ArrayList<String> listOfCommands = new ArrayList<String>(Arrays.asList(new String[]{"PW", "CM", "SH", "VV", "FS", "FV", "BS", "WB", "TI", "CS", "BU", "PT", "DL", "DA", "AO", "DM"}));
 
+	/**
+	 * sendCommand, generic method for transmitting commands to the cameras.
+	 * Uses the Connector class's getRequest method.
+	 *
+	 * @param command Example: 'SH'
+	 * @param number  Example: '01'
+	 * @return true if successful, false if not
+	 */
 	@Override
 	boolean sendCommand(String command, String number) {
 		if (listOfCommands.indexOf(command) == -1)
