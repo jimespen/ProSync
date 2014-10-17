@@ -52,4 +52,15 @@ public class Connection implements Runnable{
             System.out.println("Thread finished");
         }
     }
+    
+    
+    public static void main(String[] args)throws UnknownHostException, IOException {
+        Connection con1 = new Connection("wlan15", 0); //TestCam1
+        Connection con2 = new Connection("wlan0", 0); //TestCam2
+        Thread t1 = new Thread(con1);
+        Thread t2 = new Thread(con2); 
+        t1.start();
+        t2.start();
+        
+    }
 }
