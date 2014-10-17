@@ -6,6 +6,8 @@ package com.github.prosync.logic;
 public abstract class Controller {
 	abstract boolean sendCommand(String command, String number);
 
+	abstract boolean sendDeleteCommand(String command);
+
 	abstract void setModeToVideo();
 
 	abstract void setModeToPhoto();
@@ -61,5 +63,9 @@ public abstract class Controller {
 	abstract void setDefaultModeBurst();
 
 	abstract void setDefaultModeTimelapse();
+
+	abstract void deleteLast();
+
+	abstract void deleteAll();
 
 }

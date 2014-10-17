@@ -11,13 +11,12 @@ import java.util.Arrays;
  * Created by jim-espen on 10/14/14.
  */
 public class CameraController extends Controller {
-	Connector connector;
+	Connector connector = new Connector();
 	static final ArrayList<String> listOfCommands = new ArrayList<String>(Arrays.asList(new String[]{"PW", "CM", "SH", "VV", "FS", "FV", "BS", "WB", "TI", "CS", "BU", "PT", "DL", "DA", "AO", "DM"}));
 
 	/**
 	 * sendCommand, generic method for transmitting commands to the cameras.
 	 * Uses the Connector class's getRequest method.
-	 *
 	 * @param command Example: 'SH'
 	 * @param number  Example: '01'
 	 * @return true if successful, false if not
@@ -34,144 +33,172 @@ public class CameraController extends Controller {
 		return true;
 	}
 
+	/**
+	 * sendDeleteCommand, generic method for transmitting commands to the cameras.
+	 * Uses the Connector class's getRequest method.
+	 *
+	 * @param command Example: 'DL'
+	 * @return true if successful, false if not
+	 */
 	@Override
-	void turnGoProOn() {
+	boolean sendDeleteCommand(String command) {
+		if (listOfCommands.indexOf(command) == -1)
+			return false;
+		try {
+			connector.getRequest(new URL("http://10.5.5.9/camera/" + command + "?t=testtest"));
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	@Override
+	public void turnGoProOn() {
 		sendCommand("PW", "01");
 	}
 
 	@Override
-	void turnGoProOff() {
+	public void turnGoProOff() {
 		sendCommand("PW", "00");
 	}
 
 	@Override
-	void setAutoOffNever() {
+	public void setAutoOffNever() {
 		sendCommand("AO", "00");
 	}
 
 	@Override
-	void setAutoOff60s() {
+	public void setAutoOff60s() {
 		sendCommand("AO", "01");
 	}
 
 	@Override
-	void setAutoOff120s() {
+	public void setAutoOff120s() {
 		sendCommand("AO", "02");
 	}
 
 	@Override
-	void setAutoOff300s() {
+	public void setAutoOff300s() {
 		sendCommand("AO", "03");
 	}
 
 	@Override
-	void setDefaultModeVideo() {
+	public void setDefaultModeVideo() {
 		sendCommand("DM", "00");
 	}
 
 	@Override
-	void setDefaultModePhoto() {
+	public void setDefaultModePhoto() {
 		sendCommand("DM", "01");
 	}
 
 	@Override
-	void setDefaultModeBurst() {
+	public void setDefaultModeBurst() {
 		sendCommand("DM", "02");
 	}
 
 	@Override
-	void setDefaultModeTimelapse() {
+	public void setDefaultModeTimelapse() {
 		sendCommand("DM", "03");
 	}
 
 	@Override
-	void setModeToVideo() {
+	public void setModeToVideo() {
 		sendCommand("CM", "00");
 	}
 
 	@Override
-	void setModeToPhoto() {
+	public void setModeToPhoto() {
 		sendCommand("CM", "01");
 	}
 
 	@Override
-	void setModeToBurst() {
+	public void setModeToBurst() {
 		sendCommand("CM", "02");
 	}
 
 	@Override
-	void setModeToTimelapse() {
+	public void setModeToTimelapse() {
 		sendCommand("CM", "03");
 	}
 
 	@Override
-	void startCamera() {
+	public void startCamera() {
 		sendCommand("SH", "01");
 	}
 
 	@Override
-	void stopCamera() {
+	public void stopCamera() {
 		sendCommand("SH", "00");
 	}
 
 	@Override
-	void setWideFoV() {
+	public void setWideFoV() {
 		sendCommand("FV", "00");
 	}
 
 	@Override
-	void setMediumFoV() {
+	public void setMediumFoV() {
 		sendCommand("FV", "01");
 	}
 
 	@Override
-	void setNarrowFoV() {
+	public void setNarrowFoV() {
 		sendCommand("FV", "02");
 	}
 
 	@Override
-	void setVolumeOff() {
+	public void setVolumeOff() {
 		sendCommand("BS", "00");
 	}
 
 	@Override
-	void setVolume70() {
+	public void setVolume70() {
 		sendCommand("BS", "01");
 	}
 
 	@Override
-	void setVolume100() {
+	public void setVolume100() {
 		sendCommand("BS", "02");
 	}
 
 	@Override
-	void setContinuousShotSingle() {
+	public void setContinuousShotSingle() {
 		sendCommand("CS", "00");
 	}
 
 	@Override
-	void setContinuousShot3SPS() {
+	public void setContinuousShot3SPS() {
 		sendCommand("CS", "03");
 	}
 
 	@Override
-	void setContinuousShot5SPS() {
+	public void setContinuousShot5SPS() {
 		sendCommand("CS", "05");
 	}
 
 	@Override
-	void setContinuousShot10SPS() {
+	public void setContinuousShot10SPS() {
 		sendCommand("CS", "0a");
 	}
 
 	@Override
-	void setProTuneOn() {
+	public void setProTuneOn() {
 		sendCommand("PT", "01");
 	}
 
 	@Override
-	void setProTuneOff() {
+	public void setProTuneOff() {
 		sendCommand("PT", "00");
 	}
 
+	@Override
+	public void deleteLast() {
+		sendDeleteCommand("DL");
+	}
+
+	@Override
+	public void deleteAll() {
+		sendDeleteCommand("DA");
+	}
 }
