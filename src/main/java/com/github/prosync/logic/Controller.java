@@ -1,5 +1,8 @@
 package com.github.prosync.logic;
 
+import java.io.File;
+import java.net.URL;
+
 /**
  * Created by jim-espen on 10/14/14.
  */
@@ -7,6 +10,8 @@ public abstract class Controller {
 	abstract boolean sendCommand(String command, String number);
 
 	abstract boolean sendDeleteCommand(String command);
+
+	abstract boolean getFileHTTP(URL url, File file);
 
 	abstract void setModeToVideo();
 

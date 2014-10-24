@@ -2,8 +2,11 @@ package com.github.prosync.logic;
 
 import com.github.prosync.communication.Connector;
 
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,7 +39,6 @@ public class CameraController extends Controller {
 	/**
 	 * sendDeleteCommand, generic method for transmitting commands to the cameras.
 	 * Uses the Connector class's getRequest method.
-	 *
 	 * @param command Example: 'DL'
 	 * @return true if successful, false if not
 	 */
@@ -48,6 +50,36 @@ public class CameraController extends Controller {
 			connector.getRequest(new URL("http://10.5.5.9/camera/" + command + "?t=testtest"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+		}
+		return true;
+	}
+
+	/**
+	 * HTTP File retriever, used to downloading files from GoPro Cameras
+	 *
+	 * @param url  Example: new URL("http://10.5.5.9:8080/DCIM/105GOPRO/File.mp4")
+	 * @param file Example: new File("path/to/File.mp4")
+	 * @return true if successful, false if not
+	 */
+	public boolean getFileHTTP(URL url, File file) {
+		URLConnection connection = null;
+		int i;
+		try {
+			connection = url.openConnection();
+			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file.getName()));
+
+			while ((i = bis.read()) != -1) {
+				bos.write(i);
+			}
+			bos.flush();
+			bis.close();
+		} catch (MalformedInputException malformedInputException) {
+			malformedInputException.printStackTrace();
+			return false;
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
+			return false;
 		}
 		return true;
 	}
