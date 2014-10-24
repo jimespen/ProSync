@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class Connection implements Runnable{
     PrintWriter out;
-    String command;
+    String command = "SH?t=testtest&p=%01";
     Socket socket;
     int delay;
     
@@ -33,6 +33,17 @@ public class Connection implements Runnable{
         this.delay = delay;
     }
     
+    public Connection(String nifName, String cmd, String tall, String IP) throws IOException, UnknownHostException{
+        socket = new Socket();
+        NetworkInterface nif = NetworkInterface.getByName(nifName);
+        Enumeration<InetAddress> nifAddress = nif.getInetAddresses();
+        socket.bind(new InetSocketAddress(nifAddress.nextElement(),0));
+        socket.connect(new InetSocketAddress(IP,80));
+        out = new PrintWriter(socket.getOutputStream(),true);
+        this.delay = 0;
+        this.command = cmd+"?t=testtest&p=%"+tall;
+    }
+    
 
     @Override
     public void run() {
@@ -41,7 +52,7 @@ public class Connection implements Runnable{
         } catch (InterruptedException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
         }
-        out.println("GET /camera/SH?t=testtest&p=%01 HTTP/1.1");
+        out.println("GET /camera/"+command+" HTTP/1.1");
         out.println("");
         out.flush();
         try{
@@ -63,4 +74,5 @@ public class Connection implements Runnable{
         t2.start();
         
     }
+    
 }
