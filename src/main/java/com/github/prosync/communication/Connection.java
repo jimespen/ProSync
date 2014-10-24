@@ -22,6 +22,8 @@ public class Connection implements Runnable{
     String command = "SH?t=testtest&p=%01";
     Socket socket;
     int delay;
+    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+    String IP;
     
     public Connection(String nifName, int delay) throws IOException, UnknownHostException {
         socket = new Socket();
@@ -31,17 +33,13 @@ public class Connection implements Runnable{
         socket.connect(new InetSocketAddress("10.5.5.9",80));
         out = new PrintWriter(socket.getOutputStream(), true);
         this.delay = delay;
+        
     }
     
-    public Connection(String nifName, String cmd, String tall, String IP) throws IOException, UnknownHostException{
-        socket = new Socket();
-        NetworkInterface nif = NetworkInterface.getByName(nifName);
-        Enumeration<InetAddress> nifAddress = nif.getInetAddresses();
-        socket.bind(new InetSocketAddress(nifAddress.nextElement(),0));
-        socket.connect(new InetSocketAddress(IP,80));
-        out = new PrintWriter(socket.getOutputStream(),true);
+    public Connection(String cmd, String tall, String IP) throws IOException, UnknownHostException{
         this.delay = 0;
         this.command = cmd+"?t=testtest&p=%"+tall;
+        this.IP = IP;
     }
     
 
@@ -49,8 +47,12 @@ public class Connection implements Runnable{
     public void run() {
         try {
             Thread.sleep(delay);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+            out = new PrintWriter(socket.getOutputStream(),true);
+        } catch (InterruptedException ix) {
+            ix.printStackTrace(System.err);
+        } catch (IOException ioe){
+            ioe.printStackTrace(System.err);
+            return;
         }
         out.println("GET /camera/"+command+" HTTP/1.1");
         out.println("");
@@ -61,6 +63,24 @@ public class Connection implements Runnable{
             e.printStackTrace(System.err);
         } finally {
             System.out.println("Thread finished");
+        }
+    }
+    
+    public void bind(){
+        NetworkInterface nextElement = null;
+        while(interfaces.hasMoreElements()){
+            nextElement = interfaces.nextElement();
+            try{
+                Enumeration<InetAddress> nifAddress = nextElement.getInetAddresses();
+                this.socket = new Socket();
+                socket.bind(new InetSocketAddress(nifAddress.nextElement(),0));
+                socket.connect(new InetSocketAddress(IP,80));
+                return;
+            } catch (UnknownHostException uhe){
+                uhe.printStackTrace(System.err);
+            } catch (IOException ioe){
+                ioe.printStackTrace(System.err);
+            }
         }
     }
     
