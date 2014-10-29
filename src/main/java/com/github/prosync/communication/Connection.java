@@ -19,9 +19,11 @@ import java.util.logging.Logger;
 
 public class Connection implements Runnable{
     PrintWriter out;
-    String command;
+    String command = "SH?t=testtest&p=%01";
     Socket socket;
     int delay;
+    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+    String IP;
     
     public Connection(String nifName, int delay) throws IOException, UnknownHostException {
         socket = new Socket();
@@ -31,6 +33,13 @@ public class Connection implements Runnable{
         socket.connect(new InetSocketAddress("10.5.5.9",80));
         out = new PrintWriter(socket.getOutputStream(), true);
         this.delay = delay;
+        
+    }
+    
+    public Connection(String cmd, String tall, String IP) throws IOException, UnknownHostException{
+        this.delay = 0;
+        this.command = cmd+"?t=testtest&p=%"+tall;
+        this.IP = IP;
     }
     
 
@@ -38,10 +47,14 @@ public class Connection implements Runnable{
     public void run() {
         try {
             Thread.sleep(delay);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+            out = new PrintWriter(socket.getOutputStream(),true);
+        } catch (InterruptedException ix) {
+            ix.printStackTrace(System.err);
+        } catch (IOException ioe){
+            ioe.printStackTrace(System.err);
+            return;
         }
-        out.println("GET /camera/SH?t=testtest&p=%01 HTTP/1.1");
+        out.println("GET /camera/"+command+" HTTP/1.1");
         out.println("");
         out.flush();
         try{
@@ -52,4 +65,34 @@ public class Connection implements Runnable{
             System.out.println("Thread finished");
         }
     }
+    
+    public void bind(){
+        NetworkInterface nextElement = null;
+        while(interfaces.hasMoreElements()){
+            nextElement = interfaces.nextElement();
+            try{
+                Enumeration<InetAddress> nifAddress = nextElement.getInetAddresses();
+                this.socket = new Socket();
+                socket.bind(new InetSocketAddress(nifAddress.nextElement(),0));
+                socket.connect(new InetSocketAddress(IP,80));
+                return;
+            } catch (UnknownHostException uhe){
+                uhe.printStackTrace(System.err);
+            } catch (IOException ioe){
+                ioe.printStackTrace(System.err);
+            }
+        }
+    }
+    
+    
+    public static void main(String[] args)throws UnknownHostException, IOException {
+        Connection con1 = new Connection("wlan15", 0); //TestCam1
+        Connection con2 = new Connection("wlan0", 0); //TestCam2
+        Thread t1 = new Thread(con1);
+        Thread t2 = new Thread(con2); 
+        t1.start();
+        t2.start();
+        
+    }
+    
 }
