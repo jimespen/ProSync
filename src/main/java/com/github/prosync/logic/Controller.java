@@ -2,6 +2,7 @@ package com.github.prosync.logic;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by jim-espen on 10/14/14.
@@ -11,7 +12,7 @@ public abstract class Controller {
 
 	abstract boolean sendDeleteCommand(String command);
 
-	abstract boolean getFileHTTP(URL url, File file);
+	abstract ArrayList<String> getFileList();
 
 	abstract void setModeToVideo();
 
