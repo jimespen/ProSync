@@ -5,8 +5,6 @@ import com.github.prosync.communication.Connector;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -16,8 +14,8 @@ import java.util.regex.Pattern;
  * Created by jim-espen on 10/14/14.
  */
 public class CameraController extends Controller {
-	Connector connector = new Connector();
-	static final ArrayList<String> listOfCommands = new ArrayList<String>(Arrays.asList(new String[]{"PW", "CM", "SH", "VV", "FS", "FV", "BS", "WB", "TI", "CS", "BU", "PT", "DL", "DA", "AO", "DM"}));
+	private Connector connector = new Connector();
+	private static final ArrayList<String> listOfCommands = new ArrayList<String>(Arrays.asList(new String[]{"PW", "CM", "SH", "VV", "FS", "FV", "BS", "WB", "TI", "CS", "BU", "PT", "DL", "DA", "AO", "DM"}));
 
 	/**
 	 * sendCommand, generic method for transmitting commands to the cameras.
@@ -59,53 +57,72 @@ public class CameraController extends Controller {
 	}
 
 	/**
-	 * @return
+	 * For finding files URL to downloadable files on the GOPRO camera series
+	 * @return A URL to the files if found, null if not
 	 */
-	public ArrayList<String> getFileList() {
-		ArrayList<String> JPEGFiles = new ArrayList<String>();
-		ArrayList<String> MP4Files = new ArrayList<String>();
-
+	public String getFilesURL(){
+		Pattern URLPattern = Pattern.compile("[1][0][0-9]GOPRO");
 		try {
-			Pattern URLPattern = Pattern.compile("[1][0][0-9]GOPRO");
-			Pattern JPEGPattern = Pattern.compile("G[0-9]*.JPG");
-			Pattern MP4Pattern = Pattern.compile("GOPR[0-9]*.MP4");
-
 			String HTMLFile = connector.getHTMLFile(new URL("http://10.5.5.9:8080/DCIM/"));
+			Matcher matcherURL = URLPattern.matcher(HTMLFile);
 
-			Matcher m = URLPattern.matcher(HTMLFile);
-			m.find();
-			String test = m.group(0);
+			matcherURL.find();
 
-			String HTMLFile2 = connector.getHTMLFile(new URL("http://10.5.5.9:8080/DCIM/"+test));
-
-			//String temp = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head>\t<title></title>\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /></head><body>\t<div id=\"main\" style=\"height: 100%; text-align: center;\"><!-- BEGINOF main -->\t  <img src=\"/icons/gopro_logo.png\" class=\"logo\" />\t  <pre></pre>\t<div id=\"dirlist\"><!-- BEGINOF dirlist -->\t<table>\t\t<thead class=\"headings\">\t\t  <tr>\t\t\t<td style=\"width: 1px;\">&nbsp;</td>\t\t\t<td>\t\t\t<a href=\"?order=N\">Name</a>\t\t\t</td>\t\t\t<td>\t\t\t<a href=\"?order=s\">Size</a>\t\t\t</td>\t\t  </tr>\t\t</thead>\t\t<tbody><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010684.JPG\">G0010684.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.0M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010685.JPG\">G0010685.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.8M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010686.JPG\">G0010686.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.3M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010687.JPG\">G0010687.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.3M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010688.JPG\">G0010688.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.3M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010689.JPG\">G0010689.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.3M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010690.JPG\">G0010690.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010691.JPG\">G0010691.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.3M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010692.JPG\">G0010692.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.3M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010693.JPG\">G0010693.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010694.JPG\">G0010694.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010695.JPG\">G0010695.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010696.JPG\">G0010696.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010697.JPG\">G0010697.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010698.JPG\">G0010698.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010699.JPG\">G0010699.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010700.JPG\">G0010700.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010701.JPG\">G0010701.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010702.JPG\">G0010702.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010703.JPG\">G0010703.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010704.JPG\">G0010704.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010705.JPG\">G0010705.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010706.JPG\">G0010706.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010707.JPG\">G0010707.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010708.JPG\">G0010708.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.5M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010709.JPG\">G0010709.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010710.JPG\">G0010710.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010711.JPG\">G0010711.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010712.JPG\">G0010712.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr><tr>  <td style=\"width: 1px;\">    <img class=\"icon\" src=\"/icons/camera.png\" alt=\"[   ]\" />  </td>  <td>    <a class=\"link\" href=\"G0010713.JPG\">G0010713.JPG</a>  </td>  <td class=\"size\">    <span class=\"size\">2</span><span class=\"unit\">.4M</span>  </td></tr>\t\t</tbody>\t\t</table>\t</div><!-- ENDOF dirlist -->\t</div><!-- ENDOF main--></body></html>\n";
-
-			Matcher m2 = JPEGPattern.matcher(HTMLFile2);
-			Matcher m3 = MP4Pattern.matcher(HTMLFile2);
-
-
-
-			while (m2.find()) {
-				if(!JPEGFiles.contains(m2.group(0))){JPEGFiles.add(m2.group(0));}
-			}
-
-			while (m3.find()) {
-				if(!MP4Files.contains(m3.group(0))){MP4Files.add(m3.group(0));}
-			}
-
-			for(String s:JPEGFiles){
-				System.out.println("Downloading: " + s);
-				connector.getFileHTTP(new URL("http://10.5.5.9:8080/DCIM/" + test + "/" + s), new File("~/images/"+s));
-			}
-
-
-		} catch (Exception e) {
+			return "http://10.5.5.9:8080/DCIM/"+matcherURL.group(0);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
 		return null;
 	}
 
+	/**
+	 * Creates a list containing all .JPG filenames
+	 * @param URL A URL specifying the URL path to the files
+	 * @return A list containing the files containing the .JPG filenames, null if camera is empty or not found
+	 */
+	public ArrayList<String> getFileListJPG(String URL) {
+		ArrayList<String> JPGFiles = new ArrayList<String>();
+		Pattern JPGPattern = Pattern.compile("G[0-9]*.JPG");
+		try {
+			String HTMLFile = connector.getHTMLFile(new URL(URL));
+			System.out.println(URL);
+			Matcher matcherJPG = JPGPattern.matcher(HTMLFile);
+			JPGFiles.add(URL);
 
+			while (matcherJPG.find()) {
+				if(!JPGFiles.contains(matcherJPG.group(0))){JPGFiles.add(matcherJPG.group(0));}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return JPGFiles;
+	}
+
+	/**
+	 * Creates a list containing all .MP4 filenames
+	 * @param URL A URL specifying the URL path to the files
+	 * @return A list containing the files containing the .MP4 filenames, null if camera is empty or not found
+	 */
+	public ArrayList<String> getFileListMP4(String URL) {
+		ArrayList<String> MP4Files = new ArrayList<String>();
+
+		try {
+			Pattern MP4Pattern = Pattern.compile("GOPR[0-9]*.MP4");
+			String HTMLFile = connector.getHTMLFile(new URL(URL));
+			Matcher matcherMP4 = MP4Pattern.matcher(HTMLFile);
+
+			while (matcherMP4.find()) {
+				if(!MP4Files.contains(matcherMP4.group(0))){MP4Files.add(matcherMP4.group(0));}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return MP4Files;
+	}
+
+	public boolean getFileHTTP(URL url, File file){
+		return connector.getFileHTTP(url,file);
+	}
 	@Override
 	public void turnGoProOn() {
 		sendCommand("PW", "01");

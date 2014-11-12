@@ -12,7 +12,7 @@ public abstract class Controller {
 
 	abstract boolean sendDeleteCommand(String command);
 
-	abstract ArrayList<String> getFileList();
+	abstract String getFilesURL();
 
 	abstract void setModeToVideo();
 
@@ -73,5 +73,8 @@ public abstract class Controller {
 	abstract void deleteLast();
 
 	abstract void deleteAll();
+
+	public abstract ArrayList<String> getFileListJPG(String URL);
+	public abstract ArrayList<String> getFileListMP4(String URL);
 
 }
