@@ -10,6 +10,7 @@ public class MainMenu {
 	final static boolean shouldFill = true;
 	final static boolean shouldWeightX = true;
 	final static boolean RIGHT_TO_LEFT = false;
+        final static ButtonListener listener = ButtonListener.getInstance();
 
 	public static void addComponentsToPane(Container pane) {
 		if (RIGHT_TO_LEFT) {
@@ -25,6 +26,8 @@ public class MainMenu {
 		}
 
 		button = new JButton("Konfigurer");
+                button.setActionCommand("conf");
+                button.addActionListener(listener);
 		if (shouldWeightX) {
 			c.weightx = 0.5;
 		}
@@ -34,6 +37,8 @@ public class MainMenu {
 		pane.add(button, c);
 
 		button = new JButton("Hent ut");
+                button.setActionCommand("getdata");
+                button.addActionListener(listener);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 1;
@@ -41,6 +46,8 @@ public class MainMenu {
 		pane.add(button, c);
 
 		button = new JButton("Opptak");
+                button.setActionCommand("rec");
+                button.addActionListener(listener);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 2;
