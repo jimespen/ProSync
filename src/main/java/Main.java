@@ -1,4 +1,3 @@
-import com.github.prosync.gui.GUIContainer;
 import com.github.prosync.gui.MainMenu;
 import com.github.prosync.logic.CameraController;
 
@@ -7,8 +6,7 @@ import com.github.prosync.logic.CameraController;
  */
 public class Main {
 	public static void main(String[] args) {
-		//MainMenu mainMenu = new MainMenu();
-                final GUIContainer gui = new GUIContainer();
+		MainMenu mainMenu = new MainMenu();
 		CameraController cameraController = new CameraController();
 
 
@@ -16,7 +14,7 @@ public class Main {
 		//creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				gui.createAndShowGUI();
+				MainMenu.createAndShowGUI();
 			}
 		});
 	}
