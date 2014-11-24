@@ -52,8 +52,9 @@ public class navPane extends JPanel {
 	 * Create the GUI and show it.  For thread safety,
 	 * this method should be invoked from the
 	 * event-dispatching thread.
+     * @return 
 	 */
-	public static void createAndShowPane() {
+	public JPanel createAndShowPane() {
 		//Create and set up the window.
 		JPanel panel = new JPanel();
 
@@ -61,7 +62,12 @@ public class navPane extends JPanel {
 		addComponentsToPane(panel.getRootPane());
 
 		//Display the window.
-		panel.updateUI();
-		panel.setVisible(true);
+		//panel.updateUI();
+		//panel.setVisible(true);
+                
+                return panel;
+                
+                
+                
 	}
 }

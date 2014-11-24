@@ -1,4 +1,4 @@
-package com.github.prosync.gui;
+    package com.github.prosync.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ public class MainMenu {
 	final static boolean shouldWeightX = true;
 	final static boolean RIGHT_TO_LEFT = false;
 
-	public static void addComponentsToPane(Container pane) {
+	public static Container addComponentsToPane(Container pane) {
 		if (RIGHT_TO_LEFT) {
 			pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		}
@@ -46,6 +46,14 @@ public class MainMenu {
 		c.gridx = 2;
 		c.gridy = 0;
 		pane.add(button, c);
+                
+                navPane  panel = new navPane();
+                
+                c.gridx = 0;
+                c.gridy = 1;
+                pane.add(panel.createAndShowPane(), c);
+                
+                return pane;
 
 	}
 
@@ -60,7 +68,7 @@ public class MainMenu {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//Set up the content pane.
-		addComponentsToPane(frame.getContentPane());
+		//addComponentsToPane(frame.getContentPane());
 
 		//Display the window.
 		frame.pack();
