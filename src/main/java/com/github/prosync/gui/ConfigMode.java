@@ -65,6 +65,7 @@ public class ConfigMode extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         System.out.println(mode.getSelected());
+                        //TODO, kommuniser med kamera
                     }
                 });
                 add(submit, gbc);

@@ -33,7 +33,7 @@ public class ConfigTabbedPane {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                 }
 
-                JFrame frame = new JFrame("Testing");
+                JFrame frame = new JFrame("Kofigurer");
                 frame.setPreferredSize(new Dimension(800,600));
                 JTabbedPane config = new JTabbedPane();
                 config.add("Modus", new ConfigMode());
