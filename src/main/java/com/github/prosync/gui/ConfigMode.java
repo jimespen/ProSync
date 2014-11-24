@@ -5,6 +5,7 @@
  */
 package com.github.prosync.gui;
 
+import com.github.prosync.logic.CameraController;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -31,6 +32,7 @@ import javax.swing.border.TitledBorder;
  * @author Rubenhag
  */
 public class ConfigMode extends JPanel {
+    CameraController cc = new CameraController();
 
     public ConfigMode() {
         EventQueue.invokeLater(new Runnable() {
@@ -64,7 +66,13 @@ public class ConfigMode extends JPanel {
                 submit.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println(mode.getSelected());
+                        if(mode.getSelected().equals("Video")){
+                            cc.setModeToVideo();
+                        } else if(mode.getSelected().equals("Foto, singel")){
+                            cc.setModeToPhoto();
+                        } else if(mode.getSelected().equals("Foto, burst")){
+                            cc.setModeToBurst();
+                        }
                         
                     }
                 });

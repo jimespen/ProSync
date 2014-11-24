@@ -12,33 +12,37 @@ import java.nio.charset.MalformedInputException;
 
 public class Connector {
 
-
-	// HTTP GET request
-
 	/**
-	 * GET Request method for sending commands to GoPro Cameras
-	 * @param url    Example: new URL("http://10.5.5.9/camera/SH?t=<password>&p=%01")
-	 * @return true if successful, false if not
+	 * HTML file retriver, retrives a specified HTML from a URL
+	 * @param url
+	 * @return A string containing the HTML file
+	 * @throws IOException
 	 */
-	public boolean getRequest(URL url) {
-		try {
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
+	public String getHTMLFile(URL url) throws IOException {
+		try{
+			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-			int responseCode = connection.getResponseCode();
-			System.out.println("\nSending 'GET' request to URL : " + url);
-			System.out.println("Response Code : " + responseCode);
-		} catch (Exception e) {
-			System.out.println("GET Request failed, check settings parameteres and that you are connected to camera");
-			return false;
+			String inputLine;
+			String string = "";
+			while ((inputLine = in.readLine()) != null) {
+				string += inputLine;
+			}
+
+			in.close();
+
+			return string;
+		}catch (Exception e){
+			System.out.println("Exception in retriveHTMLFile(URL url)");
 		}
-		return true;
+
+		return null;
 	}
 
 	/**
 	 * HTTP File retriever, used to downloading files from GoPro Cameras
-	 * @param url Example: new URL("http://10.5.5.9:8080/DCIM/105GOPRO/File.mp4")
-	 * @param file Example: new File("File.mp4")
+	 *
+	 * @param url  Example: new URL("http://10.5.5.9:8080/DCIM/105GOPRO/File.mp4")
+	 * @param file Example: new File("path/to/File.mp4")
 	 * @return true if successful, false if not
 	 */
 	public boolean getFileHTTP(URL url, File file) {
@@ -59,6 +63,29 @@ public class Connector {
 			return false;
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	// HTTP GET request
+
+	/**
+	 * GET Request method for sending commands to GoPro Cameras
+	 *
+	 * @param url Example: new URL("http://10.5.5.9/camera/SH?t=<password>&p=%01")
+	 * @return true if successful, false if not
+	 */
+	public boolean getRequest(URL url) {
+		try {
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+
+			int responseCode = connection.getResponseCode();
+			System.out.println("\nSending 'GET' request to URL : " + url);
+			System.out.println("Response Code : " + responseCode);
+		} catch (Exception e) {
+			System.out.println("GET Request failed, check settings parameteres and that you are connected to camera");
 			return false;
 		}
 		return true;

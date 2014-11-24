@@ -2,21 +2,25 @@ package com.github.prosync.logic;
 
 import com.github.prosync.communication.Connector;
 
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jim-espen on 10/14/14.
  */
 public class CameraController extends Controller {
-	Connector connector = new Connector();
-	static final ArrayList<String> listOfCommands = new ArrayList<String>(Arrays.asList(new String[]{"PW", "CM", "SH", "VV", "FS", "FV", "BS", "WB", "TI", "CS", "BU", "PT", "DL", "DA", "AO", "DM"}));
+	private Connector connector = new Connector();
+	private static final ArrayList<String> listOfCommands = new ArrayList<String>(Arrays.asList(new String[]{"PW", "CM", "SH", "VV", "FS", "FV", "BS", "WB", "TI", "CS", "BU", "PT", "DL", "DA", "AO", "DM"}));
 
 	/**
 	 * sendCommand, generic method for transmitting commands to the cameras.
 	 * Uses the Connector class's getRequest method.
+	 *
 	 * @param command Example: 'SH'
 	 * @param number  Example: '01'
 	 * @return true if successful, false if not
@@ -52,6 +56,74 @@ public class CameraController extends Controller {
 		return true;
 	}
 
+	/**
+	 * For finding files URL to downloadable files on the GOPRO camera series
+	 * @return A URL to the files if found, null if not
+	 */
+	public String getFilesURL(){
+		Pattern URLPattern = Pattern.compile("[1][0][0-9]GOPRO");
+		try {
+			String HTMLFile = connector.getHTMLFile(new URL("http://10.5.5.9:8080/DCIM/"));
+			Matcher matcherURL = URLPattern.matcher(HTMLFile);
+
+			matcherURL.find();
+
+			return "http://10.5.5.9:8080/DCIM/"+matcherURL.group(0);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+	/**
+	 * Creates a list containing all .JPG filenames
+	 * @param URL A URL specifying the URL path to the files
+	 * @return A list containing the files containing the .JPG filenames, null if camera is empty or not found
+	 */
+	public ArrayList<String> getFileListJPG(String URL) {
+		ArrayList<String> JPGFiles = new ArrayList<String>();
+		Pattern JPGPattern = Pattern.compile("G[0-9]*.JPG");
+		try {
+			String HTMLFile = connector.getHTMLFile(new URL(URL));
+			System.out.println(URL);
+			Matcher matcherJPG = JPGPattern.matcher(HTMLFile);
+			JPGFiles.add(URL);
+
+			while (matcherJPG.find()) {
+				if(!JPGFiles.contains(matcherJPG.group(0))){JPGFiles.add(matcherJPG.group(0));}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return JPGFiles;
+	}
+
+	/**
+	 * Creates a list containing all .MP4 filenames
+	 * @param URL A URL specifying the URL path to the files
+	 * @return A list containing the files containing the .MP4 filenames, null if camera is empty or not found
+	 */
+	public ArrayList<String> getFileListMP4(String URL) {
+		ArrayList<String> MP4Files = new ArrayList<String>();
+
+		try {
+			Pattern MP4Pattern = Pattern.compile("GOPR[0-9]*.MP4");
+			String HTMLFile = connector.getHTMLFile(new URL(URL));
+			Matcher matcherMP4 = MP4Pattern.matcher(HTMLFile);
+
+			while (matcherMP4.find()) {
+				if(!MP4Files.contains(matcherMP4.group(0))){MP4Files.add(matcherMP4.group(0));}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return MP4Files;
+	}
+
+	public boolean getFileHTTP(URL url, File file){
+		return connector.getFileHTTP(url,file);
+	}
 	@Override
 	public void turnGoProOn() {
 		sendCommand("PW", "01");
