@@ -150,7 +150,6 @@ public class CameraController extends Controller {
 		return connector.getFileHTTP(url,file);
 	}
 
-
 	@Override
 	public void turnGoProOn() {
 		sendCommand("PW", "01");

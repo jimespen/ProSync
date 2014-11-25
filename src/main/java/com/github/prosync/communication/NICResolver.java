@@ -22,7 +22,6 @@ public class NICResolver {
     public ArrayList<String> getConnectedNICs() throws SocketException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         NetworkInterface nextElement;
-
 		ArrayList<String> list = new ArrayList<>();
 
         while(interfaces.hasMoreElements()){
