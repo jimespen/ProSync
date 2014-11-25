@@ -75,6 +75,7 @@ public class CameraController extends Controller {
 		return null;
 	}
 
+
 	/**
 	 * Creates a list containing all .JPG filenames
 	 * @param URL A URL specifying the URL path to the files
