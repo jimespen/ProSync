@@ -5,31 +5,30 @@
  */
 package com.github.prosync.gui;
 
-import java.awt.BorderLayout;
+import com.github.prosync.domain.Camera;
+import com.github.prosync.logic.CameraController;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import static javax.swing.Action.NAME;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -39,6 +38,7 @@ public class ConfigSetupCamera extends JPanel {
     
     ArrayList<Camera> cameras;
     ArrayList<String> nics;
+    CameraController cc = new CameraController();
 
     public ConfigSetupCamera() {
         EventQueue.invokeLater(new Runnable() {
@@ -50,7 +50,12 @@ public class ConfigSetupCamera extends JPanel {
 
                 }
                 cameras = new ArrayList<>();
-                nics = new ArrayList<>();
+                try {
+                    nics = cc.getConnectedWIFINIS();
+                } catch (SocketException ex) {
+                    Logger.getLogger(ConfigSetupCamera.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 setSize(800,600);
                 setLayout(new GridBagLayout());
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -62,22 +67,16 @@ public class ConfigSetupCamera extends JPanel {
                 cameras.add(new Camera("Kamera 1"));
                 cameras.add(new Camera("Kamera 2"));
                 cameras.add(new Camera("Kamera 3"));
-                nics.add("wlan15");
-                nics.add("wlan0");
-                nics.add("wlanWin");
                 
-                
-
                 JPanel panel;
-                JTextField textField;
+
                 for(Camera aCamera : cameras){
                     final Camera camera = aCamera;
                     final JComboBox dropDown  = new JComboBox(nics.toArray());
                     final JCheckBox checkBox = new JCheckBox(aCamera.getCamName());
-                    
+                    final JTextField textField = new JTextField(20);
                     
                     panel = new JPanel(new FlowLayout());
-                    textField = new JTextField(20);
                     
                     gbc.gridy++;
                     
@@ -99,6 +98,24 @@ public class ConfigSetupCamera extends JPanel {
                         }
                     });
                     
+                    textField.getDocument().addDocumentListener(new DocumentListener(){
+
+                        @Override
+                        public void insertUpdate(DocumentEvent de) {
+                            camera.setPassword(textField.getText());
+                        }
+
+                        @Override
+                        public void removeUpdate(DocumentEvent de) {
+                            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                        }
+
+                        @Override
+                        public void changedUpdate(DocumentEvent de) {
+                            
+                        }
+                    });
+                    
                     aCamera = camera;
                     
                     panel.add(checkBox);
@@ -107,7 +124,7 @@ public class ConfigSetupCamera extends JPanel {
                     add(panel, gbc);
                     
                 }
-                
+                gbc.gridy++;
                 JButton submit = new JButton("Send til kamera");
                 submit.addActionListener(new ActionListener() {
                     @Override
@@ -115,6 +132,8 @@ public class ConfigSetupCamera extends JPanel {
                         for(Camera aCamera : cameras){
                             System.out.println("Nic: "+aCamera.getNic());
                             System.out.println("Selected: "+aCamera.getSelected());
+                            System.out.println("Passord: "+aCamera.getPassword());
+                            //Kommuniser med kameraer
                         }
                         
                     }
@@ -125,37 +144,7 @@ public class ConfigSetupCamera extends JPanel {
         });
     }
 
-    public class Camera {
 
-        private String nic;
-        private String camName;
-        private boolean selected;
-
-        public Camera(String camName) {
-            this.camName = camName;
-        }
-        
-        public void setNic(String nic){
-            this.nic = nic;
-        }
-
-        public String getNic(){
-            return nic;
-        }
-
-        public String getCamName(){
-            return camName;
-        }
-        
-        public void setSelected(boolean selected){
-            this.selected = selected;
-        }
-        
-        public boolean getSelected(){
-            return selected;
-        }
-
-    }
 
     public class ModeAction extends AbstractAction {
 
@@ -176,20 +165,5 @@ public class ConfigSetupCamera extends JPanel {
         public void actionPerformed(ActionEvent e) {
             camera.setNic(nic);
         }
-    }
-    
-    public class DropDownMenu extends JComboBox{
-        
-        Camera camera;
-        
-        public DropDownMenu(Camera camera){
-            this.camera = camera;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            
-        }
-        
     }
 }

@@ -26,6 +26,7 @@ public class NICResolver {
 		ArrayList<String> list = new ArrayList<>();
 
         while(interfaces.hasMoreElements()){
+ 
             nextElement = interfaces.nextElement();
 			if(nextElement.isUp() && !nextElement.isLoopback()) list.add(nextElement.getName());
 		}
