@@ -59,30 +59,67 @@ public class ConfigSetupCamera extends JPanel {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 
                 //Placeholder
-                cameras.add(new Camera("Kamera 1", "Kamera 1"));
-                cameras.add(new Camera("Kamera 2", "Kamera 2"));
-                cameras.add(new Camera("Kamera 3", "Kamera 3"));
+                cameras.add(new Camera("Kamera 1"));
+                cameras.add(new Camera("Kamera 2"));
+                cameras.add(new Camera("Kamera 3"));
                 nics.add("wlan15");
                 nics.add("wlan0");
                 nics.add("wlanWin");
                 
                 
-                JCheckBox checkBox;
-                JComboBox dropDown;
+
                 JPanel panel;
                 JTextField textField;
                 for(Camera aCamera : cameras){
-                    gbc.gridy++;
-                    textField = new JTextField(20);
+                    final Camera camera = aCamera;
+                    final JComboBox dropDown  = new JComboBox(nics.toArray());
+                    final JCheckBox checkBox = new JCheckBox(aCamera.getCamName());
+                    
+                    
                     panel = new JPanel(new FlowLayout());
-                    dropDown  = new JComboBox(nics.toArray());
-                    checkBox = new JCheckBox(aCamera.getCamName());
+                    textField = new JTextField(20);
+                    
+                    gbc.gridy++;
+                    
+                    aCamera.setNic(dropDown.getSelectedItem().toString());
+                    
+                    dropDown.addActionListener(new ActionListener(){
+                        @Override
+                        public void actionPerformed(ActionEvent ae) {
+                            camera.setNic(dropDown.getSelectedItem().toString());
+                        }
+                    
+                    });
+                    
+                    checkBox.addActionListener(new ActionListener(){
+
+                        @Override
+                        public void actionPerformed(ActionEvent ae) {
+                            camera.setSelected(checkBox.isSelected());
+                        }
+                    });
+                    
+                    aCamera = camera;
+                    
                     panel.add(checkBox);
                     panel.add(dropDown);
                     panel.add(textField);
                     add(panel, gbc);
                     
                 }
+                
+                JButton submit = new JButton("Send til kamera");
+                submit.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        for(Camera aCamera : cameras){
+                            System.out.println("Nic: "+aCamera.getNic());
+                            System.out.println("Selected: "+aCamera.getSelected());
+                        }
+                        
+                    }
+                });
+                add(submit, gbc);
                 
             }
         });
@@ -92,10 +129,14 @@ public class ConfigSetupCamera extends JPanel {
 
         private String nic;
         private String camName;
+        private boolean selected;
 
-        public Camera(String nic, String camName) {
-            this.nic = nic;
+        public Camera(String camName) {
             this.camName = camName;
+        }
+        
+        public void setNic(String nic){
+            this.nic = nic;
         }
 
         public String getNic(){
@@ -105,18 +146,26 @@ public class ConfigSetupCamera extends JPanel {
         public String getCamName(){
             return camName;
         }
+        
+        public void setSelected(boolean selected){
+            this.selected = selected;
+        }
+        
+        public boolean getSelected(){
+            return selected;
+        }
 
     }
 
     public class ModeAction extends AbstractAction {
 
         private final Camera camera;
-        private final String value;
+        private final String nic;
 
-        public ModeAction(Camera mode, String value) {
-            this.camera = mode;
-            this.value = value;
-            putValue(NAME, value);
+        public ModeAction(Camera camera, String nic) {
+            this.camera = camera;
+            this.nic = nic;
+            putValue(NAME, nic);
         }
 
         public Camera getCamera() {
@@ -125,7 +174,22 @@ public class ConfigSetupCamera extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            camera.setNic(nic);
+        }
+    }
+    
+    public class DropDownMenu extends JComboBox{
+        
+        Camera camera;
+        
+        public DropDownMenu(Camera camera){
+            this.camera = camera;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
             
         }
+        
     }
 }

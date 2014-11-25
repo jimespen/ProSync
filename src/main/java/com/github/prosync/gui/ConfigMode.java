@@ -136,4 +136,5 @@ public class ConfigMode extends JPanel {
             getMode().setSelected(value);
         }
     }
+
 }
