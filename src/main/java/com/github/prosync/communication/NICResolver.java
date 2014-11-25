@@ -19,6 +19,7 @@ import java.util.logging.Logger;
  * @author Rubenhag
  */
 public class NICResolver {
+
     public ArrayList<String> getConnectedNICs() throws SocketException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         NetworkInterface nextElement;
@@ -30,4 +31,16 @@ public class NICResolver {
 		}
         return list;
     }
+
+	public String getDisplayName(String name) throws SocketException {
+		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+		NetworkInterface nextElement;
+
+		while(interfaces.hasMoreElements()){
+			nextElement = interfaces.nextElement();
+			if(name.equals(nextElement.getName())) return nextElement.getDisplayName();
+		}
+		return null;
+	}
+
 }
