@@ -5,6 +5,7 @@
  */
 package com.github.prosync.gui;
 
+import com.github.prosync.logic.CameraController;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -31,6 +32,7 @@ import javax.swing.border.TitledBorder;
  * @author Rubenhag
  */
 public class ConfigMode extends JPanel {
+    CameraController cc = new CameraController();
 
     public ConfigMode() {
         EventQueue.invokeLater(new Runnable() {
@@ -64,8 +66,14 @@ public class ConfigMode extends JPanel {
                 submit.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println(mode.getSelected());
-                        //TODO, kommuniser med kamera
+                        if(mode.getSelected().equals("Video")){
+                            cc.setModeToVideo();
+                        } else if(mode.getSelected().equals("Foto, singel")){
+                            cc.setModeToPhoto();
+                        } else if(mode.getSelected().equals("Foto, burst")){
+                            cc.setModeToBurst();
+                        }
+                        
                     }
                 });
                 add(submit, gbc);
@@ -74,38 +82,6 @@ public class ConfigMode extends JPanel {
         });
     }
 
-    public class ModePane extends JPanel {
-
-        public ModePane() {
-            setLayout(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridwidth = GridBagConstraints.REMAINDER;
-            gbc.anchor = GridBagConstraints.WEST;
-            gbc.weightx = 1;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-
-            final Mode mode = new Mode("Modus", "Video", "Foto, singel", "Foto, burst mode");
-            List<String> values = new ArrayList<>(mode.getValues());
-
-            setBorder(new TitledBorder(mode.getText()));
-            ButtonGroup bg = new ButtonGroup();
-            for (String value : values) {
-                JRadioButton rb = new JRadioButton(new ModeAction(mode, value));
-                bg.add(rb);
-                add(rb, gbc);
-            }
-
-            JButton submit = new JButton("Send til kamera");
-            submit.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println(mode.getSelected());
-                }
-            });
-            add(submit, gbc);
-
-        }
-    }
 
     public class Mode {
 
@@ -160,4 +136,5 @@ public class ConfigMode extends JPanel {
             getMode().setSelected(value);
         }
     }
+
 }

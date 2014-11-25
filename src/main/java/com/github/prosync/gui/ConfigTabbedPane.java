@@ -36,6 +36,7 @@ public class ConfigTabbedPane {
                 JFrame frame = new JFrame("Kofigurer");
                 frame.setPreferredSize(new Dimension(800,600));
                 JTabbedPane config = new JTabbedPane();
+                config.add("Setup", new ConfigSetupCamera());
                 config.add("Modus", new ConfigMode());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());

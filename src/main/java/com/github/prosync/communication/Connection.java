@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.github.prosync.communication;
 
 /**
@@ -14,85 +13,101 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.*;
 import java.util.Enumeration;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Connection implements Runnable{
+public class Connection implements Runnable {
+
     PrintWriter out;
-    String command = "SH?t=testtest&p=%01";
+    String command = "PW?t=testtest&p=%01";
     Socket socket;
     int delay;
     Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-    String IP;
-    
+    String IP = "10.5.5.9";
+
     public Connection(String nifName, int delay) throws IOException, UnknownHostException {
         socket = new Socket();
         NetworkInterface nif = NetworkInterface.getByName(nifName);
         Enumeration<InetAddress> nifAddress = nif.getInetAddresses();
-        socket.bind(new InetSocketAddress(nifAddress.nextElement(),0));
-        socket.connect(new InetSocketAddress("10.5.5.9",80));
+        socket.bind(new InetSocketAddress(nifAddress.nextElement(), 0));
+        socket.connect(new InetSocketAddress("10.5.5.9", 80));
         out = new PrintWriter(socket.getOutputStream(), true);
         this.delay = delay;
-        
+
     }
-    
-    public Connection(String cmd, String tall, String IP) throws IOException, UnknownHostException{
+
+    public Connection(String IP) throws IOException, UnknownHostException {
         this.delay = 0;
-        this.command = cmd+"?t=testtest&p=%"+tall;
         this.IP = IP;
     }
-    
 
     @Override
     public void run() {
-        try {
-            Thread.sleep(delay);
-            out = new PrintWriter(socket.getOutputStream(),true);
-        } catch (InterruptedException ix) {
-            ix.printStackTrace(System.err);
-        } catch (IOException ioe){
-            ioe.printStackTrace(System.err);
-            return;
-        }
-        out.println("GET /camera/"+command+" HTTP/1.1");
+        out.println("GET /camera/" + command + " HTTP/1.1");
         out.println("");
         out.flush();
-        try{
-        socket.close();
-        } catch (IOException e){
-            e.printStackTrace(System.err);
-        } finally {
-            System.out.println("Thread finished");
-        }
+        System.out.println("Thread finished");
     }
-    
-    public void bind(){
+
+    public String bind(String otherNif) throws InterruptedException {
         NetworkInterface nextElement = null;
-        while(interfaces.hasMoreElements()){
+        while (interfaces.hasMoreElements()) {
             nextElement = interfaces.nextElement();
-            try{
-                Enumeration<InetAddress> nifAddress = nextElement.getInetAddresses();
-                this.socket = new Socket();
-                socket.bind(new InetSocketAddress(nifAddress.nextElement(),0));
-                socket.connect(new InetSocketAddress(IP,80));
-                return;
-            } catch (UnknownHostException uhe){
-                uhe.printStackTrace(System.err);
-            } catch (IOException ioe){
-                ioe.printStackTrace(System.err);
+            if (!nextElement.getName().equals(otherNif)) {
+                try {
+                    Enumeration<InetAddress> nifAddress = nextElement.getInetAddresses();
+                    this.socket = new Socket();
+                    try {
+                        socket.bind(new InetSocketAddress(nifAddress.nextElement(), 0));
+                        socket.connect(new InetSocketAddress(IP, 80));
+                        System.out.println("****Network found****");
+                        System.out.println(nextElement.getName());
+                        Thread.sleep(2000);
+                        return nextElement.getName();
+                    } catch (SocketException se) {
+                        se.printStackTrace(System.err);
+                    }
+                } catch (UnknownHostException uhe) {
+                    uhe.printStackTrace(System.err);
+                } catch (IOException ioe) {
+                    ioe.printStackTrace(System.err);
+                } catch (NoSuchElementException nee) {
+                    nee.printStackTrace(System.err);
+                }
             }
         }
+        return "";
     }
-    
-    
-    public static void main(String[] args)throws UnknownHostException, IOException {
-        Connection con1 = new Connection("wlan15", 0); //TestCam1
-        Connection con2 = new Connection("wlan0", 0); //TestCam2
-        Thread t1 = new Thread(con1);
-        Thread t2 = new Thread(con2); 
-        t1.start();
-        t2.start();
-        
+
+    public void setCommand(String cmd, String tall) {
+        this.command = cmd + "?t=testtest&p=%" + tall;
     }
-    
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
+        String command = "SH?t=testtest&p=%01";
+        for (int i = 0; i < 100; i++) {
+
+        }
+        Connection con = new Connection("wlan3", 0);
+        Connection con2 = new Connection("wlan0", 0);
+        con.command = command;
+        con2.command = command;
+        for (int i = 0; i < 100; i++) {
+            con.run();
+            con2.run();
+            Thread.sleep(2000);
+        }
+    }
+
 }
