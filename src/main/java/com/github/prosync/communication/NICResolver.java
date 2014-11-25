@@ -7,6 +7,7 @@ package com.github.prosync.communication;
 
 import java.io.IOException;
 import java.net.*;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
@@ -17,33 +18,22 @@ import java.util.logging.Logger;
  * @author Rubenhag
  */
 public class NICResolver {
-
-    private ArrayList<String> connectedNICs;
-
-    public NICResolver() {
-        connectedNICs = new ArrayList();
-    }
-
-    public ArrayList getConnectedNICs() throws SocketException, IOException {
+    public ArrayList<String> getConnectedNICs() throws SocketException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-        NetworkInterface nextElement = null;
+        NetworkInterface nextElement;
+		ArrayList<String> list = new ArrayList<>();
+
         while(interfaces.hasMoreElements()){
             nextElement = interfaces.nextElement();
-            try{
-            new Thread(new Connection(nextElement.getName(),0)).start();
-            } catch (SocketException e){
-                e.printStackTrace(System.err);
-                System.out.println(nextElement.getName()+" is not connected");
-            }
+			list.add(nextElement.getDisplayName());
         }
-
-        return connectedNICs;
+        return list;
     }
 
     public static void main(String[] args){
         NICResolver nicr = new NICResolver();
         try {
-            nicr.getConnectedNICs();
+			nicr.getConnectedNICs();
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
         }
