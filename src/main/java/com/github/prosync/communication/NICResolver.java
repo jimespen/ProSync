@@ -29,7 +29,6 @@ public class NICResolver {
             nextElement = interfaces.nextElement();
 			list.add(nextElement.getDisplayName());
         }
-
         return list;
     }
 

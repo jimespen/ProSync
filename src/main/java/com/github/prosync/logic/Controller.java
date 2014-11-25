@@ -84,5 +84,4 @@ public abstract class Controller {
 
 	public abstract ArrayList<String> getFileListJPG(String URL);
 	public abstract ArrayList<String> getFileListMP4(String URL);
-
 }
