@@ -16,7 +16,7 @@ public abstract class Controller {
 
 	abstract ArrayList<String> getConnectedWIFINIS() throws SocketException;
 
-	abstract String getNISDisplayName(String name) throws SocketException;
+	abstract String getNISName(String name) throws SocketException;
 
 	abstract boolean sendCommand(String command, String number);
 

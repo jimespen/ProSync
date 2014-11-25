@@ -139,15 +139,15 @@ public class CameraController extends Controller {
 			Pattern wlanPatern = Pattern.compile("wlan[0-9]*");
 			Matcher matcher = wlanPatern.matcher(s);
 			if(matcher.find()){
-				NICWIFIList.add(matcher.group(0));
+				NICWIFIList.add(NISResolver.getDisplayName(matcher.group(0)));
 			}
 		}
 		return NICWIFIList;
 	}
 
 	@Override
-	public String getNISDisplayName(String name) throws SocketException {
-		return NISResolver.getDisplayName(name);
+	public String getNISName(String displayName) throws SocketException {
+		return NISResolver.getName(displayName);
 	}
 
 	@Override

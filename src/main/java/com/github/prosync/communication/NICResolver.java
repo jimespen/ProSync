@@ -43,4 +43,15 @@ public class NICResolver {
 		return null;
 	}
 
+	public String getName(String dispalyName) throws SocketException {
+		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+		NetworkInterface nextElement;
+
+		while(interfaces.hasMoreElements()){
+			nextElement = interfaces.nextElement();
+			if(dispalyName.equals(nextElement.getDisplayName())) return nextElement.getName();
+		}
+		return null;
+	}
+
 }
