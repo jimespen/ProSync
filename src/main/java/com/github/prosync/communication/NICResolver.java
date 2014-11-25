@@ -6,6 +6,7 @@
 package com.github.prosync.communication;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class NICResolver {
 
         while(interfaces.hasMoreElements()){
             nextElement = interfaces.nextElement();
-			list.add(nextElement.getName());
+			if(nextElement.isUp() && !nextElement.isLoopback()) list.add(nextElement.getName());
 		}
         return list;
     }
