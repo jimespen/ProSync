@@ -5,17 +5,23 @@
  */
 package com.github.prosync.gui;
 
+import com.github.prosync.domain.Camera;
+import com.github.prosync.logic.CameraController;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import static javax.swing.Action.NAME;
 import javax.swing.ButtonGroup;
@@ -32,11 +38,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import com.github.prosync.domain.Camera;
-import com.github.prosync.logic.CameraController;
-import java.net.SocketException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -59,16 +60,10 @@ public class ConfigSetupCamera extends JPanel {
                 }
                 cameras = new ArrayList<>();
                 nics = new ArrayList<>();
-                try {
-                    nics = cc.getConnectedWIFINIS();
-                } catch (SocketException ex) {
-                    Logger.getLogger(ConfigSetupCamera.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if(nics != null){
-                    for(String nic : nics){
-                        System.out.println(nic);
-                    }
-                }
+                nics.add("wlan0");
+                nics.add("wlan1");
+                nics.add("wlan2");
+                
                 setSize(800,600);
                 setLayout(new GridBagLayout());
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -137,8 +132,9 @@ public class ConfigSetupCamera extends JPanel {
                     add(panel, gbc);
                     
                 }
-                
+                gbc.gridy++;
                 JButton submit = new JButton("Send til kamera");
+                submit.setSize(new Dimension(14,14));
                 submit.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
