@@ -1,9 +1,11 @@
 package com.github.prosync.logic;
 
 import com.github.prosync.communication.Connector;
+import com.github.prosync.communication.NICResolver;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +17,7 @@ import java.util.regex.Pattern;
  */
 public class CameraController extends Controller {
 	private Connector connector = new Connector();
+	private NICResolver NISResolver = new NICResolver();
 	private static final ArrayList<String> listOfCommands = new ArrayList<String>(Arrays.asList(new String[]{"PW", "CM", "SH", "VV", "FS", "FV", "BS", "WB", "TI", "CS", "BU", "PT", "DL", "DA", "AO", "DM"}));
 
 	/**
@@ -121,9 +124,34 @@ public class CameraController extends Controller {
 		return MP4Files;
 	}
 
+	@Override
+	public ArrayList<String> getConnectedNIS() throws SocketException {
+		return NISResolver.getConnectedNICs();
+	}
+
+	@Override
+	public ArrayList<String> getConnectedWIFINIS() throws SocketException {
+
+		ArrayList<String> NICList = NISResolver.getConnectedNICs();
+		ArrayList<String> NICWIFIList = new ArrayList<>();
+
+		for(String s:NICList){
+			Pattern wlanPatern = Pattern.compile("wlan[0-9]*");
+			Matcher matcher = wlanPatern.matcher(s);
+			if(matcher.find()){
+				NICWIFIList.add(matcher.group(0));
+			}
+		}
+		return NICWIFIList;
+	}
+
+
+	@Override
 	public boolean getFileHTTP(URL url, File file){
 		return connector.getFileHTTP(url,file);
 	}
+
+
 	@Override
 	public void turnGoProOn() {
 		sendCommand("PW", "01");

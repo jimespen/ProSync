@@ -1,6 +1,7 @@
 package com.github.prosync.logic;
 
 import java.io.File;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -8,6 +9,13 @@ import java.util.ArrayList;
  * Created by jim-espen on 10/14/14.
  */
 public abstract class Controller {
+
+	abstract boolean getFileHTTP(URL url, File file);
+
+	abstract ArrayList<String> getConnectedNIS() throws SocketException;
+
+	abstract ArrayList<String> getConnectedWIFINIS() throws SocketException;
+
 	abstract boolean sendCommand(String command, String number);
 
 	abstract boolean sendDeleteCommand(String command);
