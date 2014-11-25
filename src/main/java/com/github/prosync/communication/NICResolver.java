@@ -29,13 +29,4 @@ public class NICResolver {
 		}
         return list;
     }
-
-    public static void main(String[] args){
-        NICResolver nicr = new NICResolver();
-        try {
-			nicr.getConnectedNICs();
-        } catch (IOException ex) {
-            ex.printStackTrace(System.err);
-        }
-    }
 }
