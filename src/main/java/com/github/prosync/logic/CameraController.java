@@ -145,6 +145,7 @@ public class CameraController extends Controller {
 		return NICWIFIList;
 	}
 
+
 	@Override
 	public boolean getFileHTTP(URL url, File file){
 		return connector.getFileHTTP(url,file);

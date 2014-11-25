@@ -18,7 +18,6 @@ import java.util.logging.Logger;
  * @author Rubenhag
  */
 public class NICResolver {
-
     public ArrayList<String> getConnectedNICs() throws SocketException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         NetworkInterface nextElement;
