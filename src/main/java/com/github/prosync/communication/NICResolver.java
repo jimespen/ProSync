@@ -25,8 +25,8 @@ public class NICResolver {
 
         while(interfaces.hasMoreElements()){
             nextElement = interfaces.nextElement();
-			list.add(nextElement.getDisplayName());
-        }
+			list.add(nextElement.getName());
+		}
         return list;
     }
 
