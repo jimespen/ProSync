@@ -145,6 +145,10 @@ public class CameraController extends Controller {
 		return NICWIFIList;
 	}
 
+	@Override
+	public String getNISDisplayName(String name) throws SocketException {
+		return NISResolver.getDisplayName(name);
+	}
 
 	@Override
 	public boolean getFileHTTP(URL url, File file){

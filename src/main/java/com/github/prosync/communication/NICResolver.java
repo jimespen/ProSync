@@ -6,6 +6,7 @@
 package com.github.prosync.communication;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
  * @author Rubenhag
  */
 public class NICResolver {
+
     public ArrayList<String> getConnectedNICs() throws SocketException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         NetworkInterface nextElement;
@@ -26,16 +28,20 @@ public class NICResolver {
         while(interfaces.hasMoreElements()){
  
             nextElement = interfaces.nextElement();
-                       if(nextElement.isUp() && !nextElement.isLoopback()){
-			list.add(nextElement.getDisplayName());
-            }
-        }
+			if(nextElement.isUp() && !nextElement.isLoopback()) list.add(nextElement.getName());
+		}
         return list;
     }
 
-    public static void main(String[] args) throws SocketException{
-        NICResolver nicr = new NICResolver();
-        ArrayList<String> list = nicr.getConnectedNICs();
-        for(String s:list) System.out.println(s);
-    }
+	public String getDisplayName(String name) throws SocketException {
+		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+		NetworkInterface nextElement;
+
+		while(interfaces.hasMoreElements()){
+			nextElement = interfaces.nextElement();
+			if(name.equals(nextElement.getName())) return nextElement.getDisplayName();
+		}
+		return null;
+	}
+
 }
