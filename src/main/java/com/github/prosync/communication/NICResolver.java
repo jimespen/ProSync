@@ -24,18 +24,18 @@ public class NICResolver {
 		ArrayList<String> list = new ArrayList<>();
 
         while(interfaces.hasMoreElements()){
+ 
             nextElement = interfaces.nextElement();
+                       if(nextElement.isUp() && !nextElement.isLoopback()){
 			list.add(nextElement.getDisplayName());
+            }
         }
         return list;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws SocketException{
         NICResolver nicr = new NICResolver();
-        try {
-			nicr.getConnectedNICs();
-        } catch (IOException ex) {
-            ex.printStackTrace(System.err);
-        }
+        ArrayList<String> list = nicr.getConnectedNICs();
+        for(String s:list) System.out.println(s);
     }
 }
