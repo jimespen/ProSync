@@ -5,8 +5,11 @@
  */
 package com.github.prosync.gui;
 
+import com.github.prosync.domain.Config;
+import com.github.prosync.domain.Constants;
 import com.github.prosync.logic.CameraController;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,7 +34,8 @@ import javax.swing.border.TitledBorder;
  *
  * @author Rubenhag
  */
-public class ConfigMode extends JPanel {
+public class ConfigMode {
+
     CameraController cc = new CameraController();
 
     public ConfigMode() {
@@ -43,97 +47,84 @@ public class ConfigMode extends JPanel {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 
                 }
-                setSize(800,600);
-                setLayout(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.gridwidth = GridBagConstraints.REMAINDER;
-                gbc.anchor = GridBagConstraints.WEST;
-                gbc.weightx = 1;
-                gbc.fill = GridBagConstraints.HORIZONTAL;
 
-                final Mode mode = new Mode("Modus", "Video", "Foto, singel", "Foto, burst mode");
-                List<String> values = new ArrayList<>(mode.getValues());
-
-                setBorder(new TitledBorder(mode.getText()));
-                ButtonGroup bg = new ButtonGroup();
-                for (String value : values) {
-                    JRadioButton rb = new JRadioButton(new ModeAction(mode, value));
-                    bg.add(rb);
-                    add(rb, gbc);
-                }
-
-                JButton submit = new JButton("Send til kamera");
-                submit.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if(mode.getSelected().equals("Video")){
-                            cc.setModeToVideo();
-                        } else if(mode.getSelected().equals("Foto, singel")){
-                            cc.setModeToPhoto();
-                        } else if(mode.getSelected().equals("Foto, burst")){
-                            cc.setModeToBurst();
-                        }
-                        
-                    }
-                });
-                add(submit, gbc);
-
+                JFrame frame = new JFrame("Modus");
+                frame.setPreferredSize(new Dimension(800, 600));
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
+                frame.add(new ModePane(frame));
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
             }
         });
     }
 
+    public class ModePane extends JPanel {
 
-    public class Mode {
+        public ModePane(JFrame contentFrame) {
+            final JFrame frame = contentFrame;
+            setSize(800, 600);
+            setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.weightx = 1;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        private String text;
-        private String value;
-        private List<String> values;
-        private String selected;
+            ArrayList<String> modeValues = new ArrayList<>(Arrays.asList(Constants.VIDEO_MODE, Constants.PHOTO_MODE, Constants.BURST_MODE));
+            final Config config = new Config();
+            config.setModeValues(modeValues);
+            setBorder(new TitledBorder("Modus"));
+            ButtonGroup bg = new ButtonGroup();
+            for (String value : modeValues) {
+                if(modeValues.indexOf(value)==0){
+                }
+                JRadioButton rb = new JRadioButton(new ModeAction(config, value));
+                bg.add(rb);
+                add(rb, gbc);
+            }
+            
+            
+            JButton submit = new JButton("Send til kamera");
+            submit.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (config.getModeSelected().equals(Constants.VIDEO_MODE)) {
+                        //cc.setModeToVideo();
+                    } else if (config.getModeSelected().equals(Constants.PHOTO_MODE)) {
+                        //cc.setModeToPhoto();
+                    } else if (config.getModeSelected().equals(Constants.BURST_MODE)) {
+                        //cc.setModeToBurst();
+                    }
+                    frame.setVisible(false);
+                    new ConfigResolution(config);
 
-        public Mode(String text, String... value) {
-            this.text = text;
-            values = new ArrayList<>(Arrays.asList(value));
-        }
+                }
+            });
+            add(submit, gbc);
 
-        public String getText() {
-            return text;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public String getSelected() {
-            return selected;
-        }
-
-        public void setSelected(String selected) {
-            this.selected = selected;
-        }
-
-        public List<String> getValues() {
-            return Collections.unmodifiableList(values);
         }
     }
 
     public class ModeAction extends AbstractAction {
 
-        private final Mode mode;
+        private final Config mode;
         private final String value;
 
-        public ModeAction(Mode mode, String value) {
+        public ModeAction(Config mode, String value) {
             this.mode = mode;
             this.value = value;
             putValue(NAME, value);
         }
 
-        public Mode getMode() {
+        public Config getMode() {
             return mode;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            getMode().setSelected(value);
+            getMode().setModeSelected(value);
         }
     }
 

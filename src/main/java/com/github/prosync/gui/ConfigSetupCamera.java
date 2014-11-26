@@ -50,6 +50,7 @@ public class ConfigSetupCamera extends JPanel {
 
                 }
                 cameras = new ArrayList<>();
+                nics = new ArrayList<>();
                 try {
                     nics = cc.getConnectedWIFINIS();
                 } catch (SocketException ex) {
@@ -67,6 +68,9 @@ public class ConfigSetupCamera extends JPanel {
                 cameras.add(new Camera("Kamera 1"));
                 cameras.add(new Camera("Kamera 2"));
                 cameras.add(new Camera("Kamera 3"));
+                nics.add("wlan0");
+                nics.add("wlan1");
+                nics.add("wlan2");
                 
                 JPanel panel;
 

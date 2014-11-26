@@ -30,7 +30,7 @@ public class ButtonListener implements ActionListener{
         JButton button = (JButton)e.getSource();
         switch (button.getActionCommand()){
             case "conf":{
-                //new ConfigMode();
+                new ConfigMode();
               break;   
             }
             case "getdata":
