@@ -50,7 +50,7 @@ public class ConfigMode {
 
                 JFrame frame = new JFrame("Modus");
                 frame.setPreferredSize(new Dimension(800, 600));
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 frame.add(new ModePane(frame));
                 frame.pack();
@@ -90,12 +90,13 @@ public class ConfigMode {
             submit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (config.getModeSelected().equals(Constants.VIDEO_MODE)) {
-                        //cc.setModeToVideo();
-                    } else if (config.getModeSelected().equals(Constants.PHOTO_MODE)) {
-                        //cc.setModeToPhoto();
-                    } else if (config.getModeSelected().equals(Constants.BURST_MODE)) {
-                        //cc.setModeToBurst();
+                    switch (config.getModeSelected()) {
+                        case Constants.VIDEO_MODE:
+                            break;
+                        case Constants.PHOTO_MODE:
+                            break;
+                        case Constants.BURST_MODE:
+                            break;
                     }
                     frame.setVisible(false);
                     new ConfigResolution(config);
