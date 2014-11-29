@@ -38,7 +38,7 @@ public class ConfigSetupCamera extends JPanel {
     
     ArrayList<Camera> cameras;
     ArrayList<String> nics;
-    CameraController cc = new CameraController();
+    CameraController cc = new CameraController(); //TODO fjerne denne når vi får annen kommunikasjon
 
     public ConfigSetupCamera() {
         EventQueue.invokeLater(new Runnable() {
@@ -69,9 +69,6 @@ public class ConfigSetupCamera extends JPanel {
                 cameras.add(new Camera("Kamera 2"));
                 cameras.add(new Camera("Kamera 3"));
                 nics.add("wlan0");
-                nics.add("wlan1");
-                nics.add("wlan2");
-                
                 JPanel panel;
 
                 for(Camera aCamera : cameras){
