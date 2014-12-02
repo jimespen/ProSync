@@ -48,27 +48,20 @@ public class DownloadMode extends JPanel {
 
                 gbc.fill = GridBagConstraints.HORIZONTAL;
 
-                System.out.println(gbc.gridx + " " + gbc.gridy);
-
                 final DTMDownloadMode dtmDownload = new DTMDownloadMode();
 
-                JTable files = new JTable(dtmDownload);
+                final JTable files = new JTable(dtmDownload);
 
                 JScrollPane jspFiles = new JScrollPane(files);
 
-                ArrayList<String> list = new ArrayList<String>();
-                list.add("Test1.MP4");
-                list.add("Test2.MP4");
-                list.add("Test3.MP4");
-                list.add("Test4.JPEG");
-
                 dtmDownload.addRows(services.getDownloadableFiles());
-
 
                 add(jspFiles, gbc);
 
                 JButton chooseAll = new JButton("Velg alle");
                 JButton chooseNone = new JButton("Velg ingen");
+				JButton chooseGroup = new JButton("Velg samme gruppe");
+
                 JButton download = new JButton("Last ned");
 
                 chooseAll.addActionListener(new ActionListener() {
@@ -93,8 +86,6 @@ public class DownloadMode extends JPanel {
                         chooser.setAcceptAllFileFilterUsed(false);
 
                         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                            System.out.println(dtmDownload.getChecked() + " " +String.valueOf(chooser.getSelectedFile()));
-
                             services.downloadFiles(dtmDownload.getChecked(), String.valueOf(chooser.getSelectedFile()));
                         } else {
                             System.out.println("No Selection ");
@@ -102,6 +93,12 @@ public class DownloadMode extends JPanel {
 
                     }
                 });
+				chooseGroup.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent actionEvent) {
+						dtmDownload.checkAllSameGroup(files);
+					}
+				});
 
                 gbc.gridwidth = 1;
 
@@ -115,6 +112,9 @@ public class DownloadMode extends JPanel {
                 gbc.gridy++;
                 add(chooseNone, gbc);
 
+				gbc.gridy++;
+				add(chooseGroup, gbc);
+
             }
         });
     }
@@ -126,7 +126,8 @@ public class DownloadMode extends JPanel {
 
         public DTMDownloadMode(){
             addColumn("Navn");
-            addColumn("Filtype");
+			addColumn("Group");
+			addColumn("Mode");
             addColumn("Dato");
             addColumn("Last ned");
         }
@@ -142,8 +143,10 @@ public class DownloadMode extends JPanel {
             switch (column) {
                 case  Constants.NAME_COLUMN:
                     return String.class;
-                case  Constants.FILETYPE_COLUMN:
-                    return String.class;
+				case Constants.GROUP_COLUMN:
+					return Integer.class;
+				case Constants.MODE_COLUMN:
+					return String.class;
                 case  Constants.DATE_COLUMN:
                     return String.class;
                 case  Constants.DOWNLOAD_COLUMN:
@@ -159,6 +162,22 @@ public class DownloadMode extends JPanel {
             }
         }
 
+		public void checkAllSameGroup(JTable table){
+			Vector rowVectorSelected = (Vector) dataVector.elementAt(table.getSelectedRow());
+			int groupSelected = (Integer)rowVectorSelected.elementAt(Constants.GROUP_COLUMN);
+			boolean bol = true;
+			boolean selectedBol = (Boolean)rowVectorSelected.elementAt(Constants.DOWNLOAD_COLUMN);
+
+			if(selectedBol) bol = false;
+
+			for(int i = 0; i < getRowCount(); i++){
+				Vector rowVector = (Vector) dataVector.elementAt(i);
+				int group = (Integer)rowVector.elementAt(Constants.GROUP_COLUMN);
+
+				if(group == groupSelected)setValueAt(bol, i, Constants.DOWNLOAD_COLUMN);
+			}
+		}
+
         public ArrayList<String> getChecked(){
             ArrayList<String> checkedRows = new ArrayList<String>();
             for(int i = 0; i < getRowCount(); i++){
@@ -172,13 +191,14 @@ public class DownloadMode extends JPanel {
 
         public void addRows(ArrayList<String> list){
             for(String s:list){
-                if(s.contains("JPEG"))
-					addRow(new Object[]{s, ".JPEG", "ToBeImplemented(Maybe)", false});
+                if(s.contains("JPG") && s.contains("GOPR"))
+					addRow(new Object[]{s, -1, services.getMode(s), "ToBeImplemented(Maybe)", false});
+				else if(s.contains("JPG") && s.contains("G"))
+					addRow(new Object[]{s, services.getGroup(s), services.getMode(s), "ToBeImplemented(Maybe)", false});
 				else if(s.contains("MP4"))
-					addRow(new Object[]{s, ".MP4", "ToBeImplemented(Maybe)", false});
-                else
-					addRow(new Object[]{s, "Unknown", "ToBeImplemented(Maybe)", false});
+					addRow(new Object[]{s, services.getMode(s), "ToBeImplemented(Maybe)", false});
             }
+
         }
     }
 
