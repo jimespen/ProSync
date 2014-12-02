@@ -136,8 +136,10 @@ public class CameraController extends Controller {
 
 		ArrayList<NetworkInterface> NICList = NISResolver.getNIS();
 		ArrayList<NetworkInterface> NICWIFIList = new ArrayList<>();
+                
 
 		for(NetworkInterface ni:NICList){
+                        System.out.println(ni.getDisplayName());
 			Pattern wlanPatern = Pattern.compile("wlan[0-9]*");
 			Matcher matcher = wlanPatern.matcher(ni.getName());
 			if(matcher.find()){
