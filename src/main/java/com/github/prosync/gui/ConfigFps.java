@@ -36,6 +36,7 @@ import javax.swing.border.TitledBorder;
  * @author Rubenhag
  */
 public class ConfigFps {
+
     CameraController cc = new CameraController();
     final Config config;
 
@@ -49,8 +50,8 @@ public class ConfigFps {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 
                 }
-                JFrame frame = new JFrame("Modus");
-                frame.setPreferredSize(new Dimension(800,600));
+                JFrame frame = new JFrame("Frames per sekund");
+                frame.setPreferredSize(new Dimension(800, 600));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 frame.add(new ResolutionPane(frame));
@@ -60,55 +61,44 @@ public class ConfigFps {
             }
         });
     }
-    
-    public class ResolutionPane extends JPanel{
-        
-        public ResolutionPane(JFrame contentFrame){
-                final JFrame frame = contentFrame;
-                setSize(800,600);
-                setLayout(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.gridwidth = GridBagConstraints.REMAINDER;
-                gbc.anchor = GridBagConstraints.WEST;
-                gbc.weightx = 1;
-                gbc.fill = GridBagConstraints.HORIZONTAL;
-                
 
-            switch (config.getModeSelected()) {
-                case Constants.VIDEO_MODE:
-                    config.setResolutionValues(Constants.getVideoResolutions());
-                    break;
-                case Constants.PHOTO_MODE:
-                    config.setResolutionValues(Constants.getPhotoResolutions());
-                    break;
-                case Constants.BURST_MODE:
-                    config.setResolutionValues(Constants.photoResolutions);
-                    break;
+    public class ResolutionPane extends JPanel {
+
+        public ResolutionPane(JFrame contentFrame) {
+            final JFrame frame = contentFrame;
+            setSize(800, 600);
+            setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.weightx = 1;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            
+            config.setFpsValues(Constants.getFpsList(config.getResolutionSelected()));
+            
+            setBorder(new TitledBorder("FPS"));
+            ButtonGroup bg = new ButtonGroup();
+            for (String value : config.getFpsValues()) {
+                JRadioButton rb = new JRadioButton(new ResolutionAction(config, value));
+                bg.add(rb);
+                add(rb, gbc);
             }
-                
-                setBorder(new TitledBorder("Oppløsning"));
-                ButtonGroup bg = new ButtonGroup();
-                for (String value : config.getResolutionValues()) {
-                    JRadioButton rb = new JRadioButton(new ResolutionAction(config, value));
-                    bg.add(rb);
-                    add(rb, gbc);
+
+            JButton submit = new JButton("Send til kamera");
+            submit.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println(config.getModeSelected());
+                    System.out.println(config.getResolutionSelected());
+                    System.out.println(config.getFpsSelected());
+                    frame.setVisible(false);
                 }
-                
-                JButton submit = new JButton("Send til kamera");
-                submit.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println(config.getModeSelected());
-                        System.out.println(config.getResolutionSelected());
-                        frame.setVisible(false);
-                    }
-                });
-                add(submit, gbc);
+            });
+            add(submit, gbc);
         }
-                
+
     }
-    
-    
+
     public class ResolutionAction extends AbstractAction {
 
         private final Config mode;
@@ -123,11 +113,10 @@ public class ConfigFps {
         public Config getMode() {
             return mode;
         }
-        
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            getMode().setResolutionSelected(value);
+            getMode().setFpsSelected(value);
         }
     }
 
