@@ -29,8 +29,8 @@ import javax.swing.border.TitledBorder;
  */
 public class ModePane extends JPanel {
 
-        public ModePane(JFrame contentFrame) {
-            final JFrame frame = contentFrame;
+        public ModePane(Config conf) {
+            final Config config = conf;
             setSize(800, 600);
             setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
@@ -40,7 +40,7 @@ public class ModePane extends JPanel {
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
             ArrayList<String> modeValues = new ArrayList<>(Arrays.asList(Constants.VIDEO_MODE, Constants.PHOTO_MODE, Constants.BURST_MODE));
-            final Config config = new Config();
+            
             config.setModeValues(modeValues);
             setBorder(new TitledBorder("Modus"));
             ButtonGroup bg = new ButtonGroup();
@@ -51,27 +51,6 @@ public class ModePane extends JPanel {
                 bg.add(rb);
                 add(rb, gbc);
             }
-            
-            
-            JButton submit = new JButton("Send til kamera");
-            submit.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    switch (config.getModeSelected()) {
-                        case Constants.VIDEO_MODE:
-                            break;
-                        case Constants.PHOTO_MODE:
-                            break;
-                        case Constants.BURST_MODE:
-                            break;
-                    }
-                    frame.setVisible(false);
-                    new ConfigResolution(config);
-
-                }
-            });
-            add(submit, gbc);
-
         }
         
         public class ModeAction extends AbstractAction {

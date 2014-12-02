@@ -52,7 +52,7 @@ public class ConfigProTune {
                 frame.setPreferredSize(new Dimension(800, 600));
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
-                frame.add(new ModePane(frame));
+                frame.add(new ProTunePane(frame));
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -60,9 +60,9 @@ public class ConfigProTune {
         });
     }
 
-    public class ModePane extends JPanel {
+    public class ProTunePane extends JPanel {
 
-        public ModePane(JFrame contentFrame) {
+        public ProTunePane(JFrame contentFrame) {
             final JFrame frame = contentFrame;
             setSize(800, 600);
             setLayout(new GridBagLayout());
