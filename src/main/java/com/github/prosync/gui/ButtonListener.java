@@ -6,6 +6,7 @@
 
 package com.github.prosync.gui;
 
+import com.github.prosync.domain.Config;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -30,13 +31,14 @@ public class ButtonListener implements ActionListener{
         JButton button = (JButton)e.getSource();
         switch (button.getActionCommand()){
             case "conf":{
-                new ConfigMode();
+                new ConfigFrame();
               break;   
             }
             case "getdata":
                 break;
                 
             case "rec":
+                new ConfigProTune(new Config());
                 break;
                 
         }

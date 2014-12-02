@@ -19,8 +19,10 @@ public class Config {
     private String modeSelected;
     private String resolutionSelected;
     private String fpsSelected;
+    private boolean proTuneSelected;
 
     public Config() {
+        this.proTuneSelected = false;
     }
 
     public String getModeSelected() {
@@ -70,6 +72,14 @@ public class Config {
 
     public void setFpsValues(ArrayList<String> fpsValues) {
         this.fpsValues = fpsValues;
+    }
+    
+    public void setProTuneSelected(boolean proTuneSelected){
+        this.proTuneSelected = proTuneSelected;
+    }
+    
+    public boolean getProTuneSlected(){
+        return proTuneSelected;
     }
     
     
