@@ -37,8 +37,13 @@ public final class Constants {
     public static final String VIDEO_MODE = "Video";
     public static final String PHOTO_MODE = "Foto, singel";
     public static final String BURST_MODE = "Foto, burst mode";
-    
-    
+
+	public final static int NAME_COLUMN = 0;
+	public final static int FILETYPE_COLUMN = 1;
+	public final static int DATE_COLUMN = 2;
+	public final static int DOWNLOAD_COLUMN = 3;
+
+
     
     public static ArrayList getVideoResolutions(){
         videoResolutions.clear();

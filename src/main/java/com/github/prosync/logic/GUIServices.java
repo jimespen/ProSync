@@ -1,8 +1,11 @@
 package com.github.prosync.logic;
 
+import java.io.File;
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -12,26 +15,53 @@ import java.util.Enumeration;
 public class GUIServices {
     private final CameraController cc = new CameraController();
 
-    private ArrayList<NetworkInterface> getConectedWIFINICS() throws SocketException {
+    /**
+     * A method to get all the conntected WIFI interfaces
+     * @return returns a ArrayList with NetworkInterfaces that are up and not virtual.
+     * @throws SocketException
+     */
+    public ArrayList<NetworkInterface> getConectedWIFINICS() throws SocketException {
         return cc.getConnectedWIFINIS();
     }
 
-    private NetworkInterface findInterface(NetworkInterface ni) throws SocketException {
-        ArrayList<NetworkInterface> interfaces = cc.getConnectedWIFINIS();
+    /**
+     * Finds a specified Interface given a DisplayName
+     * @param displayName
+     * @return NetworkInterface object with the given DisplayName
+     * @throws SocketException
+     */
+    public NetworkInterface findInterface(String displayName) throws SocketException {
 
-        for(NetworkInterface nis:interfaces){
-            if(nis.getName().equals(ni.getDisplayName())){
-                return ni;
-            }
+        for(NetworkInterface ni:cc.getConnectedWIFINIS()){
+            if(ni.getDisplayName().equals(displayName)) return ni;
         }
         return null;
     }
 
-    public ArrayList<String> getConnectedWIFIDisplayName() throws SocketException {
-        ArrayList<String> displayNames = new ArrayList<>();
-        for(NetworkInterface ni:getConectedWIFINICS()){
-            displayNames.add(ni.getDisplayName());
-        }
-        return displayNames;
+    public ArrayList<String> getDownloadableJPEGFiles(){
+        return cc.getFileListJPG(cc.getFilesURL());
     }
+
+	public ArrayList<String> getDownloadableFiles(){
+		String url = cc.getFilesURL();
+		ArrayList<String> list = new ArrayList<>();
+		for(String s:cc.getFileListMP4(url))list.add(s);
+		for(String s:cc.getFileListJPG(url))list.add(s);
+		return list;
+	}
+    public void downloadFiles(ArrayList<String> files, String saveLocation){
+        String URL = cc.getFilesURL();
+		System.out.println(URL);
+		for(String s: files){
+            File f = new File(saveLocation+"/"+s);
+			System.out.println(f.getPath());
+			try {
+                cc.getFileHTTP(new URL(URL), f);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 }

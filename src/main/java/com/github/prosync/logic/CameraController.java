@@ -86,14 +86,15 @@ public class CameraController extends Controller {
 	 * @return A list containing the files containing the .JPG filenames, null if camera is empty or not found
 	 */
 	public ArrayList<String> getFileListJPG(String URL) {
+		System.out.println(URL);
 		ArrayList<String> JPGFiles = new ArrayList<String>();
-		Pattern JPGPattern = Pattern.compile("G[0-9]*.JPG");
+		Pattern JPGPattern = Pattern.compile("GOPR[0-9]*.JPG");
 		try {
 			String HTMLFile = connector.getHTMLFile(new URL(URL));
 			System.out.println(URL);
 			Matcher matcherJPG = JPGPattern.matcher(HTMLFile);
 			JPGFiles.add(URL);
-
+			System.out.println();
 			while (matcherJPG.find()) {
 				if(!JPGFiles.contains(matcherJPG.group(0))){JPGFiles.add(matcherJPG.group(0));}
 			}
