@@ -12,12 +12,15 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -26,7 +29,11 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author Ruben
  */
 public class ConfigFrame {
-    ArrayList<JComponent> paneList = new ArrayList<>();
+    ArrayList<JPanel> paneList = new ArrayList<>();
+    JPanel panelSelected;
+    ModePane modePane;
+    ProTunePane proTunePane;
+    
     int i = 0;
     public ConfigFrame(){
         EventQueue.invokeLater(new Runnable() {
@@ -39,34 +46,21 @@ public class ConfigFrame {
                 }
                 final JFrame frame = new JFrame("Config");
                 Config conf = new Config();
-                ModePane modePane = new ModePane(conf);
-                ProTunePane proTunePane = new ProTunePane(frame,conf);
+                modePane = new ModePane(conf);
+                proTunePane = new ProTunePane(frame,conf);
+                
+                
                 paneList.add(modePane);
                 paneList.add(proTunePane);
                 frame.setPreferredSize(new Dimension(800, 600));
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                frame.setLayout(new FlowLayout());
-                JButton next = new JButton("Neste");
-                next.setActionCommand("next");
-                System.out.println(paneList.size());
-                System.out.println(paneList.indexOf(proTunePane));
-                next.addActionListener(new ActionListener(){
-                        
-                    @Override
-                    public void actionPerformed(ActionEvent ae) {
-                        System.out.println("DETTE ER EN TEST:::********"+ae.toString());
-                        JButton btn = (JButton)ae.getSource();
-                        switch(btn.getActionCommand()){
-                            case "next":
-                                nextPane(frame);
-                                
-                                break;
-                        }
-                    }
-                });
-                
+                frame.setLayout(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = 0;
                 frame.add(paneList.get(0));
-                frame.add(next);
+                panelSelected = paneList.get(0);
+                gbc.gridx = 1; 
+                addNext(frame, gbc);
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -77,9 +71,34 @@ public class ConfigFrame {
         });
     }
     
-    public void nextPane(JFrame frame){
-        System.out.println(i);
-        frame.remove(paneList.get(i));
-        frame.add(paneList.get(i++));
+    public void nextPane(JFrame frame, GridBagConstraints gbc){
+        gbc.gridx = 0;
+        if(panelSelected instanceof ModePane){
+            frame.remove(modePane);
+            frame.add(proTunePane);
+            panelSelected = proTunePane;
+            frame.revalidate();
+        }
+    }
+    
+    public void addNext(JFrame frame, GridBagConstraints gbc){
+        final GridBagConstraints c = gbc;
+        gbc.gridx = 1;
+        final JFrame frameUsed = frame;
+        JButton next = new JButton("Neste");
+        next.setActionCommand("next");
+        next.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                JButton btn = (JButton)ae.getSource();
+                        switch(btn.getActionCommand()){
+                            case "next":
+                                nextPane(frameUsed, c);
+                                break;
+                        }
+            }
+        });
+        frame.add(next);
     }
 }

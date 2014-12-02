@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.border.TitledBorder;
 
 /**
  *
@@ -26,14 +27,14 @@ public class ProTunePane extends JPanel {
     public ProTunePane(JFrame contentFrame, Config conf) {
         final Config config = conf;
         final JFrame frame = contentFrame;
-        setSize(800, 600);
+        //setSize(800, 600);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-
+        setBorder(new TitledBorder("FPS"));
         ButtonGroup bg = new ButtonGroup();
         JRadioButton yes = new JRadioButton(new ProTuneAction(config, true));
         JRadioButton no = new JRadioButton(new ProTuneAction(config, false));

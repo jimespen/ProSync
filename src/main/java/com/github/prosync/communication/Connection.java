@@ -46,7 +46,7 @@ public class Connection implements Runnable {
 
     @Override
     public void run() {
-        out.println("GET /camera/" + command + " HTTP/1.1");
+        out.println("GET /bacpac/" + command + " HTTP/1.1");
         out.println("");
         out.flush();
         System.out.println("Thread finished");

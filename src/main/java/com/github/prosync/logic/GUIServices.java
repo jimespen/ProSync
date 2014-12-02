@@ -8,19 +8,21 @@ import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import com.github.prosync.communication.Connection;
+import java.io.IOException;
 
 /**
  * Created by huseby on 11/27/14.
  */
-public class GUIServices {
-    private final CameraController cc = new CameraController();
+public final class GUIServices {
+    private static final CameraController cc = new CameraController();
 
     /**
      * A method to get all the conntected WIFI interfaces
      * @return returns a ArrayList with NetworkInterfaces that are up and not virtual.
      * @throws SocketException
      */
-    public ArrayList<NetworkInterface> getConectedWIFINICS() throws SocketException {
+    public static ArrayList<NetworkInterface> getConectedWIFINICS() throws SocketException {
         return cc.getConnectedWIFINIS();
     }
 
@@ -30,7 +32,7 @@ public class GUIServices {
      * @return NetworkInterface object with the given DisplayName
      * @throws SocketException
      */
-    public NetworkInterface findInterface(String displayName) throws SocketException {
+    public static NetworkInterface findInterface(String displayName) throws SocketException {
 
         for(NetworkInterface ni:cc.getConnectedWIFINIS()){
             if(ni.getDisplayName().equals(displayName)) return ni;
@@ -38,7 +40,7 @@ public class GUIServices {
         return null;
     }
 
-    public ArrayList<String> getDownloadableJPEGFiles(){
+    public static ArrayList<String> getDownloadableJPEGFiles(){
         return cc.getFileListJPG(cc.getFilesURL());
     }
 
@@ -49,7 +51,7 @@ public class GUIServices {
 		for(String s:cc.getFileListJPG(url))list.add(s);
 		return list;
 	}
-    public void downloadFiles(ArrayList<String> files, String saveLocation){
+    public static void downloadFiles(ArrayList<String> files, String saveLocation){
         String URL = cc.getFilesURL();
 		System.out.println(URL);
 		for(String s: files){
@@ -63,5 +65,17 @@ public class GUIServices {
         }
 
     }
+    
+    public static void shutDownCameras() throws IOException{
+        /*
+        Connection con = new Connection("wlan0",0);
+        Connection con2 = new Connection("wlan3",0);
+        con.setCommand("PW", "01");
+        con2.setCommand("PW", "01");
+        con.run();
+        con2.run();
+                */
+    }
+    
 
 }

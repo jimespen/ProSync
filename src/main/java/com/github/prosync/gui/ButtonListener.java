@@ -10,6 +10,10 @@ import com.github.prosync.domain.Config;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import com.github.prosync.logic.GUIServices;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,6 +39,11 @@ public class ButtonListener implements ActionListener{
               break;   
             }
             case "getdata":
+        try {
+            GUIServices.shutDownCameras();
+        } catch (IOException ex) {
+            Logger.getLogger(ButtonListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
                 break;
                 
             case "rec":

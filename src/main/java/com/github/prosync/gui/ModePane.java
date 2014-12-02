@@ -31,7 +31,7 @@ public class ModePane extends JPanel {
 
         public ModePane(Config conf) {
             final Config config = conf;
-            setSize(800, 600);
+            //setSize(800, 600);
             setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridwidth = GridBagConstraints.REMAINDER;

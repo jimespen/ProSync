@@ -71,7 +71,7 @@ public class ConfigProTune {
             gbc.anchor = GridBagConstraints.WEST;
             gbc.weightx = 1;
             gbc.fill = GridBagConstraints.HORIZONTAL;
-            
+            setBorder(new TitledBorder("ProTune"));
             ButtonGroup bg = new ButtonGroup();
             JRadioButton yes = new JRadioButton(new ProTuneAction(config, true));
             JRadioButton no = new JRadioButton(new ProTuneAction(config,false));
