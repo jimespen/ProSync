@@ -47,6 +47,11 @@ public final class Constants {
     public static final String TWELVE_POINT_FIVE_FPS = "12.5";
     public static final String TWELVE_FPS = "12";
 
+	public final static int NAME_COLUMN = 0;
+	public final static int FILETYPE_COLUMN = 1;
+	public final static int DATE_COLUMN = 2;
+	public final static int DOWNLOAD_COLUMN = 3;
+
     public static ArrayList getVideoResolutions() {
         videoResolutions.clear();
         videoResolutions.add(FOUR_K);
@@ -129,7 +134,7 @@ public final class Constants {
                 fpsList.add(TWO_HUNDRED_FOURTY_FPS);
                 break;
         }
-        
+
         return fpsList;
     }
 }
