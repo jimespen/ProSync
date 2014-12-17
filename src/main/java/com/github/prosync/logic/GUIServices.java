@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import com.github.prosync.communication.Connection;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by huseby on 11/27/14.
@@ -41,22 +43,56 @@ public final class GUIServices {
     }
 
     public static ArrayList<String> getDownloadableJPEGFiles(){
-        return cc.getFileListJPG(cc.getFilesURL());
+        return cc.getFileListSingleShot(cc.getFilesURL());
     }
 
-	public ArrayList<String> getDownloadableFiles(){
+	public static ArrayList<String> getDownloadableFiles(){
 		String url = cc.getFilesURL();
 		ArrayList<String> list = new ArrayList<>();
-		for(String s:cc.getFileListMP4(url))list.add(s);
-		for(String s:cc.getFileListJPG(url))list.add(s);
+		for(String s:cc.getFileListVideo(url))list.add(s);
+		for(String s:cc.getFileListSingleShot(url))list.add(s);
+		for(String s:cc.getFileBurst(url))list.add(s);
 		return list;
 	}
+
+    public static String getMode(String name){
+        String url = cc.getFilesURL();
+
+        Pattern singleShotPattern = Pattern.compile("GOPR[0-9]*.JPG");
+        Pattern burstPattern = Pattern.compile("G[0-9]*.JPG");
+        Pattern videoPattern = Pattern.compile("GOPR[0-9]*.MP4");
+
+        Matcher matcherSingleShot = singleShotPattern.matcher(name);
+        Matcher matcherBurst = burstPattern.matcher(name);
+        Matcher matcherVideo = videoPattern.matcher(name);
+
+
+        try{
+            if(matcherBurst.find()) return "Burst";
+            if(matcherSingleShot.find()) return "Single";
+            if(matcherVideo.find()) return "Video";
+
+        }catch (IllegalStateException e){
+        }
+        return "N/A";
+    }
+
+    public static int getGroup(String name){
+        Pattern groupPattern = Pattern.compile("G[0-9][0-9][0-9]");
+        Matcher matcherPattern = groupPattern.matcher(name);
+        if(matcherPattern.find()){
+            String group = matcherPattern.group(0);
+            group = group.replace("G", "");
+            return Integer.parseInt(group);
+        }
+        return -1;
+    }
+    
+    
     public static void downloadFiles(ArrayList<String> files, String saveLocation){
         String URL = cc.getFilesURL();
-		System.out.println(URL);
 		for(String s: files){
             File f = new File(saveLocation+"/"+s);
-			System.out.println(f.getPath());
 			try {
                 cc.getFileHTTP(new URL(URL), f);
             } catch (MalformedURLException e) {

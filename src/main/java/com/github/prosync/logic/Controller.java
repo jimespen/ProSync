@@ -82,7 +82,7 @@ public abstract class Controller {
 
 	abstract void deleteAll();
 
-	public abstract ArrayList<String> getFileListJPG(String URL);
+	public abstract ArrayList<String> getFileListSingleShot(String URL);
 
-	public abstract ArrayList<String> getFileListMP4(String URL);
+	public abstract ArrayList<String> getFileListVideo(String URL);
 }
