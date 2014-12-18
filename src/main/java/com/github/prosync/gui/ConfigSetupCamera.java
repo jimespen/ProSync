@@ -7,6 +7,8 @@ package com.github.prosync.gui;
 
 import com.github.prosync.domain.Camera;
 import com.github.prosync.logic.CameraController;
+import com.github.prosync.logic.GUIServices;
+
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -19,7 +21,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
+
 import static javax.swing.Action.NAME;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -32,14 +36,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- *
  * @author Rubenhag
  */
 public class ConfigSetupCamera extends JPanel {
-    
+
     ArrayList<Camera> cameras;
     ArrayList<String> nics;
-    CameraController cc = new CameraController(); //TODO fjerne denne når vi får annen kommunikasjon
+    CameraController cc = new CameraController(); //TODO fjerne denne nï¿½r vi fï¿½r annen kommunikasjon
 
     public ConfigSetupCamera() {
         EventQueue.invokeLater(new Runnable() {
@@ -55,24 +58,24 @@ public class ConfigSetupCamera extends JPanel {
                 ArrayList<NetworkInterface> interfaces;
                 try {
                     interfaces = cc.getConnectedWIFINIS();
-                    if(interfaces.size()<1){
-                    System.out.println("Lista er tom");
-                }
-                for(NetworkInterface anInterface : interfaces){
-                    nics.add(anInterface.getDisplayName());
-                }
+                    if (interfaces.size() < 1) {
+                        System.out.println("Lista er tom");
+                    }
+                    for (NetworkInterface anInterface : interfaces) {
+                        nics.add(anInterface.getDisplayName());
+                    }
                 } catch (SocketException ex) {
                     Logger.getLogger(ConfigSetupCamera.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                
-                setSize(800,600);
+
+
+                setSize(800, 600);
                 setLayout(new GridBagLayout());
                 GridBagConstraints gbc = new GridBagConstraints();
                 gbc.anchor = GridBagConstraints.WEST;
                 gbc.weightx = 1;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
-                
+
                 //Placeholder
                 cameras.add(new Camera("Kamera 1"));
                 cameras.add(new Camera("Kamera 2"));
@@ -80,35 +83,43 @@ public class ConfigSetupCamera extends JPanel {
                 //nics.add("wlan0");
                 JPanel panel;
 
-                for(Camera aCamera : cameras){
+                for (Camera aCamera : cameras) {
                     final Camera camera = aCamera;
-                    final JComboBox dropDown  = new JComboBox(nics.toArray());
+                    final JComboBox dropDown = new JComboBox(nics.toArray());
                     final JCheckBox checkBox = new JCheckBox(aCamera.getCamName());
                     final JTextField textField = new JTextField(20);
-                    
+
                     panel = new JPanel(new FlowLayout());
-                    
+
                     gbc.gridy++;
-                    
-                    aCamera.setNic(dropDown.getSelectedItem().toString());
-                    
-                    dropDown.addActionListener(new ActionListener(){
+
+                    try {
+                        aCamera.setNic(GUIServices.findInterface(dropDown.getSelectedItem().toString()));
+                    } catch (SocketException e) {
+                        e.printStackTrace();
+                    }
+
+                    dropDown.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent ae) {
-                            camera.setNic(dropDown.getSelectedItem().toString());
+                            try {
+                                camera.setNic(GUIServices.findInterface(dropDown.getSelectedItem().toString()));
+                            } catch (SocketException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    
+
                     });
-                    
-                    checkBox.addActionListener(new ActionListener(){
+
+                    checkBox.addActionListener(new ActionListener() {
 
                         @Override
                         public void actionPerformed(ActionEvent ae) {
                             camera.setSelected(checkBox.isSelected());
                         }
                     });
-                    
-                    textField.getDocument().addDocumentListener(new DocumentListener(){
+
+                    textField.getDocument().addDocumentListener(new DocumentListener() {
 
                         @Override
                         public void insertUpdate(DocumentEvent de) {
@@ -122,38 +133,37 @@ public class ConfigSetupCamera extends JPanel {
 
                         @Override
                         public void changedUpdate(DocumentEvent de) {
-                            
+
                         }
                     });
-                    
+
                     aCamera = camera;
-                    
+
                     panel.add(checkBox);
                     panel.add(dropDown);
                     panel.add(textField);
                     add(panel, gbc);
-                    
+
                 }
                 gbc.gridy++;
                 JButton submit = new JButton("Send til kamera");
                 submit.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        for(Camera aCamera : cameras){
-                            System.out.println("Nic: "+aCamera.getNic());
-                            System.out.println("Selected: "+aCamera.getSelected());
-                            System.out.println("Passord: "+aCamera.getPassword());
+                        for (Camera aCamera : cameras) {
+                            System.out.println("Nic: " + aCamera.getNic());
+                            System.out.println("Selected: " + aCamera.getSelected());
+                            System.out.println("Passord: " + aCamera.getPassword());
                             //Kommuniser med kameraer
                         }
-                        
+
                     }
                 });
                 add(submit, gbc);
-                
+
             }
         });
     }
-
 
 
     public class ModeAction extends AbstractAction {
@@ -173,7 +183,11 @@ public class ConfigSetupCamera extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            camera.setNic(nic);
+            try {
+                camera.setNic(GUIServices.findInterface(nic));
+            } catch (SocketException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }

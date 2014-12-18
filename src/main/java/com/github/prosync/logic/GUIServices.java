@@ -1,14 +1,11 @@
 package com.github.prosync.logic;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import com.github.prosync.communication.Connection;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,7 +48,7 @@ public final class GUIServices {
 		ArrayList<String> list = new ArrayList<>();
 		for(String s:cc.getFileListVideo(url))list.add(s);
 		for(String s:cc.getFileListSingleShot(url))list.add(s);
-		for(String s:cc.getFileBurst(url))list.add(s);
+		for(String s:cc.getFileListBurst(url))list.add(s);
 		return list;
 	}
 

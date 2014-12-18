@@ -1,6 +1,8 @@
 package com.github.prosync.logic;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,75 +14,79 @@ public abstract class Controller {
 
 	abstract boolean getFileHTTP(URL url, File file);
 
-	abstract ArrayList<java.net.NetworkInterface> getConnectedNIS() throws SocketException;
-
 	abstract ArrayList<java.net.NetworkInterface> getConnectedWIFINIS() throws SocketException;
 
-	abstract boolean sendCommand(String command, String number);
+	abstract boolean sendCommand(NetworkInterface networkInterface, String password, String command, String number);
 
-	abstract boolean sendDeleteCommand(String command);
+	abstract boolean sendDeleteCommand(NetworkInterface networkInterface, String password, String command) throws IOException;
+
+	abstract boolean sendDeleteCommand(String password, String command);
 
 	abstract String getFilesURL();
 
-	abstract void setModeToVideo();
+	abstract void setModeToVideo(NetworkInterface networkInterface, String password);
 
-	abstract void setModeToPhoto();
+	abstract void setModeToPhoto(NetworkInterface networkInterface, String password);
 
-	abstract void setModeToBurst();
+	abstract void setModeToBurst(NetworkInterface networkInterface, String password);
 
-	abstract void setModeToTimelapse();
+	abstract void setModeToTimelapse(NetworkInterface networkInterface, String password);
 
-	abstract void startCamera();
+	abstract void startCamera(NetworkInterface networkInterface, String password);
 
-	abstract void stopCamera();
+	abstract void stopCamera(NetworkInterface networkInterface, String password);
 
-	abstract void setWideFoV();
+	abstract void setWideFoV(NetworkInterface networkInterface, String password);
 
-	abstract void setMediumFoV();
+	abstract void setMediumFoV(NetworkInterface networkInterface, String password);
 
-	abstract void setNarrowFoV();
+	abstract void setNarrowFoV(NetworkInterface networkInterface, String password);
 
-	abstract void setVolumeOff();
+	abstract void setVolumeOff(NetworkInterface networkInterface, String password);
 
-	abstract void setVolume70();
+	abstract void setVolume70(NetworkInterface networkInterface, String password);
 
-	abstract void setVolume100();
+	abstract void setVolume100(NetworkInterface networkInterface, String password);
 
-	abstract void setContinuousShotSingle();
+	abstract void setContinuousShotSingle(NetworkInterface networkInterface, String password);
 
-	abstract void setContinuousShot3SPS();
+	abstract void setContinuousShot3SPS(NetworkInterface networkInterface, String password);
 
-	abstract void setContinuousShot5SPS();
+	abstract void setContinuousShot5SPS(NetworkInterface networkInterface, String password);
 
-	abstract void setContinuousShot10SPS();
+	abstract void setContinuousShot10SPS(NetworkInterface networkInterface, String password);
 
-	abstract void setProTuneOn();
+	abstract void setProTuneOn(NetworkInterface networkInterface, String password);
 
-	abstract void setProTuneOff();
+	abstract void setProTuneOff(NetworkInterface networkInterface, String password);
 
-	abstract void turnGoProOn();
+	abstract void turnGoProOn(NetworkInterface networkInterface, String password);
 
-	abstract void turnGoProOff();
+	abstract void turnGoProOff(NetworkInterface networkInterface, String password);
 
-	abstract void setAutoOffNever();
+	abstract void setAutoOffNever(NetworkInterface networkInterface, String password);
 
-	abstract void setAutoOff60s();
+	abstract void setAutoOff60s(NetworkInterface networkInterface, String password);
 
-	abstract void setAutoOff120s();
+	abstract void setAutoOff120s(NetworkInterface networkInterface, String password);
 
-	abstract void setAutoOff300s();
+	abstract void setAutoOff300s(NetworkInterface networkInterface, String password);
 
-	abstract void setDefaultModeVideo();
+	abstract void setDefaultModeVideo(NetworkInterface networkInterface, String password);
 
-	abstract void setDefaultModePhoto();
+	abstract void setDefaultModePhoto(NetworkInterface networkInterface, String password);
 
-	abstract void setDefaultModeBurst();
+	abstract void setDefaultModeBurst(NetworkInterface networkInterface, String password);
 
-	abstract void setDefaultModeTimelapse();
+	abstract void setDefaultModeTimelapse(NetworkInterface networkInterface, String password);
 
-	abstract void deleteLast();
+	abstract void deleteLast(NetworkInterface networkInterface, String password) throws IOException;
 
-	abstract void deleteAll();
+	abstract void deleteAll(NetworkInterface networkInterface, String password) throws IOException;
+
+	abstract void deleteLast(String password);
+
+	abstract void deleteAll(String password);
 
 	public abstract ArrayList<String> getFileListSingleShot(String URL);
 

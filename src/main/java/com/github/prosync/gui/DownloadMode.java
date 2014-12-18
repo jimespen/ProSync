@@ -196,7 +196,7 @@ public class DownloadMode extends JPanel {
 				else if(s.contains("JPG") && s.contains("G"))
 					addRow(new Object[]{s, services.getGroup(s), services.getMode(s), "ToBeImplemented(Maybe)", false});
 				else if(s.contains("MP4"))
-					addRow(new Object[]{s, services.getMode(s), "ToBeImplemented(Maybe)", false});
+					addRow(new Object[]{s, -1, services.getMode(s), "ToBeImplemented(Maybe)", false});
             }
 
         }
