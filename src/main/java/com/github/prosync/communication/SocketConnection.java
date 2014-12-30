@@ -63,7 +63,7 @@ public class SocketConnection {
             socket.close();
             pw.close();
         } catch (IOException ex) {
-            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -73,13 +73,12 @@ public class Connector {
 	/**
 	 *
 	 * GET Request method for sending commands to GoPro Cameras
-	 * Deprecated, only works if each cam got a unique IP, or if you only want to connect to one cam
+	 * Only works if each cam got a unique IP, or if you only want to connect to one cam
 	 * Use SocketConnection if each cam don't have a unique IP.
 	 *
 	 * @param url Example: new URL("http://10.5.5.9/camera/SH?t=<password>&p=%01")
 	 * @return true if successful, false if not
 	 */
-	@Deprecated
 	public boolean getRequest(URL url) {
 		try {
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();

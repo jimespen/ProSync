@@ -37,7 +37,7 @@ public class CameraController extends Controller {
         try {
             String cmd = command + "?t=" + password + "&p=%" + number;
             SocketConnection ce = new SocketConnection(networkInterface, "10.5.5.9", 80);
-            ce.sendGetCommand(cmd);
+            ce.sendGetCommand("GET /bacpac/" + cmd + " HTTP/1.1");
             ce.close();
 
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class CameraController extends Controller {
         try {
             String cmd = command + "?t=" + password;
             SocketConnection ce = new SocketConnection(networkInterface, "10.5.5.9", 80);
-            ce.sendGetCommand(cmd);
+            ce.sendGetCommand("GET /bacpac/" + cmd + " HTTP/1.1");
             ce.close();
         } catch (MalformedURLException e) {
             e.printStackTrace();

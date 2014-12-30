@@ -19,6 +19,11 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Connection to be switched with SocketConnection
+ * DO NOT USE THIS CLASS
+ */
+@Deprecated
 public class Connection implements Runnable {
 
     PrintWriter out;
