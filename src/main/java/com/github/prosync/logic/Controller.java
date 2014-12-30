@@ -8,7 +8,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by jim-espen on 10/14/14.
+ * Class Controller
+ * Abstract Controller class
  */
 public abstract class Controller {
 

@@ -3,7 +3,7 @@ package com.github.prosync.domain;
 import java.net.NetworkInterface;
 
 /**
- * Created by jim-espen on 10/10/14.
+ * Class Camera, Object Class to store information about Cameras
  */
 public class Camera {
 

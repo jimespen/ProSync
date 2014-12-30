@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 
 /**
  * Created by huseby on 11/27/14.
+ * Class GUIServices,
+ * Created to execute all inner commands a GUI normally would.
  */
 public final class GUIServices {
     private static final CameraController cc = new CameraController();
