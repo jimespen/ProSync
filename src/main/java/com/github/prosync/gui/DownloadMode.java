@@ -202,6 +202,7 @@ public class DownloadMode extends JPanel {
         }
     }
 
+    /*
     public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
@@ -224,5 +225,5 @@ public class DownloadMode extends JPanel {
                 frame.setVisible(true);
             }
         });
-    }
+    }*/
 }
