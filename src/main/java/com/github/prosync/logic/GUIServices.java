@@ -1,6 +1,9 @@
 package com.github.prosync.logic;
 
+import com.github.prosync.domain.Camera;
+
 import java.io.File;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -17,6 +20,7 @@ import java.util.regex.Pattern;
  */
 public final class GUIServices {
     private static final CameraController cc = new CameraController();
+    private static ArrayList<Camera> cams = new ArrayList<>();
 
     /**
      * A method to get all the conntected WIFI interfaces
@@ -25,6 +29,16 @@ public final class GUIServices {
      */
     public static ArrayList<NetworkInterface> getConectedWIFINICS() throws SocketException {
         return cc.getConnectedWIFINIS();
+    }
+
+
+    public static ArrayList<String> getConectedWIFINames() throws SocketException {
+        ArrayList<String> list = new ArrayList<>();
+
+        for(NetworkInterface ni: cc.getConnectedWIFINIS())
+        list.add(ni.getDisplayName());
+
+        return list;
     }
 
     /**
@@ -110,6 +124,31 @@ public final class GUIServices {
         con.run();
         con2.run();
                 */
+    }
+
+    public static void clearCameraList(){
+        cams = new ArrayList<>();
+    }
+
+    public static void addCamera(String name, NetworkInterface ni, String password){
+        cams.add(new Camera(name, ni, password));
+    }
+
+    public static void updateCameras(ArrayList<Camera> updatedCams){
+        if(updatedCams.size() == cams.size())
+        cams = updatedCams;
+    }
+
+    public static void startShutter(){
+        for(Camera c: cams){
+            cc.startCamera(c.getNic(), c.getPassword());
+        }
+    }
+
+    public static void stopShutter(){
+        for(Camera c: cams){
+            cc.stopCamera(c.getNic(), c.getPassword());
+        }
     }
     
 

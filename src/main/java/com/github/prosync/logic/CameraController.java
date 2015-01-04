@@ -201,6 +201,7 @@ public class CameraController extends Controller {
             Pattern wlanPatern = Pattern.compile("wlan[0-9]*");
             Matcher matcher = wlanPatern.matcher(ni.getName());
             if (matcher.find()) {
+                if(!ni.isLoopback() && !ni.isVirtual())
                 NICWIFIList.add(ni);
             }
         }
