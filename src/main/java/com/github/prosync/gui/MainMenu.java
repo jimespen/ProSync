@@ -1,7 +1,12 @@
 package com.github.prosync.gui;
 
+import com.github.prosync.logic.GUIServices;
+import sun.applet.Main;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by jim-espen on 10/17/14.
@@ -12,7 +17,19 @@ public class MainMenu {
     final static boolean RIGHT_TO_LEFT = false;
     final static ButtonListener listener = ButtonListener.getInstance();
 
-    public static void addComponentsToPane(Container pane) {
+    private JButton buttonRecord;
+    private JButton buttonDownload;
+    private JButton buttonCofig;
+
+    public MainMenu() {
+        buttonRecord = new JButton("Opptak");
+        buttonCofig = new JButton("Config");
+        buttonDownload = new JButton("Hent filer");
+    }
+
+    public void addComponentsToPane(Container pane) {
+        addActionListeners();
+
         if (RIGHT_TO_LEFT) {
             pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         }
@@ -43,7 +60,7 @@ public class MainMenu {
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = 0;
-        pane.add(button, c);
+        pane.add(buttonDownload, c);
 
         button = new JButton("Opptak");
         button.setActionCommand("rec");
@@ -52,7 +69,7 @@ public class MainMenu {
         c.weightx = 0.5;
         c.gridx = 2;
         c.gridy = 0;
-        pane.add(button, c);
+        pane.add(buttonRecord, c);
 
     }
 
@@ -61,7 +78,7 @@ public class MainMenu {
      * this method should be invoked from the
      * event-dispatching thread.
      */
-    public static void createAndShowGUI() {
+    public void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("ProSync");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,6 +89,60 @@ public class MainMenu {
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+    }
+
+    private void addActionListeners() {
+        buttonRecord.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                        }
+
+                        JFrame frame = new JFrame("Last ned");
+                        frame.setPreferredSize(new Dimension(1000, 600));
+                        JTabbedPane config = new JTabbedPane();
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        frame.setLayout(new BorderLayout());
+                        config.add(new CaptureMode(new GUIServices()));
+                        frame.add(config);
+                        frame.pack();
+                        frame.setLocationRelativeTo(null);
+                        frame.setVisible(true);
+                    }
+                });
+            }
+        });
+
+        buttonDownload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                        }
+
+                        JFrame frame = new JFrame("Last ned");
+                        frame.setPreferredSize(new Dimension(1000, 600));
+                        JTabbedPane config = new JTabbedPane();
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        frame.setLayout(new BorderLayout());
+                        config.add(new DownloadMode());
+                        frame.add(config);
+                        frame.pack();
+                        frame.setLocationRelativeTo(null);
+                        frame.setVisible(true);
+                    }
+                });
+            }
+        });
     }
 }
 

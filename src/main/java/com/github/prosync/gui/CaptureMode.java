@@ -21,12 +21,35 @@ import javax.swing.*;
 public class CaptureMode extends JPanel {
     private GUIServices guiS;
 
+    JCheckBox checkBox1;
+    JCheckBox checkBox2;
+    JCheckBox checkBox3;
+
+    JTextField textField1;
+    JTextField textField2;
+    JTextField textField3;
+
+    JComboBox dropDown1;
+    JComboBox dropDown2;
+    JComboBox dropDown3;
+
+    JPanel panel1;
+    JPanel panel2;
+    JPanel panel3;
+
+    JButton startRecording;
+    JButton stopRecording;
+
+    GridBagConstraints gbc;
+
     public CaptureMode(final GUIServices guiS) {
+
+
         this.guiS = guiS;
         setupCameras();
     }
 
-    private void setupCameras(){
+    private void setupCameras() {
 
         ArrayList<String> interfaces;
 
@@ -41,7 +64,7 @@ public class CaptureMode extends JPanel {
 
         setSize(1000, 600);
         setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.weightx = 1;
         gbc.gridy = 0;
@@ -50,140 +73,151 @@ public class CaptureMode extends JPanel {
 
 
         try {
-            final JComboBox dropDown1 = new JComboBox(guiS.getConectedWIFINames().toArray());
-            dropDown1.setPreferredSize(new Dimension(450, 20));
-
-            final JCheckBox checkBox1 = new JCheckBox("Kamera 1");
-            final JTextField textField1 = new JTextField(20);
-            final JPanel panel1 = new JPanel(new FlowLayout());
-
-            panel1.add(checkBox1);
-            panel1.add(dropDown1);
-            panel1.add(textField1);
-
-            add(panel1, gbc);
-            gbc.gridy++;
-
-            final JComboBox dropDown2 = new JComboBox(guiS.getConectedWIFINames().toArray());
-            dropDown2.setPreferredSize(new Dimension(450, 20));
-
-            final JCheckBox checkBox2 = new JCheckBox("Kamera 2");
-            final JTextField textField2 = new JTextField(20);
-            final JPanel panel2 = new JPanel(new FlowLayout());
-
-            panel2.add(checkBox2);
-            panel2.add(dropDown2);
-            panel2.add(textField2);
-            add(panel2, gbc);
-
-            gbc.gridy++;
-
-
-            final JComboBox dropDown3 = new JComboBox(guiS.getConectedWIFINames().toArray());
-            dropDown3.setPreferredSize(new Dimension(450, 20));
-
-            final JCheckBox checkBox3 = new JCheckBox("Kamera 3");
-            final JTextField textField3 = new JTextField(20);
-            final JPanel panel3 = new JPanel(new FlowLayout());
-
-            panel3.add(checkBox3);
-            panel3.add(dropDown3);
-            panel3.add(textField3);
-            add(panel3, gbc);
-
-            gbc.gridy++;
-
-            final JButton startRecording = new JButton("Start");
-            final JButton stopRecording = new JButton("Stop");
-            stopRecording.setEnabled(false);
-
-            final CaptureMode cm = this;
-            startRecording.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        guiS.clearCameraList();
-                        if (checkBox1.isSelected())
-                            guiS.addCamera("camera1", guiS.findInterface(dropDown1.getSelectedItem().toString()), textField1.getText());
-
-                        if (checkBox2.isSelected())
-                            guiS.addCamera("camera2", guiS.findInterface(dropDown2.getSelectedItem().toString()), textField2.getText());
-
-                        if (checkBox3.isSelected())
-                            guiS.addCamera("camera3", guiS.findInterface(dropDown3.getSelectedItem().toString()), textField3.getText());
-
-                    } catch (SocketException e1) {
-                        e1.printStackTrace();
-                    }
-
-                    guiS.startShutter();
-
-                    checkBox1.setEnabled(false);
-                    checkBox2.setEnabled(false);
-                    checkBox3.setEnabled(false);
-
-                    textField1.setEnabled(false);
-                    textField2.setEnabled(false);
-                    textField3.setEnabled(false);
-
-                    dropDown1.setEnabled(false);
-                    dropDown2.setEnabled(false);
-                    dropDown3.setEnabled(false);
-
-                    startRecording.setEnabled(false);
-                    stopRecording.setEnabled(true);
-                }
-            });
-            add(startRecording, gbc);
-
-            gbc.gridy++;
-
-            stopRecording.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        guiS.clearCameraList();
-                        if (checkBox1.isSelected())
-                            guiS.addCamera("camera1", guiS.findInterface(dropDown1.getSelectedItem().toString()), textField1.getText());
-
-                        if (checkBox2.isSelected())
-                            guiS.addCamera("camera2", guiS.findInterface(dropDown2.getSelectedItem().toString()), textField2.getText());
-
-                        if (checkBox3.isSelected())
-                            guiS.addCamera("camera3", guiS.findInterface(dropDown3.getSelectedItem().toString()), textField3.getText());
-
-                    } catch (SocketException e1) {
-                        e1.printStackTrace();
-                    }
-
-                    checkBox1.setEnabled(true);
-                    checkBox2.setEnabled(true);
-                    checkBox3.setEnabled(true);
-
-                    textField1.setEnabled(true);
-                    textField2.setEnabled(true);
-                    textField3.setEnabled(true);
-
-                    dropDown1.setEnabled(true);
-                    dropDown2.setEnabled(true);
-                    dropDown3.setEnabled(true);
-
-
-                    guiS.stopShutter();
-                    startRecording.setEnabled(true);
-                    stopRecording.setEnabled(false);
-                }
-            });
-            add(stopRecording, gbc);
-
+            addElements();
+            addActionListners();
 
         } catch (SocketException e) {
             e.printStackTrace();
         }
     }
 
-    private void disableInterface(){
+    private void addActionListners() {
+        startRecording.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    guiS.clearCameraList();
+                    if (checkBox1.isSelected())
+                        guiS.addCamera("camera1", guiS.findInterface(dropDown1.getSelectedItem().toString()), textField1.getText());
 
+                    if (checkBox2.isSelected())
+                        guiS.addCamera("camera2", guiS.findInterface(dropDown2.getSelectedItem().toString()), textField2.getText());
+
+                    if (checkBox3.isSelected())
+                        guiS.addCamera("camera3", guiS.findInterface(dropDown3.getSelectedItem().toString()), textField3.getText());
+
+                } catch (SocketException e1) {
+                    e1.printStackTrace();
+                }
+
+                //guiS.startShutter();
+                disableInterface();
+            }
+        });
+        stopRecording.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    guiS.clearCameraList();
+                    if (checkBox1.isSelected())
+                        guiS.addCamera("camera1", guiS.findInterface(dropDown1.getSelectedItem().toString()), textField1.getText());
+
+                    if (checkBox2.isSelected())
+                        guiS.addCamera("camera2", guiS.findInterface(dropDown2.getSelectedItem().toString()), textField2.getText());
+
+                    if (checkBox3.isSelected())
+                        guiS.addCamera("camera3", guiS.findInterface(dropDown3.getSelectedItem().toString()), textField3.getText());
+
+                } catch (SocketException e1) {
+                    e1.printStackTrace();
+                }
+
+                //guiS.stopShutter();
+                enableInterface();
+            }
+        });
+    }
+
+    private void addElements() throws SocketException {
+        dropDown1 = new JComboBox(guiS.getConectedWIFINames().toArray());
+        dropDown1.setPreferredSize(new Dimension(450, 20));
+
+        checkBox1 = new JCheckBox("Kamera 1");
+        textField1 = new JTextField(20);
+        panel1 = new JPanel(new FlowLayout());
+
+        panel1.add(checkBox1);
+        panel1.add(dropDown1);
+        panel1.add(textField1);
+
+        add(panel1, gbc);
+        gbc.gridy++;
+
+        dropDown2 = new JComboBox(guiS.getConectedWIFINames().toArray());
+        dropDown2.setPreferredSize(new Dimension(450, 20));
+
+        checkBox2 = new JCheckBox("Kamera 2");
+        textField2 = new JTextField(20);
+
+        panel2 = new JPanel(new FlowLayout());
+
+        panel2.add(checkBox2);
+        panel2.add(dropDown2);
+        panel2.add(textField2);
+        add(panel2, gbc);
+
+        gbc.gridy++;
+
+
+        dropDown3 = new JComboBox(guiS.getConectedWIFINames().toArray());
+        dropDown3.setPreferredSize(new Dimension(450, 20));
+
+        checkBox3 = new JCheckBox("Kamera 3");
+        textField3 = new JTextField(20);
+        panel3 = new JPanel(new FlowLayout());
+
+        panel3.add(checkBox3);
+        panel3.add(dropDown3);
+        panel3.add(textField3);
+        add(panel3, gbc);
+
+        gbc.gridy++;
+
+        startRecording = new JButton("Start");
+        startRecording.setSize(75, 50);
+
+        add(startRecording, gbc);
+        gbc.gridy++;
+
+        stopRecording = new JButton("Stop");
+        stopRecording.setEnabled(false);
+
+        add(stopRecording, gbc);
+
+    }
+
+    private void disableInterface() {
+        checkBox1.setEnabled(false);
+        checkBox2.setEnabled(false);
+        checkBox3.setEnabled(false);
+
+        textField1.setEnabled(false);
+        textField2.setEnabled(false);
+        textField3.setEnabled(false);
+
+        dropDown1.setEnabled(false);
+        dropDown2.setEnabled(false);
+        dropDown3.setEnabled(false);
+
+        startRecording.setEnabled(false);
+        stopRecording.setEnabled(true);
+    }
+
+    private void enableInterface() {
+        checkBox1.setEnabled(true);
+        checkBox2.setEnabled(true);
+        checkBox3.setEnabled(true);
+
+        textField1.setEnabled(true);
+        textField2.setEnabled(true);
+        textField3.setEnabled(true);
+
+        dropDown1.setEnabled(true);
+        dropDown2.setEnabled(true);
+        dropDown3.setEnabled(true);
+
+        startRecording.setEnabled(true);
+        stopRecording.setEnabled(false);
     }
 
     public static void main(String[] args) {
