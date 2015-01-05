@@ -19,7 +19,8 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 public class CaptureMode extends JPanel {
-    private GUIServices guiS;
+
+    GUIServices guiS;
 
     JCheckBox checkBox1;
     JCheckBox checkBox2;
@@ -42,10 +43,8 @@ public class CaptureMode extends JPanel {
 
     GridBagConstraints gbc;
 
-    public CaptureMode(final GUIServices guiS) {
+    public CaptureMode() {
 
-
-        this.guiS = guiS;
         setupCameras();
     }
 
@@ -54,7 +53,7 @@ public class CaptureMode extends JPanel {
         ArrayList<String> interfaces;
 
         try {
-            interfaces = guiS.getConectedWIFINames();
+            interfaces = GUIServices.getConectedWIFINames();
             if (interfaces.size() < 1) {
                 System.out.println("Lista er tom");
             }
@@ -220,28 +219,5 @@ public class CaptureMode extends JPanel {
         stopRecording.setEnabled(false);
     }
 
-    public static void main(String[] args) {
-
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                }
-
-                JFrame frame = new JFrame("Kofigurer");
-                frame.setPreferredSize(new Dimension(1000, 600));
-                JTabbedPane config = new JTabbedPane();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLayout(new BorderLayout());
-                config.add(new CaptureMode(new GUIServices()));
-                frame.add(config);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });
-    }
 }
 
