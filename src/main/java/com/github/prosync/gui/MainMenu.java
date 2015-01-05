@@ -53,18 +53,12 @@ public class MainMenu {
         c.gridy = 0;
         pane.add(button, c);
 
-        button = new JButton("Hent ut");
-        button.setActionCommand("getdata");
-        button.addActionListener(listener);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = 0;
         pane.add(buttonDownload, c);
 
-        button = new JButton("Opptak");
-        button.setActionCommand("rec");
-        button.addActionListener(listener);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 2;
