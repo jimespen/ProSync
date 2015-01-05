@@ -86,10 +86,13 @@ public class DownloadMode extends JPanel {
                         chooser.setAcceptAllFileFilterUsed(false);
 
                         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+
                             services.downloadFiles(dtmDownload.getChecked(), String.valueOf(chooser.getSelectedFile()));
+                            JOptionPane.showMessageDialog(null, "Nedlastning ferdig");
                         } else {
                             System.out.println("No Selection ");
                         }
+                        System.out.println("Feridg");
 
                     }
                 });
@@ -202,7 +205,7 @@ public class DownloadMode extends JPanel {
         }
     }
 
-    /*
+
     public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
@@ -225,5 +228,5 @@ public class DownloadMode extends JPanel {
                 frame.setVisible(true);
             }
         });
-    }*/
+    }
 }

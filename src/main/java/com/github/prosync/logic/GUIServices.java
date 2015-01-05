@@ -105,9 +105,11 @@ public final class GUIServices {
     public static void downloadFiles(ArrayList<String> files, String saveLocation){
         String URL = cc.getFilesURL();
 		for(String s: files){
-            File f = new File(saveLocation+"/"+s);
+            String savePlace  = saveLocation.replace('\\', '/');
+
+            File f = new File(savePlace+"/"+s);
 			try {
-                cc.getFileHTTP(new URL(URL), f);
+                cc.getFileHTTP(new URL(URL+"/"+s), f);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

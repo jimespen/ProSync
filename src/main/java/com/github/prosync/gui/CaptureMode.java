@@ -95,6 +95,7 @@ public class CaptureMode extends JPanel {
 
             final JButton startRecording = new JButton("Start");
             final JButton stopRecording = new JButton("Stop");
+            stopRecording.setEnabled(false);
 
             final CaptureMode cm = this;
             startRecording.addActionListener(new ActionListener() {
@@ -115,7 +116,7 @@ public class CaptureMode extends JPanel {
                         e1.printStackTrace();
                     }
 
-                    //guiS.startShutter();
+                    guiS.startShutter();
 
                     checkBox1.setEnabled(false);
                     checkBox2.setEnabled(false);
@@ -168,7 +169,7 @@ public class CaptureMode extends JPanel {
                     dropDown3.setEnabled(true);
 
 
-                    //guiS.stopShutter();
+                    guiS.stopShutter();
                     startRecording.setEnabled(true);
                     stopRecording.setEnabled(false);
                 }

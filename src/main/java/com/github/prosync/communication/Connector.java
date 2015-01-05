@@ -6,6 +6,7 @@ package com.github.prosync.communication;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.MalformedInputException;
@@ -46,7 +47,7 @@ public class Connector {
 	 * @return true if successful, false if not
 	 */
 	public boolean getFileHTTP(URL url, File file) {
-		URLConnection connection = null;
+		URLConnection connection;
 		int i;
 		try {
 			connection = url.openConnection();
@@ -57,6 +58,7 @@ public class Connector {
 				bos.write(i);
 			}
 			bos.flush();
+			bos.close();
 			bis.close();
 		} catch (MalformedInputException malformedInputException) {
 			malformedInputException.printStackTrace();
@@ -65,6 +67,7 @@ public class Connector {
 			ioException.printStackTrace();
 			return false;
 		}
+		System.out.println(true);
 		return true;
 	}
 
@@ -93,5 +96,4 @@ public class Connector {
 		}
 		return true;
 	}
-
 }
