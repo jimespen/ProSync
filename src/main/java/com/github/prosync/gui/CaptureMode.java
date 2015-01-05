@@ -100,7 +100,7 @@ public class CaptureMode extends JPanel {
                     e1.printStackTrace();
                 }
 
-                //guiS.startShutter();
+                guiS.startShutter();
                 disableInterface();
             }
         });
@@ -122,7 +122,7 @@ public class CaptureMode extends JPanel {
                     e1.printStackTrace();
                 }
 
-                //guiS.stopShutter();
+                guiS.stopShutter();
                 enableInterface();
             }
         });
