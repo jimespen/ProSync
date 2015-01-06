@@ -12,11 +12,9 @@ public abstract class Controller {
 
 	abstract boolean getFileHTTP(URL url, File file);
 
-	abstract ArrayList<String> getConnectedNIS() throws SocketException;
+	abstract ArrayList<java.net.NetworkInterface> getConnectedNIS() throws SocketException;
 
-	abstract ArrayList<String> getConnectedWIFINIS() throws SocketException;
-
-	abstract String getNISName(String name) throws SocketException;
+	abstract ArrayList<java.net.NetworkInterface> getConnectedWIFINIS() throws SocketException;
 
 	abstract boolean sendCommand(String command, String number);
 

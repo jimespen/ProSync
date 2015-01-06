@@ -15,15 +15,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import javax.swing.AbstractAction;
 import static javax.swing.Action.NAME;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -49,9 +44,9 @@ public class ConfigResolution {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 
                 }
-                JFrame frame = new JFrame("Modus");
+                JFrame frame = new JFrame("Oppløsning");
                 frame.setPreferredSize(new Dimension(800,600));
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 frame.add(new ResolutionPane(frame));
                 frame.pack();
@@ -96,6 +91,7 @@ public class ConfigResolution {
                     public void actionPerformed(ActionEvent e) {
                         System.out.println(config.getModeSelected());
                         System.out.println(config.getResolutionSelected());
+                        new ConfigProTune(config);
                         frame.setVisible(false);
                     }
                 });

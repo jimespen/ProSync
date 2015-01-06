@@ -18,10 +18,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.AbstractAction;
+import static javax.swing.Action.NAME;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
@@ -32,11 +32,13 @@ import javax.swing.border.TitledBorder;
  *
  * @author Rubenhag
  */
-public class ConfigMode {
+public class ConfigProTune {
 
     CameraController cc = new CameraController();
+    final Config config;
 
-    public ConfigMode() {
+    public ConfigProTune(Config configObject) {
+        this.config = configObject;
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -46,11 +48,11 @@ public class ConfigMode {
 
                 }
 
-                JFrame frame = new JFrame("Modus");
+                JFrame frame = new JFrame("ProTune");
                 frame.setPreferredSize(new Dimension(800, 600));
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
-                frame.add(new ModePane(frame));
+                frame.add(new ProTunePane(frame));
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -58,9 +60,9 @@ public class ConfigMode {
         });
     }
 
-    public class ModePane extends JPanel {
+    public class ProTunePane extends JPanel {
 
-        public ModePane(JFrame contentFrame) {
+        public ProTunePane(JFrame contentFrame) {
             final JFrame frame = contentFrame;
             setSize(800, 600);
             setLayout(new GridBagLayout());
@@ -69,39 +71,23 @@ public class ConfigMode {
             gbc.anchor = GridBagConstraints.WEST;
             gbc.weightx = 1;
             gbc.fill = GridBagConstraints.HORIZONTAL;
-
-            ArrayList<String> modeValues = new ArrayList<>(Arrays.asList(Constants.VIDEO_MODE, Constants.PHOTO_MODE, Constants.BURST_MODE));
-            final Config config = new Config();
-            config.setModeValues(modeValues);
-            setBorder(new TitledBorder("Modus"));
+            setBorder(new TitledBorder("ProTune"));
             ButtonGroup bg = new ButtonGroup();
-            for (String value : modeValues) {
-                if (modeValues.indexOf(value) == 0) {
-                }
-                JRadioButton rb = new JRadioButton(new ModeAction(config, value));
-                bg.add(rb);
-                add(rb, gbc);
-            }
-
-            JButton submit = new JButton("Send til kamera");
+            JRadioButton yes = new JRadioButton(new ProTuneAction(config, true));
+            JRadioButton no = new JRadioButton(new ProTuneAction(config,false));
+            yes.setText("JA");
+            no.setText("NEI");
+            bg.add(yes);
+            bg.add(no);
+            add(yes, gbc);
+            add(no, gbc);
+            JButton submit = new JButton("Neste");
             submit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    try {
-                        if (config.getModeSelected().equals(Constants.VIDEO_MODE)) {
-                            //cc.setModeToVideo();
-                        } else if (config.getModeSelected().equals(Constants.PHOTO_MODE)) {
-                            //cc.setModeToPhoto();
-                        } else if (config.getModeSelected().equals(Constants.BURST_MODE)) {
-                            //cc.setModeToBurst();
-                        }
-                        frame.setVisible(false);
-                        new ConfigResolution(config);
-                    } catch (NullPointerException npe) {
-                        npe.printStackTrace(System.err);
-                        JOptionPane.showMessageDialog(frame, "Du må velge en modus", "Error!", JOptionPane.ERROR_MESSAGE);
-                    }
-
+                    System.out.println(config.getProTuneSlected());
+                    new ConfigFps(config);
+                    frame.setVisible(false);
                 }
             });
             add(submit, gbc);
@@ -109,24 +95,23 @@ public class ConfigMode {
         }
     }
 
-    public class ModeAction extends AbstractAction {
+    public class ProTuneAction extends AbstractAction {
 
-        private final Config mode;
-        private final String value;
+        private final Config config;
+        private final boolean value;
 
-        public ModeAction(Config mode, String value) {
-            this.mode = mode;
+        public ProTuneAction(Config mode, boolean value) {
+            this.config = mode;
             this.value = value;
-            putValue(NAME, value);
         }
 
-        public Config getMode() {
-            return mode;
+        public Config getConfig() {
+            return config;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            getMode().setModeSelected(value);
+            getConfig().setProTuneSelected(value);
         }
     }
 

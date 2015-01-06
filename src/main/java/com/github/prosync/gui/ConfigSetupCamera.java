@@ -13,6 +13,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ public class ConfigSetupCamera extends JPanel {
     
     ArrayList<Camera> cameras;
     ArrayList<String> nics;
-    CameraController cc = new CameraController();
+    CameraController cc = new CameraController(); //TODO fjerne denne når vi får annen kommunikasjon
 
     public ConfigSetupCamera() {
         EventQueue.invokeLater(new Runnable() {
@@ -51,11 +52,19 @@ public class ConfigSetupCamera extends JPanel {
                 }
                 cameras = new ArrayList<>();
                 nics = new ArrayList<>();
+                ArrayList<NetworkInterface> interfaces;
                 try {
-                    nics = cc.getConnectedWIFINIS();
+                    interfaces = cc.getConnectedWIFINIS();
+                    if(interfaces.size()<1){
+                    System.out.println("Lista er tom");
+                }
+                for(NetworkInterface anInterface : interfaces){
+                    nics.add(anInterface.getDisplayName());
+                }
                 } catch (SocketException ex) {
                     Logger.getLogger(ConfigSetupCamera.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 
                 setSize(800,600);
                 setLayout(new GridBagLayout());
@@ -68,10 +77,7 @@ public class ConfigSetupCamera extends JPanel {
                 cameras.add(new Camera("Kamera 1"));
                 cameras.add(new Camera("Kamera 2"));
                 cameras.add(new Camera("Kamera 3"));
-                nics.add("wlan0");
-                nics.add("wlan1");
-                nics.add("wlan2");
-                
+                //nics.add("wlan0");
                 JPanel panel;
 
                 for(Camera aCamera : cameras){

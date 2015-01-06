@@ -14,45 +14,20 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Rubenhag
- */
+
 public class NICResolver {
 
-    public ArrayList<String> getConnectedNICs() throws SocketException {
+    public ArrayList<NetworkInterface> getNIS() throws SocketException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         NetworkInterface nextElement;
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<NetworkInterface> list = new ArrayList<>();
 
         while(interfaces.hasMoreElements()){
  
             nextElement = interfaces.nextElement();
-			if(nextElement.isUp() && !nextElement.isLoopback()) list.add(nextElement.getName());
+                        System.out.println(nextElement.getDisplayName());
+			list.add(nextElement);
 		}
         return list;
     }
-
-	public String getDisplayName(String name) throws SocketException {
-		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-		NetworkInterface nextElement;
-
-		while(interfaces.hasMoreElements()){
-			nextElement = interfaces.nextElement();
-			if(name.equals(nextElement.getName())) return nextElement.getDisplayName();
-		}
-		return null;
-	}
-
-	public String getName(String dispalyName) throws SocketException {
-		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-		NetworkInterface nextElement;
-
-		while(interfaces.hasMoreElements()){
-			nextElement = interfaces.nextElement();
-			if(dispalyName.equals(nextElement.getDisplayName())) return nextElement.getName();
-		}
-		return null;
-	}
-
 }

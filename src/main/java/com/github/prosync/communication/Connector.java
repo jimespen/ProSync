@@ -51,7 +51,7 @@ public class Connector {
 		try {
 			connection = url.openConnection();
 			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file.getName()));
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file.getPath()));
 
 			while ((i = bis.read()) != -1) {
 				bos.write(i);
