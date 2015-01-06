@@ -102,7 +102,7 @@ public class MainMenu {
                         JTabbedPane config = new JTabbedPane();
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         frame.setLayout(new BorderLayout());
-                        config.add(new CaptureMode(new GUIServices()));
+                        config.add(new CaptureMode());
                         frame.add(config);
                         frame.pack();
                         frame.setLocationRelativeTo(null);
