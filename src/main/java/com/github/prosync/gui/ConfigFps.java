@@ -52,7 +52,7 @@ public class ConfigFps {
                 }
                 JFrame frame = new JFrame("Frames per sekund");
                 frame.setPreferredSize(new Dimension(800, 600));
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 frame.add(new ResolutionPane(frame));
                 frame.pack();
@@ -84,13 +84,14 @@ public class ConfigFps {
                 add(rb, gbc);
             }
 
-            JButton submit = new JButton("Send til kamera");
+            JButton submit = new JButton("Neste");
             submit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.out.println(config.getModeSelected());
                     System.out.println(config.getResolutionSelected());
                     System.out.println(config.getFpsSelected());
+                    new ConfigFinal(config);
                     frame.setVisible(false);
                 }
             });

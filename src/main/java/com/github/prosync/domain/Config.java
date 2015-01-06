@@ -82,5 +82,11 @@ public class Config {
         return proTuneSelected;
     }
     
+    @Override
+    public String toString(){
+        return "Modus: "+modeSelected+"%nOppløsning: "+resolutionSelected+"%nFrames per sekund: "
+                +fpsSelected+"%nProTune: "+proTuneSelected;
+    }
+    
     
 }
