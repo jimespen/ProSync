@@ -8,6 +8,7 @@ package com.github.prosync.gui;
 import com.github.prosync.domain.Config;
 import com.github.prosync.domain.Constants;
 import com.github.prosync.logic.CameraController;
+import com.github.prosync.logic.GUIServices;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -57,7 +58,7 @@ public class ConfigMode {
     }
 
     public class ModePane extends JPanel {
-
+        final Config config = GUIServices.getConfig();
         public ModePane(JFrame contentFrame) {
             final JFrame frame = contentFrame;
             setSize(800, 600);
@@ -69,7 +70,7 @@ public class ConfigMode {
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
             ArrayList<String> modeValues = new ArrayList<>(Arrays.asList(Constants.VIDEO_MODE, Constants.PHOTO_MODE, Constants.BURST_MODE));
-            final Config config = new Config();
+            
             config.setModeValues(modeValues);
             setBorder(new TitledBorder("Modus"));
             ButtonGroup bg = new ButtonGroup();
@@ -94,7 +95,7 @@ public class ConfigMode {
                             //cc.setModeToBurst();
                         }
                         frame.setVisible(false);
-                        new ConfigResolution(config);
+                        new ConfigResolution();
                     } catch (NullPointerException npe) {
                         npe.printStackTrace(System.err);
                         JOptionPane.showMessageDialog(frame, "Du må velge en modus", "Error!", JOptionPane.ERROR_MESSAGE);

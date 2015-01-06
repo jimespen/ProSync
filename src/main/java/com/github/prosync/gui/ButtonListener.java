@@ -47,7 +47,7 @@ public class ButtonListener implements ActionListener{
                 break;
                 
             case "rec":
-                new ConfigProTune(new Config());
+                
                 break;
                 
         }

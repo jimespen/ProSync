@@ -8,6 +8,7 @@ package com.github.prosync.gui;
 import com.github.prosync.domain.Config;
 import com.github.prosync.domain.Constants;
 import com.github.prosync.logic.CameraController;
+import com.github.prosync.logic.GUIServices;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -34,10 +35,9 @@ import javax.swing.border.TitledBorder;
  */
 public class ConfigProTune {
 
-    final Config config;
+    final Config config = GUIServices.getConfig();
 
-    public ConfigProTune(Config configObject) {
-        this.config = configObject;
+    public ConfigProTune() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

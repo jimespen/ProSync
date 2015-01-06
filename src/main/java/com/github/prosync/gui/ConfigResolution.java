@@ -8,6 +8,7 @@ package com.github.prosync.gui;
 import com.github.prosync.domain.Config;
 import com.github.prosync.domain.Constants;
 import com.github.prosync.logic.CameraController;
+import com.github.prosync.logic.GUIServices;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -31,10 +32,8 @@ import javax.swing.border.TitledBorder;
  * @author Rubenhag
  */
 public class ConfigResolution {
-    final Config config;
-
-    public ConfigResolution(Config modeConfig) {
-        this.config = modeConfig;
+    final Config config = GUIServices.getConfig();
+    public ConfigResolution() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -43,7 +42,7 @@ public class ConfigResolution {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 
                 }
-                JFrame frame = new JFrame("Opplï¿½sning");
+                JFrame frame = new JFrame("Oppløsning");
                 frame.setPreferredSize(new Dimension(800,600));
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
@@ -90,7 +89,7 @@ public class ConfigResolution {
                     public void actionPerformed(ActionEvent e) {
                         System.out.println(config.getModeSelected());
                         System.out.println(config.getResolutionSelected());
-                        new ConfigProTune(config);
+                        new ConfigProTune();
                         frame.setVisible(false);
                     }
                 });

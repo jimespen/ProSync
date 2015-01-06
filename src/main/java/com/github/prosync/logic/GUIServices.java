@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 public final class GUIServices {
     private static final CameraController cc = new CameraController();
     private static ArrayList<Camera> cams = new ArrayList<>();
+    private static Config config = new Config();
 
     /**
      * A method to get all the conntected WIFI interfaces
@@ -157,6 +158,10 @@ public final class GUIServices {
         for(Camera c: cams){
             cc.sendConfig(c.getNic(), config, c.getPassword());
         }
+    }
+    
+    public static Config getConfig(){
+        return config;
     }
     
 
