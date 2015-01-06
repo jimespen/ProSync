@@ -165,29 +165,4 @@ public class ConfigSetupCamera extends JPanel {
         });
     }
 
-
-    public class ModeAction extends AbstractAction {
-
-        private final Camera camera;
-        private final String nic;
-
-        public ModeAction(Camera camera, String nic) {
-            this.camera = camera;
-            this.nic = nic;
-            putValue(NAME, nic);
-        }
-
-        public Camera getCamera() {
-            return camera;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                camera.setNic(GUIServices.findInterface(nic));
-            } catch (SocketException e1) {
-                e1.printStackTrace();
-            }
-        }
-    }
 }
