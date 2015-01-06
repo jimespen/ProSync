@@ -18,7 +18,32 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-public class CaptureMode extends JPanel {
+public class CaptureMode {
+    
+   public CaptureMode(){
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+
+                }
+
+                JFrame frame = new JFrame("Opptak");
+                frame.setPreferredSize(new Dimension(800, 600));
+                frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
+                frame.add(new CaptureMode.CapturePane());
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            }
+        });
+    }
+
+
+public class CapturePane extends JPanel {
 
     GUIServices guiS;
 
@@ -43,7 +68,7 @@ public class CaptureMode extends JPanel {
 
     GridBagConstraints gbc;
 
-    public CaptureMode() {
+    public CapturePane() {
 
         setupCameras();
     }
@@ -219,5 +244,6 @@ public class CaptureMode extends JPanel {
         stopRecording.setEnabled(false);
     }
 
+}
 }
 

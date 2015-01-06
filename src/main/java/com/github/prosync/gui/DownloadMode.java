@@ -22,11 +22,39 @@ import com.github.prosync.domain.Constants;
 
 /**
  * Created by oystein on 30.11.2014.
+ * 
  */
-public class DownloadMode extends JPanel {
+
+public class DownloadMode{
+    
+    public DownloadMode(){
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+
+                }
+
+                JFrame frame = new JFrame("Hent filer");
+                frame.setPreferredSize(new Dimension(800, 600));
+                frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
+                frame.add(new DownloadMode.DownloadPane());
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            }
+        });
+    }
+    
 
 
-    public DownloadMode() {
+public class DownloadPane extends JPanel {
+
+
+    public DownloadPane() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -228,4 +256,5 @@ public class DownloadMode extends JPanel {
             }
         });
     }*/
+}
 }

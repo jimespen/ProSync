@@ -95,6 +95,7 @@ public class ConfigSetupCamera extends JPanel {
                     try {
                         aCamera.setNic(GUIServices.findInterface(dropDown.getSelectedItem().toString()));
                     } catch (SocketException e) {
+                        System.out.println(cameras.size());
                         e.printStackTrace();
                     }
 

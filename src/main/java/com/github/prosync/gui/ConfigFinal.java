@@ -83,7 +83,7 @@ public class ConfigFinal {
             ja.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    GUIServices.sendConfigToAllConnectedCameras(config);
+                    GUIServices.sendConfigToAllConnectedCameras();
                     frame.setVisible(false);
                 }
             });

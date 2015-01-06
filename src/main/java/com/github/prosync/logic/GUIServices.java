@@ -155,7 +155,7 @@ public final class GUIServices {
         }
     }
     
-    public static void sendConfigToAllConnectedCameras(Config config){
+    public static void sendConfigToAllConnectedCameras(){
         for(Camera c : cams){
             sendConfigToCamera(config, c.getNic(), c.getPassword());
         }
