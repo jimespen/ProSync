@@ -1,8 +1,9 @@
 package com.github.prosync.logic;
 
-import com.github.prosync.communication.SocketConnection;
 import com.github.prosync.communication.Connector;
 import com.github.prosync.communication.NICResolver;
+import com.github.prosync.communication.SocketConnection;
+import com.github.prosync.domain.Config;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -11,13 +12,17 @@ import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.github.prosync.domain.Constants;
 
 /**
  * CameraController, controller class for the system.
  */
 public class CameraController extends Controller {
+
     private Connector connector = new Connector();
     private NICResolver NISResolver = new NICResolver();
     private static final ArrayList<String> listOfCommands = new ArrayList<String>(Arrays.asList(new String[]{"PW", "CM", "SH", "VV", "FS", "FV", "BS", "WB", "TI", "CS", "BU", "PT", "DL", "DA", "AO", "DM"}));
@@ -27,13 +32,14 @@ public class CameraController extends Controller {
      * Uses the Connector class's getRequest method.
      *
      * @param command Example: 'SH'
-     * @param number  Example: '01'
+     * @param number Example: '01'
      * @return true if successful, false if not
      */
     @Override
     boolean sendCommand(NetworkInterface networkInterface, String password, String command, String number) {
-        if (listOfCommands.indexOf(command) == -1)
+        if (listOfCommands.indexOf(command) == -1) {
             return false;
+        }
         try {
             String cmd = command + "?t=" + password + "&p=%" + number;
             SocketConnection ce = new SocketConnection(networkInterface, "10.5.5.9", 80);
@@ -47,16 +53,17 @@ public class CameraController extends Controller {
     }
 
     /**
-     * sendDeleteCommand, generic method for transmitting commands to the cameras.
-     * Uses the Connector class's getRequest method.
+     * sendDeleteCommand, generic method for transmitting commands to the
+     * cameras. Uses the Connector class's getRequest method.
      *
      * @param command Example: 'DL'
      * @return true if successful, false if not
      */
     @Override
     boolean sendDeleteCommand(NetworkInterface networkInterface, String password, String command) throws IOException {
-        if (listOfCommands.indexOf(command) == -1)
+        if (listOfCommands.indexOf(command) == -1) {
             return false;
+        }
         try {
             String cmd = command + "?t=" + password;
             SocketConnection ce = new SocketConnection(networkInterface, "10.5.5.9", 80);
@@ -72,13 +79,14 @@ public class CameraController extends Controller {
      * sendDeleteCommand, generic method for deleting files on camera
      *
      * @param password Wifi Password to the camera
-     * @param command  command to send to camera
+     * @param command command to send to camera
      * @return boolean true if OK, false if not
      */
     @Override
     boolean sendDeleteCommand(String password, String command) {
-        if (listOfCommands.indexOf(command) == -1)
+        if (listOfCommands.indexOf(command) == -1) {
             return false;
+        }
         try {
             connector.getRequest(new URL("http://10.5.5.9/camera/" + command + "?t=testtest"));
         } catch (MalformedURLException e) {
@@ -107,12 +115,12 @@ public class CameraController extends Controller {
         return null;
     }
 
-
     /**
      * Creates a list containing all .JPG filenames
      *
      * @param URL A URL specifying the URL path to the files
-     * @return A list containing the files containing the .JPG filenames, null if camera is empty or not found
+     * @return A list containing the files containing the .JPG filenames, null
+     * if camera is empty or not found
      */
     public ArrayList<String> getFileListSingleShot(String URL) {
         System.out.println(URL);
@@ -137,7 +145,8 @@ public class CameraController extends Controller {
      * Creates a list containing all .JPG filenames
      *
      * @param URL A URL specifying the URL path to the files
-     * @return A list containing the files containing the .JPG filenames, null if camera is empty or not found
+     * @return A list containing the files containing the .JPG filenames, null
+     * if camera is empty or not found
      */
     public ArrayList<String> getFileListBurst(String URL) {
         System.out.println(URL);
@@ -164,7 +173,8 @@ public class CameraController extends Controller {
      * Creates a list containing all .MP4 filenames
      *
      * @param URL A URL specifying the URL path to the files
-     * @return A list containing the files containing the .MP4 filenames, null if camera is empty or not found
+     * @return A list containing the files containing the .MP4 filenames, null
+     * if camera is empty or not found
      */
     public ArrayList<String> getFileListVideo(String URL) {
         ArrayList<String> MP4Files = new ArrayList<String>();
@@ -201,8 +211,9 @@ public class CameraController extends Controller {
             Pattern wlanPatern = Pattern.compile("wlan[0-9]*");
             Matcher matcher = wlanPatern.matcher(ni.getName());
             if (matcher.find()) {
-                if(!ni.isLoopback() && !ni.isVirtual())
-                NICWIFIList.add(ni);
+                if (!ni.isLoopback() && !ni.isVirtual()) {
+                    NICWIFIList.add(ni);
+                }
             }
         }
         return NICWIFIList;
@@ -211,6 +222,93 @@ public class CameraController extends Controller {
     @Override
     public boolean getFileHTTP(URL url, File file) {
         return connector.getFileHTTP(url, file);
+    }
+
+    @Override
+    public void sendConfig(NetworkInterface networkInterface, Config config, String password) {
+        switch (config.getModeSelected()) {
+            case Constants.VIDEO_MODE:
+                setModeToVideo(networkInterface, password);
+                break;
+            case Constants.BURST_MODE:
+                setModeToBurst(networkInterface, password);
+                break;
+            case Constants.PHOTO_MODE:
+                setModeToPhoto(networkInterface, password);
+                break;
+
+        }
+
+        switch (config.getResolutionSelected()) {
+            case Constants.FOUR_K:
+                sendCommand(networkInterface, password, "VV", "06");
+                break;
+            case Constants.FOUR_K_SEVENTEEN_NINE:
+                sendCommand(networkInterface, password, "VV", "08");
+                break;
+            case Constants.TWO_POINT_SEVEN_K:
+                sendCommand(networkInterface, password, "VV", "05");
+                break;
+            case Constants.FOURTEEN_FOURTY_P:
+                sendCommand(networkInterface, password, "VV", "04");
+                break;
+            case Constants.TEN_EIGHTY_P:
+                sendCommand(networkInterface, password, "VV", "03");
+                break;
+            case Constants.TEN_EIGHTY_SV:
+                sendCommand(networkInterface, password, "VV","09");
+                break;
+            case Constants.NINE_SIXTY_P:
+                sendCommand(networkInterface, password, "VV" , "02");
+                break;
+            case Constants.SEVEN_TWENTY_P:
+                sendCommand(networkInterface, password, "VV", "01");
+                break;
+            case Constants.SEVEN_TWENTY_SV:
+                sendCommand(networkInterface, password, "VV", "0a");
+                break;
+            case Constants.FIVE_MP:
+                sendCommand(networkInterface, password, "PR", "03");
+                break;
+            case Constants.SEVEN_MP:
+                sendCommand(networkInterface, password, "PR" , "04");
+                break;
+            case Constants.TWELVE_MP:
+                sendCommand(networkInterface, password, "PR", "05");
+        }
+        
+        switch(config.getFpsSelected()){
+            case Constants.TWELVE_FPS:
+                sendCommand(networkInterface, password, "FS" , "00");
+                break;
+            case Constants.TWELVE_POINT_FIVE_FPS:
+                sendCommand(networkInterface, password, "FS", "0b");
+                break;
+            case Constants.TWENTY_FOUR_FPS:
+                sendCommand(networkInterface, password, "FS", "02");
+                break;
+            case Constants.TWENTY_FIVE_FPS:
+                sendCommand(networkInterface, password, "FS", "03");
+                break;
+            case Constants.FOURTY_EIGHT_FPS:
+                sendCommand(networkInterface, password, "FS", "05");
+                break;
+            case Constants.FIFTY_FPS:
+                sendCommand(networkInterface, password, "FS", "06");
+                break;
+            case Constants.ONE_HUNDRED_FPS:
+                sendCommand(networkInterface, password, "FS" ,"08");
+                break;
+            case Constants.TWO_HUNDRED_FOURTY_FPS:
+                sendCommand(networkInterface, password, "FS", "0a");
+                break;
+        }
+        
+        if(config.getProTuneSlected()){
+            setProTuneOn(networkInterface, password);
+        } else {
+            setProTuneOff(networkInterface, password);
+        }
     }
 
     @Override
@@ -352,7 +450,6 @@ public class CameraController extends Controller {
     public void setProTuneOff(NetworkInterface networkInterface, String password) {
         sendCommand(networkInterface, password, "PT", "00");
     }
-
 
     @Override
     public void deleteLast(NetworkInterface networkInterface, String password) throws IOException {

@@ -1,15 +1,15 @@
 package com.github.prosync.logic;
 
 import com.github.prosync.domain.Camera;
-
+import com.github.prosync.domain.Config;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -150,6 +150,12 @@ public final class GUIServices {
     public static void stopShutter(){
         for(Camera c: cams){
             cc.stopCamera(c.getNic(), c.getPassword());
+        }
+    }
+    
+    public static void sendConfig(Config config){
+        for(Camera c: cams){
+            cc.sendConfig(c.getNic(), config, c.getPassword());
         }
     }
     

@@ -21,14 +21,14 @@ public final class Constants {
     public static final String FOUR_K = "4K";
     public static final String FOUR_K_SEVENTEEN_NINE = "4K 17:9";
     public static final String TWO_POINT_SEVEN_K = "2.7K";
-    public static final String TWO_POINT_SEVEN_K_SEVENTEEN_NINE = "2.7K 17:9";
+    //public static final String TWO_POINT_SEVEN_K_SEVENTEEN_NINE = "2.7K 17:9";
     public static final String FOURTEEN_FOURTY_P = "1440p";
     public static final String TEN_EIGHTY_P = "1080p";
     public static final String TEN_EIGHTY_SV = "1080p SuperView";
     public static final String NINE_SIXTY_P = "960p";
     public static final String SEVEN_TWENTY_P = "720p";
     public static final String SEVEN_TWENTY_SV = "720p SuperView";
-    public static final String WVGA = "WVGA";
+    //public static final String WVGA = "WVGA";
 
     public static final String TWELVE_MP = "12MP";
     public static final String SEVEN_MP = "7MP";
@@ -58,14 +58,14 @@ public final class Constants {
         videoResolutions.add(FOUR_K);
         videoResolutions.add(FOUR_K_SEVENTEEN_NINE);
         videoResolutions.add(TWO_POINT_SEVEN_K);
-        videoResolutions.add(TWO_POINT_SEVEN_K_SEVENTEEN_NINE);
+        //videoResolutions.add(TWO_POINT_SEVEN_K_SEVENTEEN_NINE);
         videoResolutions.add(FOURTEEN_FOURTY_P);
         videoResolutions.add(TEN_EIGHTY_P);
         videoResolutions.add(TEN_EIGHTY_SV);
         videoResolutions.add(NINE_SIXTY_P);
         videoResolutions.add(SEVEN_TWENTY_P);
         videoResolutions.add(SEVEN_TWENTY_SV);
-        videoResolutions.add(WVGA);
+        //videoResolutions.add(WVGA);
         return videoResolutions;
     }
 
@@ -97,9 +97,9 @@ public final class Constants {
             case TWO_POINT_SEVEN_K:
                 fpsList.add(TWENTY_FIVE_FPS);
                 break;
-            case TWO_POINT_SEVEN_K_SEVENTEEN_NINE:
-                fpsList.add(TWENTY_FOUR_FPS);
-                break;
+           // case TWO_POINT_SEVEN_K_SEVENTEEN_NINE:
+             //   fpsList.add(TWENTY_FOUR_FPS);
+               // break;
             case FOURTEEN_FOURTY_P:
                 fpsList.add(FOURTY_EIGHT_FPS);
                 fpsList.add(TWENTY_FIVE_FPS);
@@ -131,9 +131,9 @@ public final class Constants {
                 fpsList.add(FIFTY_FPS);
                 fpsList.add(FOURTY_EIGHT_FPS);
                 break;
-            case WVGA:
+            /*case WVGA:
                 fpsList.add(TWO_HUNDRED_FOURTY_FPS);
-                break;
+                break;*/
         }
 
         return fpsList;

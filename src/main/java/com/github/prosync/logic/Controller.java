@@ -1,5 +1,6 @@
 package com.github.prosync.logic;
 
+import com.github.prosync.domain.Config;
 import java.io.File;
 import java.io.IOException;
 import java.net.NetworkInterface;
@@ -92,4 +93,6 @@ public abstract class Controller {
 	public abstract ArrayList<String> getFileListSingleShot(String URL);
 
 	public abstract ArrayList<String> getFileListVideo(String URL);
+        
+        abstract void sendConfig(NetworkInterface networkInterface, Config config, String password);
 }

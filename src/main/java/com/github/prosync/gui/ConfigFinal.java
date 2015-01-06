@@ -7,6 +7,7 @@ package com.github.prosync.gui;
 
 import com.github.prosync.domain.Config;
 import com.github.prosync.domain.Constants;
+import com.github.prosync.logic.GUIServices;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -82,7 +83,7 @@ public class ConfigFinal {
             ja.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO Send config til kam
+                    GUIServices.sendConfig(config);
                     frame.setVisible(false);
                 }
             });
