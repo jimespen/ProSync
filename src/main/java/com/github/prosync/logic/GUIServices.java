@@ -1,6 +1,9 @@
 package com.github.prosync.logic;
 
+import com.github.prosync.communication.Connection;
+import com.github.prosync.domain.Config;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
@@ -8,8 +11,6 @@ import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import com.github.prosync.communication.Connection;
-import java.io.IOException;
 
 /**
  * Created by huseby on 11/27/14.
@@ -75,6 +76,10 @@ public final class GUIServices {
         con.run();
         con2.run();
                 */
+    }
+    
+    public static void sendConfig(Config config){
+        
     }
     
 

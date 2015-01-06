@@ -153,6 +153,8 @@ public class CameraController extends Controller {
 	public boolean getFileHTTP(URL url, File file){
 		return connector.getFileHTTP(url,file);
 	}
+        
+        
 
 	@Override
 	public void turnGoProOn() {
