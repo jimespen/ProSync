@@ -6,9 +6,6 @@ import com.github.prosync.logic.CameraController;
  */
 public class Main {
     public static void main(String[] args) {
-        MainMenu mainMenu = new MainMenu();
-        CameraController cameraController = new CameraController();
-
         MainMenu main = new MainMenu();
         main.createAndShowGUI();
     }

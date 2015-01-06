@@ -31,7 +31,6 @@ import javax.swing.border.TitledBorder;
  * @author Rubenhag
  */
 public class ConfigResolution {
-    CameraController cc = new CameraController();
     final Config config;
 
     public ConfigResolution(Config modeConfig) {
@@ -44,7 +43,7 @@ public class ConfigResolution {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 
                 }
-                JFrame frame = new JFrame("Oppløsning");
+                JFrame frame = new JFrame("Opplï¿½sning");
                 frame.setPreferredSize(new Dimension(800,600));
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
@@ -77,7 +76,7 @@ public class ConfigResolution {
                     config.setResolutionValues(Constants.photoResolutions);
                 }
                 
-                setBorder(new TitledBorder("Oppløsning"));
+                setBorder(new TitledBorder("Opplï¿½sning"));
                 ButtonGroup bg = new ButtonGroup();
                 for (String value : config.getResolutionValues()) {
                     JRadioButton rb = new JRadioButton(new ResolutionAction(config, value));

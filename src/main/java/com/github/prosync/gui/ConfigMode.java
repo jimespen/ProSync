@@ -33,8 +33,6 @@ import javax.swing.border.TitledBorder;
  */
 public class ConfigMode {
 
-    CameraController cc = new CameraController();
-
     public ConfigMode() {
         EventQueue.invokeLater(new Runnable() {
             @Override

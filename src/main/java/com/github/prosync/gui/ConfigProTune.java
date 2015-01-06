@@ -34,7 +34,6 @@ import javax.swing.border.TitledBorder;
  */
 public class ConfigProTune {
 
-    CameraController cc = new CameraController();
     final Config config;
 
     public ConfigProTune(Config configObject) {

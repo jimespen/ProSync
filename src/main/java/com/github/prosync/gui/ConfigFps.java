@@ -37,7 +37,6 @@ import javax.swing.border.TitledBorder;
  */
 public class ConfigFps {
 
-    CameraController cc = new CameraController();
     final Config config;
 
     public ConfigFps(Config modeConfig) {
