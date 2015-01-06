@@ -42,7 +42,6 @@ public class ConfigSetupCamera extends JPanel {
 
     ArrayList<Camera> cameras;
     ArrayList<String> nics;
-    CameraController cc = new CameraController(); //TODO fjerne denne n�r vi f�r annen kommunikasjon
 
     public ConfigSetupCamera() {
         EventQueue.invokeLater(new Runnable() {
@@ -57,7 +56,7 @@ public class ConfigSetupCamera extends JPanel {
                 nics = new ArrayList<>();
                 ArrayList<NetworkInterface> interfaces;
                 try {
-                    interfaces = cc.getConnectedWIFINIS();
+                    interfaces = GUIServices.getConectedWIFINICS();
                     if (interfaces.size() < 1) {
                         System.out.println("Lista er tom");
                     }

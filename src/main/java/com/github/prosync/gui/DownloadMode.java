@@ -24,7 +24,6 @@ import com.github.prosync.domain.Constants;
  * Created by oystein on 30.11.2014.
  */
 public class DownloadMode extends JPanel {
-    GUIServices services = new GUIServices();
 
 
     public DownloadMode() {
@@ -54,7 +53,7 @@ public class DownloadMode extends JPanel {
 
                 JScrollPane jspFiles = new JScrollPane(files);
 
-                dtmDownload.addRows(services.getDownloadableFiles());
+                dtmDownload.addRows(GUIServices.getDownloadableFiles());
 
                 add(jspFiles, gbc);
 
@@ -87,7 +86,7 @@ public class DownloadMode extends JPanel {
 
                         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 
-                            services.downloadFiles(dtmDownload.getChecked(), String.valueOf(chooser.getSelectedFile()));
+                            GUIServices.downloadFiles(dtmDownload.getChecked(), String.valueOf(chooser.getSelectedFile()));
                             JOptionPane.showMessageDialog(null, "Nedlastning ferdig");
                         } else {
                             System.out.println("No Selection ");
@@ -195,11 +194,11 @@ public class DownloadMode extends JPanel {
         public void addRows(ArrayList<String> list){
             for(String s:list){
                 if(s.contains("JPG") && s.contains("GOPR"))
-					addRow(new Object[]{s, -1, services.getMode(s), "ToBeImplemented(Maybe)", false});
+					addRow(new Object[]{s, -1, GUIServices.getMode(s), "ToBeImplemented(Maybe)", false});
 				else if(s.contains("JPG") && s.contains("G"))
-					addRow(new Object[]{s, services.getGroup(s), services.getMode(s), "ToBeImplemented(Maybe)", false});
+					addRow(new Object[]{s, GUIServices.getGroup(s), GUIServices.getMode(s), "ToBeImplemented(Maybe)", false});
 				else if(s.contains("MP4"))
-					addRow(new Object[]{s, -1, services.getMode(s), "ToBeImplemented(Maybe)", false});
+					addRow(new Object[]{s, -1, GUIServices.getMode(s), "ToBeImplemented(Maybe)", false});
             }
 
         }
