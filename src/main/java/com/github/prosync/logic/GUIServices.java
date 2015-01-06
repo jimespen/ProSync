@@ -2,6 +2,7 @@ package com.github.prosync.logic;
 
 import com.github.prosync.domain.Camera;
 import com.github.prosync.domain.Config;
+import com.github.prosync.domain.Constants;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -155,8 +156,94 @@ public final class GUIServices {
     }
     
     public static void sendConfig(Config config){
-        for(Camera c: cams){
-            cc.sendConfig(c.getNic(), config, c.getPassword());
+        for(Camera c : cams){
+            sendConfigToCamera(config, c.getNic(), c.getPassword());
+        }
+    }
+    
+    private static void sendConfigToCamera(Config config, NetworkInterface networkInterface, String password){
+        switch (config.getModeSelected()) {
+            case Constants.VIDEO_MODE:
+                cc.setModeToVideo(networkInterface, password);
+                break;
+            case Constants.BURST_MODE:
+                cc.setModeToBurst(networkInterface, password);
+                break;
+            case Constants.PHOTO_MODE:
+                cc.setModeToPhoto(networkInterface, password);
+                break;
+
+        }
+
+        switch (config.getResolutionSelected()) {
+            case Constants.FOUR_K:
+                cc.sendCommand(networkInterface, password, "VV", "06");
+                break;
+            case Constants.FOUR_K_SEVENTEEN_NINE:
+                cc.sendCommand(networkInterface, password, "VV", "08");
+                break;
+            case Constants.TWO_POINT_SEVEN_K:
+                cc.sendCommand(networkInterface, password, "VV", "05");
+                break;
+            case Constants.FOURTEEN_FOURTY_P:
+                cc.sendCommand(networkInterface, password, "VV", "04");
+                break;
+            case Constants.TEN_EIGHTY_P:
+                cc.sendCommand(networkInterface, password, "VV", "03");
+                break;
+            case Constants.TEN_EIGHTY_SV:
+                cc.sendCommand(networkInterface, password, "VV","09");
+                break;
+            case Constants.NINE_SIXTY_P:
+                cc.sendCommand(networkInterface, password, "VV" , "02");
+                break;
+            case Constants.SEVEN_TWENTY_P:
+                cc.sendCommand(networkInterface, password, "VV", "01");
+                break;
+            case Constants.SEVEN_TWENTY_SV:
+                cc.sendCommand(networkInterface, password, "VV", "0a");
+                break;
+            case Constants.FIVE_MP:
+                cc.sendCommand(networkInterface, password, "PR", "03");
+                break;
+            case Constants.SEVEN_MP:
+                cc.sendCommand(networkInterface, password, "PR" , "04");
+                break;
+            case Constants.TWELVE_MP:
+                cc.sendCommand(networkInterface, password, "PR", "05");
+        }
+        
+        switch(config.getFpsSelected()){
+            case Constants.TWELVE_FPS:
+                cc.sendCommand(networkInterface, password, "FS" , "00");
+                break;
+            case Constants.TWELVE_POINT_FIVE_FPS:
+                cc.sendCommand(networkInterface, password, "FS", "0b");
+                break;
+            case Constants.TWENTY_FOUR_FPS:
+                cc.sendCommand(networkInterface, password, "FS", "02");
+                break;
+            case Constants.TWENTY_FIVE_FPS:
+                cc.sendCommand(networkInterface, password, "FS", "03");
+                break;
+            case Constants.FOURTY_EIGHT_FPS:
+                cc.sendCommand(networkInterface, password, "FS", "05");
+                break;
+            case Constants.FIFTY_FPS:
+                cc.sendCommand(networkInterface, password, "FS", "06");
+                break;
+            case Constants.ONE_HUNDRED_FPS:
+                cc.sendCommand(networkInterface, password, "FS" ,"08");
+                break;
+            case Constants.TWO_HUNDRED_FOURTY_FPS:
+                cc.sendCommand(networkInterface, password, "FS", "0a");
+                break;
+        }
+        
+        if(config.getProTuneSlected()){
+            cc.setProTuneOn(networkInterface, password);
+        } else {
+            cc.setProTuneOff(networkInterface, password);
         }
     }
     

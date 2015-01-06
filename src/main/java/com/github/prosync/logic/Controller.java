@@ -94,5 +94,4 @@ public abstract class Controller {
 
 	public abstract ArrayList<String> getFileListVideo(String URL);
         
-        abstract void sendConfig(NetworkInterface networkInterface, Config config, String password);
 }
