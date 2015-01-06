@@ -21,6 +21,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
@@ -73,28 +74,31 @@ public class ConfigMode {
             setBorder(new TitledBorder("Modus"));
             ButtonGroup bg = new ButtonGroup();
             for (String value : modeValues) {
-                if(modeValues.indexOf(value)==0){
+                if (modeValues.indexOf(value) == 0) {
                 }
                 JRadioButton rb = new JRadioButton(new ModeAction(config, value));
                 bg.add(rb);
                 add(rb, gbc);
             }
-            
-            
+
             JButton submit = new JButton("Send til kamera");
             submit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    switch (config.getModeSelected()) {
-                        case Constants.VIDEO_MODE:
-                            break;
-                        case Constants.PHOTO_MODE:
-                            break;
-                        case Constants.BURST_MODE:
-                            break;
+                    try {
+                        if (config.getModeSelected().equals(Constants.VIDEO_MODE)) {
+                            //cc.setModeToVideo();
+                        } else if (config.getModeSelected().equals(Constants.PHOTO_MODE)) {
+                            //cc.setModeToPhoto();
+                        } else if (config.getModeSelected().equals(Constants.BURST_MODE)) {
+                            //cc.setModeToBurst();
+                        }
+                        frame.setVisible(false);
+                        new ConfigResolution(config);
+                    } catch (NullPointerException npe) {
+                        npe.printStackTrace(System.err);
+                        JOptionPane.showMessageDialog(frame, "Du må velge en modus", "Error!", JOptionPane.ERROR_MESSAGE);
                     }
-                    frame.setVisible(false);
-                    new ConfigResolution(config);
 
                 }
             });
