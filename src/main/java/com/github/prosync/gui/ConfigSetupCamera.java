@@ -8,6 +8,8 @@ package com.github.prosync.gui;
 import com.github.prosync.domain.Camera;
 import com.github.prosync.logic.CameraController;
 import com.github.prosync.logic.GUIServices;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -28,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -38,10 +41,7 @@ import javax.swing.event.DocumentListener;
 /**
  * @author Rubenhag
  */
-public class ConfigSetupCamera extends JPanel {
-
-    ArrayList<Camera> cameras;
-    ArrayList<String> nics;
+public class ConfigSetupCamera {
 
     public ConfigSetupCamera() {
         EventQueue.invokeLater(new Runnable() {
@@ -52,36 +52,55 @@ public class ConfigSetupCamera extends JPanel {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 
                 }
-                cameras = new ArrayList<>();
-                nics = new ArrayList<>();
-                ArrayList<NetworkInterface> interfaces;
-                try {
-                    interfaces = GUIServices.getConectedWIFINICS();
-                    if (interfaces.size() < 1) {
-                        System.out.println("Lista er tom");
-                    }
-                    for (NetworkInterface anInterface : interfaces) {
-                        nics.add(anInterface.getDisplayName());
-                    }
-                } catch (SocketException ex) {
-                    Logger.getLogger(ConfigSetupCamera.class.getName()).log(Level.SEVERE, null, ex);
+                JFrame frame = new JFrame("Hvilke kameraer vil du konfigurere?");
+                frame.setPreferredSize(new Dimension(800, 600));
+                frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
+                frame.add(new ConfigSetupCameraPane(frame));
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            }
+        });
+    }
+
+    public class ConfigSetupCameraPane extends JPanel {
+
+        ArrayList<Camera> cameras;
+        ArrayList<String> nics;
+
+        public ConfigSetupCameraPane(JFrame contentFrame) {
+            final JFrame frame = contentFrame;
+            cameras = new ArrayList<>();
+            nics = new ArrayList<>();
+            ArrayList<NetworkInterface> interfaces;
+            try {
+                interfaces = GUIServices.getConectedWIFINICS();
+                if (interfaces.size() < 1) {
+                    System.out.println("Lista er tom");
                 }
+                for (NetworkInterface anInterface : interfaces) {
+                    nics.add(anInterface.getDisplayName());
+                }
+            } catch (SocketException ex) {
+                Logger.getLogger(ConfigSetupCamera.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
+            setSize(800, 600);
+            setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.weightx = 1;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
 
-                setSize(800, 600);
-                setLayout(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.anchor = GridBagConstraints.WEST;
-                gbc.weightx = 1;
-                gbc.fill = GridBagConstraints.HORIZONTAL;
+            //Placeholder
+            cameras.add(new Camera("Kamera 1"));
+            cameras.add(new Camera("Kamera 2"));
+            cameras.add(new Camera("Kamera 3"));
+            //nics.add("wlan0");
 
-                //Placeholder
-                cameras.add(new Camera("Kamera 1"));
-                cameras.add(new Camera("Kamera 2"));
-                cameras.add(new Camera("Kamera 3"));
-                //nics.add("wlan0");
-                JPanel panel;
-
+            JPanel panel;
+            if (cameras.size() < 0) {
                 for (Camera aCamera : cameras) {
                     final Camera camera = aCamera;
                     final JComboBox dropDown = new JComboBox(nics.toArray());
@@ -145,24 +164,30 @@ public class ConfigSetupCamera extends JPanel {
                     add(panel, gbc);
 
                 }
-                gbc.gridy++;
-                JButton submit = new JButton("Send til kamera");
-                submit.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingen kameraer er koblet til");
+            }
+            gbc.gridy++;
+            JButton submit = new JButton("Neste");
+            submit.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    GUIServices.clearCameraList();
+                    if (cameras.size() > 0) {
                         for (Camera aCamera : cameras) {
                             System.out.println("Nic: " + aCamera.getNic());
                             System.out.println("Selected: " + aCamera.getSelected());
                             System.out.println("Passord: " + aCamera.getPassword());
-                            //Kommuniser med kameraer
+                            GUIServices.addCamera(aCamera.getCamName(), aCamera.getNic(), aCamera.getPassword());
                         }
-
                     }
-                });
-                add(submit, gbc);
+                    new ConfigFinal();
+                    frame.setVisible(false);
 
-            }
-        });
+                }
+            });
+            add(submit, gbc);
+        }
+
     }
-
 }

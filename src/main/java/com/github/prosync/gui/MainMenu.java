@@ -23,13 +23,11 @@ public class MainMenu {
     private JButton buttonRecord;
     private JButton buttonDownload;
     private JButton buttonConfig;
-    private JButton buttonSetupCam;
 
     public MainMenu() {
         buttonRecord = new JButton("Opptak");
         buttonConfig = new JButton("Konfigurer kameraer");
         buttonDownload = new JButton("Hent filer");
-        buttonSetupCam = new JButton("Velg kameraer");
     }
 
     public void addComponentsToPane(Container pane) {
@@ -50,12 +48,6 @@ public class MainMenu {
         if (shouldWeightX) {
             c.weightx = 0.5;
         }
-        
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = 0;
-        pane.add(buttonSetupCam, c);
         
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
@@ -118,13 +110,6 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new DownloadMode();
-            }
-        });
-        
-        buttonSetupCam.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                new ConfigSetupCamera();
             }
         });
     }

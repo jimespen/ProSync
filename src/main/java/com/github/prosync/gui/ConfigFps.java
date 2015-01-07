@@ -8,6 +8,7 @@ package com.github.prosync.gui;
 import com.github.prosync.domain.Config;
 import com.github.prosync.domain.Constants;
 import com.github.prosync.logic.CameraController;
+import com.github.prosync.logic.GUIServices;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -39,8 +40,8 @@ public class ConfigFps {
 
     final Config config;
 
-    public ConfigFps(Config modeConfig) {
-        this.config = modeConfig;
+    public ConfigFps() {
+        this.config = GUIServices.getConfig();
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -90,7 +91,7 @@ public class ConfigFps {
                     System.out.println(config.getModeSelected());
                     System.out.println(config.getResolutionSelected());
                     System.out.println(config.getFpsSelected());
-                    new ConfigFinal(config);
+                    new ConfigSetupCamera();
                     frame.setVisible(false);
                 }
             });

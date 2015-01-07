@@ -72,10 +72,10 @@ public class ConfigResolution {
                 } else if(config.getModeSelected().equals(Constants.PHOTO_MODE)){
                     config.setResolutionValues(Constants.getPhotoResolutions());
                 } else if(config.getModeSelected().equals(Constants.BURST_MODE)){
-                    config.setResolutionValues(Constants.photoResolutions);
+                    config.setResolutionValues(Constants.getPhotoResolutions());
                 }
                 
-                setBorder(new TitledBorder("Opplï¿½sning"));
+                setBorder(new TitledBorder("Oppløsning"));
                 ButtonGroup bg = new ButtonGroup();
                 for (String value : config.getResolutionValues()) {
                     JRadioButton rb = new JRadioButton(new ResolutionAction(config, value));

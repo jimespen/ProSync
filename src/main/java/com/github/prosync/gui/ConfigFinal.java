@@ -34,8 +34,8 @@ public class ConfigFinal {
 
     final Config config;
 
-    public ConfigFinal(Config conf) {
-        this.config = conf;
+    public ConfigFinal() {
+        this.config = GUIServices.getConfig();
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

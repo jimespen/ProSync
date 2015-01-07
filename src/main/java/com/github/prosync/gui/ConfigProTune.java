@@ -85,7 +85,7 @@ public class ConfigProTune {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.out.println(config.getProTuneSlected());
-                    new ConfigFps(config);
+                    new ConfigFps();
                     frame.setVisible(false);
                 }
             });
