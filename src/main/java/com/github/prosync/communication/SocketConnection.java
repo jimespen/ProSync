@@ -28,8 +28,9 @@ public class SocketConnection {
      * SocketConnection (NetworkInterface, String, int)
      * Takes in a network interface to send a package trough, and a IP and port to send a package to
      * Creates a socket connection to the to the IP, allowing packages trough and executed.
-     * @param ni NetworkInterface of Host computer to create a socket connection with
-     * @param IP IP of the remote Host
+     *
+     * @param ni   NetworkInterface of Host computer to create a socket connection with
+     * @param IP   IP of the remote Host
      * @param port Port of the remote host.
      * @throws IOException
      */
@@ -47,6 +48,7 @@ public class SocketConnection {
      * Designed to use a String command to GoProCameras in order for them to be executed.
      * Command Format "GET /bacpac/"<Camera Command>?=t<Wifi Password>&p=%<Camera Command Number> HTTP/1.1"
      * Command Example: "GET /bacpac/SH?t=testtest&p=%01 HTTP/1.1"
+     *
      * @param command GetCommand to send to send to cam, see example.
      */
     public void sendGetCommand(String command) {

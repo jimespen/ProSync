@@ -8,7 +8,6 @@ package com.github.prosync.domain;
 import java.util.ArrayList;
 
 /**
- *
  * @author Rubenhag
  */
 public final class Constants {
@@ -47,11 +46,11 @@ public final class Constants {
     public static final String TWELVE_POINT_FIVE_FPS = "12.5";
     public static final String TWELVE_FPS = "12";
 
-	public final static int NAME_COLUMN = 0;
-	public final static int GROUP_COLUMN = 1;
-	public final static int MODE_COLUMN = 2;
-	public final static int DATE_COLUMN = 3;
-	public final static int DOWNLOAD_COLUMN = 4;
+    public final static int NAME_COLUMN = 0;
+    public final static int GROUP_COLUMN = 1;
+    public final static int MODE_COLUMN = 2;
+    public final static int DATE_COLUMN = 3;
+    public final static int DOWNLOAD_COLUMN = 4;
 
     public static ArrayList getVideoResolutions() {
         videoResolutions.clear();
@@ -97,9 +96,9 @@ public final class Constants {
             case TWO_POINT_SEVEN_K:
                 fpsList.add(TWENTY_FIVE_FPS);
                 break;
-           // case TWO_POINT_SEVEN_K_SEVENTEEN_NINE:
-             //   fpsList.add(TWENTY_FOUR_FPS);
-               // break;
+            // case TWO_POINT_SEVEN_K_SEVENTEEN_NINE:
+            //   fpsList.add(TWENTY_FOUR_FPS);
+            // break;
             case FOURTEEN_FOURTY_P:
                 fpsList.add(FOURTY_EIGHT_FPS);
                 fpsList.add(TWENTY_FIVE_FPS);

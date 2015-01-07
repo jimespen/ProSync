@@ -3,6 +3,7 @@ package com.github.prosync.logic;
 import com.github.prosync.domain.Camera;
 import com.github.prosync.domain.Config;
 import com.github.prosync.domain.Constants;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;

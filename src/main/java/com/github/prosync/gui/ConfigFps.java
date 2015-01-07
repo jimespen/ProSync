@@ -62,7 +62,7 @@ public class ConfigFps {
         });
     }
 
-    public class ResolutionPane extends JPanel {
+    private class ResolutionPane extends JPanel {
 
         public ResolutionPane(JFrame contentFrame) {
             final JFrame frame = contentFrame;
@@ -100,7 +100,7 @@ public class ConfigFps {
 
     }
 
-    public class ResolutionAction extends AbstractAction {
+    private class ResolutionAction extends AbstractAction {
 
         private final Config mode;
         private final String value;

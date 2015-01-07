@@ -59,7 +59,7 @@ public class ConfigProTune {
         });
     }
 
-    public class ProTunePane extends JPanel {
+    private class ProTunePane extends JPanel {
 
         public ProTunePane(JFrame contentFrame) {
             final JFrame frame = contentFrame;
@@ -94,7 +94,7 @@ public class ConfigProTune {
         }
     }
 
-    public class ProTuneAction extends AbstractAction {
+    private class ProTuneAction extends AbstractAction {
 
         private final Config config;
         private final boolean value;

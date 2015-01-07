@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import com.github.prosync.domain.Constants;
 
 /**
@@ -32,7 +33,7 @@ public class CameraController extends Controller {
      * Uses the Connector class's getRequest method.
      *
      * @param command Example: 'SH'
-     * @param number Example: '01'
+     * @param number  Example: '01'
      * @return true if successful, false if not
      */
     @Override
@@ -79,7 +80,7 @@ public class CameraController extends Controller {
      * sendDeleteCommand, generic method for deleting files on camera
      *
      * @param password Wifi Password to the camera
-     * @param command command to send to camera
+     * @param command  command to send to camera
      * @return boolean true if OK, false if not
      */
     @Override

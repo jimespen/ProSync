@@ -57,7 +57,7 @@ public class ConfigMode {
         });
     }
 
-    public class ModePane extends JPanel {
+    private class ModePane extends JPanel {
         final Config config = GUIServices.getConfig();
         public ModePane(JFrame contentFrame) {
             final JFrame frame = contentFrame;
@@ -98,7 +98,7 @@ public class ConfigMode {
                         new ConfigResolution();
                     } catch (NullPointerException npe) {
                         npe.printStackTrace(System.err);
-                        JOptionPane.showMessageDialog(frame, "Du må velge en modus", "Error!", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Du mï¿½ velge en modus", "Error!", JOptionPane.ERROR_MESSAGE);
                     }
 
                 }
@@ -108,7 +108,7 @@ public class ConfigMode {
         }
     }
 
-    public class ModeAction extends AbstractAction {
+    private class ModeAction extends AbstractAction {
 
         private final Config mode;
         private final String value;

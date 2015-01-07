@@ -64,7 +64,7 @@ public class ConfigSetupCamera {
         });
     }
 
-    public class ConfigSetupCameraPane extends JPanel {
+    private class ConfigSetupCameraPane extends JPanel {
 
         ArrayList<Camera> cameras;
         ArrayList<String> nics;

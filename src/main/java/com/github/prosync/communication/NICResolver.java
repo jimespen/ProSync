@@ -22,19 +22,20 @@ public class NICResolver {
 
     /**
      * getNIS, returns all NetworkInterfaces on the PC.
+     *
      * @return ArrayList<NetworkInterface> with all NetworkInterfaces on PC.
      * @throws SocketException
      */
     public ArrayList<NetworkInterface> getNIS() throws SocketException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         NetworkInterface nextElement;
-		ArrayList<NetworkInterface> list = new ArrayList<>();
+        ArrayList<NetworkInterface> list = new ArrayList<>();
 
-        while(interfaces.hasMoreElements()){
- 
+        while (interfaces.hasMoreElements()) {
+
             nextElement = interfaces.nextElement();
-			list.add(nextElement);
-		}
+            list.add(nextElement);
+        }
         return list;
     }
 }

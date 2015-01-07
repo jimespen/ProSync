@@ -16,7 +16,7 @@ public class Camera {
         this.camName = camName;
     }
 
-    public Camera(String camName, NetworkInterface ni, String password){
+    public Camera(String camName, NetworkInterface ni, String password) {
         this.camName = camName;
         this.nic = ni;
         this.password = password;

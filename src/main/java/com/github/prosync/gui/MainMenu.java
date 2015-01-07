@@ -48,7 +48,7 @@ public class MainMenu {
         if (shouldWeightX) {
             c.weightx = 0.5;
         }
-        
+
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = 0;
@@ -65,8 +65,7 @@ public class MainMenu {
         c.gridx = 3;
         c.gridy = 0;
         pane.add(buttonRecord, c);
-        
-        
+
 
     }
 

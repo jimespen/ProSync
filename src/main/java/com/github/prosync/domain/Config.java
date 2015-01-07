@@ -8,7 +8,6 @@ package com.github.prosync.domain;
 import java.util.ArrayList;
 
 /**
- *
  * @author Rubenhag
  */
 public class Config {
@@ -55,8 +54,8 @@ public class Config {
 
     public void setResolutionSelected(String resolutionSelected) {
         this.resolutionSelected = resolutionSelected;
-    } 
-    
+    }
+
 
     public String getFpsSelected() {
         return fpsSelected;
@@ -73,20 +72,20 @@ public class Config {
     public void setFpsValues(ArrayList<String> fpsValues) {
         this.fpsValues = fpsValues;
     }
-    
-    public void setProTuneSelected(boolean proTuneSelected){
+
+    public void setProTuneSelected(boolean proTuneSelected) {
         this.proTuneSelected = proTuneSelected;
     }
-    
-    public boolean getProTuneSlected(){
+
+    public boolean getProTuneSlected() {
         return proTuneSelected;
     }
-    
+
     @Override
-    public String toString(){
-        return "Modus: "+modeSelected+"%nOppløsning: "+resolutionSelected+"%nFrames per sekund: "
-                +fpsSelected+"%nProTune: "+proTuneSelected;
+    public String toString() {
+        return "Modus: " + modeSelected + "%nOpplï¿½sning: " + resolutionSelected + "%nFrames per sekund: "
+                + fpsSelected + "%nProTune: " + proTuneSelected;
     }
-    
-    
+
+
 }

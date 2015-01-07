@@ -8,6 +8,7 @@ package com.github.prosync.gui;
 import com.github.prosync.domain.Config;
 import com.github.prosync.domain.Constants;
 import com.github.prosync.logic.GUIServices;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -27,7 +28,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
 
 /**
- *
  * @author Ruben
  */
 public class ConfigFinal {
@@ -55,8 +55,8 @@ public class ConfigFinal {
             }
         });
     }
-    
-    public class FinalPane extends JPanel {
+
+    private class FinalPane extends JPanel {
 
         public FinalPane(JFrame contentFrame) {
             final JFrame frame = contentFrame;
@@ -67,16 +67,16 @@ public class ConfigFinal {
             gbc.anchor = GridBagConstraints.WEST;
             gbc.weightx = 1;
             gbc.fill = GridBagConstraints.HORIZONTAL;
-            
+
             config.setFpsValues(Constants.getFpsList(config.getResolutionSelected()));
-            
+
             setBorder(new TitledBorder("Final"));
             ButtonGroup bg = new ButtonGroup();
             JTextArea configSelected = new JTextArea();
-            configSelected.append("Modus: "+config.getModeSelected());
-            configSelected.append("\nOppløsning: "+config.getResolutionSelected());
-            configSelected.append("\nFPS: "+config.getFpsSelected());
-            configSelected.append("\nProTune: "+config.getProTuneSlected());
+            configSelected.append("Modus: " + config.getModeSelected());
+            configSelected.append("\nOpplï¿½sning: " + config.getResolutionSelected());
+            configSelected.append("\nFPS: " + config.getFpsSelected());
+            configSelected.append("\nProTune: " + config.getProTuneSlected());
             configSelected.append("\nSende til kamera?");
             add(configSelected);
             JButton ja = new JButton("Ja");
@@ -88,11 +88,11 @@ public class ConfigFinal {
                 }
             });
             JButton nei = new JButton("Nei");
-            nei.addActionListener(new ActionListener(){
+            nei.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e){
+                public void actionPerformed(ActionEvent e) {
                     frame.setVisible(false);
-            }
+                }
             });
             add(ja);
             add(nei);
