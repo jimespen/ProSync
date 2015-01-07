@@ -131,21 +131,6 @@ public class CaptureMode {
             stopRecording.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    try {
-                        guiS.clearCameraList();
-                        if (checkBox1.isSelected())
-                            guiS.addCamera("camera1", guiS.findInterface(dropDown1.getSelectedItem().toString()), textField1.getText());
-
-                        if (checkBox2.isSelected())
-                            guiS.addCamera("camera2", guiS.findInterface(dropDown2.getSelectedItem().toString()), textField2.getText());
-
-                        if (checkBox3.isSelected())
-                            guiS.addCamera("camera3", guiS.findInterface(dropDown3.getSelectedItem().toString()), textField3.getText());
-
-                    } catch (SocketException e1) {
-                        e1.printStackTrace();
-                    }
-
                     guiS.stopShutter();
                     enableInterface();
                 }
