@@ -100,7 +100,7 @@ public class ConfigSetupCamera {
             //nics.add("wlan0");
 
             JPanel panel;
-            if (cameras.size() < 0) {
+            if (cameras.size() > 0) {
                 for (Camera aCamera : cameras) {
                     final Camera camera = aCamera;
                     final JComboBox dropDown = new JComboBox(nics.toArray());
