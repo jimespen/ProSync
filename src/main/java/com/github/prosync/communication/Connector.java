@@ -65,7 +65,6 @@ public class Connector {
             malformedInputException.printStackTrace();
             return false;
         } catch (IOException ioException) {
-            ioException.printStackTrace();
             return false;
         }
         System.out.println(true);

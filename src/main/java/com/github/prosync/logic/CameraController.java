@@ -48,7 +48,7 @@ public class CameraController extends Controller {
             ce.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -226,162 +226,162 @@ public class CameraController extends Controller {
     }
 
     @Override
-    public void turnGoProOn(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "PW", "01");
+    public boolean turnGoProOn(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "PW", "01");
     }
 
     @Override
-    public void turnGoProOff(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "PW", "00");
+    public boolean turnGoProOff(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "PW", "00");
     }
 
     @Override
-    public void setAutoOffNever(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "AO", "00");
+    public boolean setAutoOffNever(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "AO", "00");
     }
 
     @Override
-    public void setAutoOff60s(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "AO", "01");
+    public boolean setAutoOff60s(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "AO", "01");
     }
 
     @Override
-    public void setAutoOff120s(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "AO", "02");
+    public boolean setAutoOff120s(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "AO", "02");
     }
 
     @Override
-    public void setAutoOff300s(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "AO", "03");
+    public boolean setAutoOff300s(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "AO", "03");
     }
 
     @Override
-    public void setDefaultModeVideo(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "DM", "00");
+    public boolean setDefaultModeVideo(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "DM", "00");
     }
 
     @Override
-    public void setDefaultModePhoto(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "DM", "01");
+    public boolean setDefaultModePhoto(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "DM", "01");
     }
 
     @Override
-    public void setDefaultModeBurst(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "DM", "02");
+    public boolean setDefaultModeBurst(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "DM", "02");
     }
 
     @Override
-    public void setDefaultModeTimelapse(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "DM", "03");
+    public boolean setDefaultModeTimelapse(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "DM", "03");
     }
 
     @Override
-    public void setModeToVideo(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "CM", "00");
+    public boolean setModeToVideo(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "CM", "00");
     }
 
     @Override
-    public void setModeToPhoto(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "CM", "01");
+    public boolean setModeToPhoto(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "CM", "01");
     }
 
     @Override
-    public void setModeToBurst(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "CM", "02");
+    public boolean setModeToBurst(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "CM", "02");
     }
 
     @Override
-    public void setModeToTimelapse(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "CM", "03");
+    public boolean setModeToTimelapse(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "CM", "03");
     }
 
     @Override
-    public void startCamera(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "SH", "01");
+    public boolean startCamera(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "SH", "01");
     }
 
     @Override
-    public void stopCamera(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "SH", "00");
+    public boolean stopCamera(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "SH", "00");
     }
 
     @Override
-    public void setWideFoV(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "FV", "00");
+    public boolean setWideFoV(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "FV", "00");
     }
 
     @Override
-    public void setMediumFoV(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "FV", "01");
+    public boolean setMediumFoV(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "FV", "01");
     }
 
     @Override
-    public void setNarrowFoV(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "FV", "02");
+    public boolean setNarrowFoV(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "FV", "02");
     }
 
     @Override
-    public void setVolumeOff(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "BS", "00");
+    public boolean setVolumeOff(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "BS", "00");
     }
 
     @Override
-    public void setVolume70(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "BS", "01");
+    public boolean setVolume70(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "BS", "01");
     }
 
     @Override
-    public void setVolume100(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "BS", "02");
+    public boolean setVolume100(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "BS", "02");
     }
 
     @Override
-    public void setContinuousShotSingle(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "CS", "00");
+    public boolean setContinuousShotSingle(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "CS", "00");
     }
 
     @Override
-    public void setContinuousShot3SPS(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "CS", "03");
+    public boolean setContinuousShot3SPS(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "CS", "03");
     }
 
     @Override
-    public void setContinuousShot5SPS(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "CS", "05");
+    public boolean setContinuousShot5SPS(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "CS", "05");
     }
 
     @Override
-    public void setContinuousShot10SPS(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "CS", "0a");
+    public boolean setContinuousShot10SPS(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "CS", "0a");
     }
 
     @Override
-    public void setProTuneOn(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "PT", "01");
+    public boolean setProTuneOn(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "PT", "01");
     }
 
     @Override
-    public void setProTuneOff(NetworkInterface networkInterface, String password) {
-        sendCommand(networkInterface, password, "PT", "00");
+    public boolean setProTuneOff(NetworkInterface networkInterface, String password) {
+        return sendCommand(networkInterface, password, "PT", "00");
     }
 
     @Override
-    public void deleteLast(NetworkInterface networkInterface, String password) throws IOException {
-        sendDeleteCommand(networkInterface, password, "DL");
+    public boolean deleteLast(NetworkInterface networkInterface, String password) throws IOException {
+        return sendDeleteCommand(networkInterface, password, "DL");
     }
 
     @Override
-    public void deleteAll(NetworkInterface networkInterface, String password) throws IOException {
-        sendDeleteCommand(networkInterface, password, "DA");
+    public boolean deleteAll(NetworkInterface networkInterface, String password) throws IOException {
+        return sendDeleteCommand(networkInterface, password, "DA");
     }
 
     @Override
-    public void deleteLast(String password) {
-        sendDeleteCommand(password, "DL");
+    public boolean deleteLast(String password) {
+        return sendDeleteCommand(password, "DL");
     }
 
     @Override
-    public void deleteAll(String password) {
-        sendDeleteCommand(password, "DA");
+    public boolean deleteAll(String password) {
+        return sendDeleteCommand(password, "DA");
     }
 }

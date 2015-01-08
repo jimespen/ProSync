@@ -121,16 +121,18 @@ public class CaptureMode {
                     } catch (SocketException e1) {
                         e1.printStackTrace();
                     }
+                    if(!GUIServices.startShutter()){
+                        JOptionPane.showMessageDialog(null, "Noe gikk galt");
+                    }
 
-                    GUIServices.startShutter();
-                    disableInterface();
+                    //disableInterface();
                 }
             });
             stopRecording.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     GUIServices.stopShutter();
-                    enableInterface();
+                    //enableInterface();
                 }
             });
         }
@@ -180,14 +182,14 @@ public class CaptureMode {
 
             gbc.gridy++;
 
-            startRecording = new JButton("Start");
+            startRecording = new JButton("Ta bilder/Start Opptak");
             startRecording.setSize(75, 50);
 
             add(startRecording, gbc);
             gbc.gridy++;
 
-            stopRecording = new JButton("Stop");
-            stopRecording.setEnabled(false);
+            stopRecording = new JButton("Stop Opptak");
+            //stopRecording.setEnabled(false);
 
             add(stopRecording, gbc);
 

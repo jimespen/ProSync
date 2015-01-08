@@ -135,17 +135,6 @@ public final class GUIServices {
 
     }
 
-    public static void shutDownCameras() throws IOException {
-        /*
-         Connection con = new Connection("wlan0",0);
-         Connection con2 = new Connection("wlan3",0);
-         con.setCommand("PW", "01");
-         con2.setCommand("PW", "01");
-         con.run();
-         con2.run();
-         */
-    }
-
     public static void clearCameraList() {
         cams = new ArrayList<>();
     }
@@ -160,16 +149,20 @@ public final class GUIServices {
         }
     }
 
-    public static void startShutter() {
+    public static boolean startShutter() {
         for (Camera c : cams) {
-            cc.startCamera(c.getNic(), c.getPassword());
+            boolean test = cc.startCamera(c.getNic(), c.getPassword());
+            if(!test) return false;
         }
+        return true;
     }
 
-    public static void stopShutter() {
+    public static boolean stopShutter() {
         for (Camera c : cams) {
-            cc.stopCamera(c.getNic(), c.getPassword());
+            boolean test = cc.stopCamera(c.getNic(), c.getPassword());
+            if(!test) return false;
         }
+        return true;
     }
 
     public static void sendConfigToAllConnectedCameras() {
