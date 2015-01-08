@@ -45,8 +45,6 @@ public class CaptureMode {
 
     private class CapturePane extends JPanel {
 
-        GUIServices guiS;
-
         JCheckBox checkBox1;
         JCheckBox checkBox2;
         JCheckBox checkBox3;
@@ -110,35 +108,35 @@ public class CaptureMode {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        guiS.clearCameraList();
+                        GUIServices.clearCameraList();
                         if (checkBox1.isSelected())
-                            guiS.addCamera("camera1", guiS.findInterface(dropDown1.getSelectedItem().toString()), textField1.getText());
+                            GUIServices.addCamera("camera1", GUIServices.findInterface(dropDown1.getSelectedItem().toString()), textField1.getText());
 
                         if (checkBox2.isSelected())
-                            guiS.addCamera("camera2", guiS.findInterface(dropDown2.getSelectedItem().toString()), textField2.getText());
+                            GUIServices.addCamera("camera2", GUIServices.findInterface(dropDown2.getSelectedItem().toString()), textField2.getText());
 
                         if (checkBox3.isSelected())
-                            guiS.addCamera("camera3", guiS.findInterface(dropDown3.getSelectedItem().toString()), textField3.getText());
+                            GUIServices.addCamera("camera3", GUIServices.findInterface(dropDown3.getSelectedItem().toString()), textField3.getText());
 
                     } catch (SocketException e1) {
                         e1.printStackTrace();
                     }
 
-                    guiS.startShutter();
+                    GUIServices.startShutter();
                     disableInterface();
                 }
             });
             stopRecording.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    guiS.stopShutter();
+                    GUIServices.stopShutter();
                     enableInterface();
                 }
             });
         }
 
         private void addElements() throws SocketException {
-            dropDown1 = new JComboBox(guiS.getConectedWIFINames().toArray());
+            dropDown1 = new JComboBox(GUIServices.getConectedWIFINames().toArray());
             dropDown1.setPreferredSize(new Dimension(450, 20));
 
             checkBox1 = new JCheckBox("Kamera 1");
@@ -152,7 +150,7 @@ public class CaptureMode {
             add(panel1, gbc);
             gbc.gridy++;
 
-            dropDown2 = new JComboBox(guiS.getConectedWIFINames().toArray());
+            dropDown2 = new JComboBox(GUIServices.getConectedWIFINames().toArray());
             dropDown2.setPreferredSize(new Dimension(450, 20));
 
             checkBox2 = new JCheckBox("Kamera 2");
@@ -168,7 +166,7 @@ public class CaptureMode {
             gbc.gridy++;
 
 
-            dropDown3 = new JComboBox(guiS.getConectedWIFINames().toArray());
+            dropDown3 = new JComboBox(GUIServices.getConectedWIFINames().toArray());
             dropDown3.setPreferredSize(new Dimension(450, 20));
 
             checkBox3 = new JCheckBox("Kamera 3");

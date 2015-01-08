@@ -7,7 +7,6 @@ package com.github.prosync.gui;
 
 import com.github.prosync.domain.Config;
 import com.github.prosync.domain.Constants;
-import com.github.prosync.logic.CameraController;
 import com.github.prosync.logic.GUIServices;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,15 +15,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import javax.swing.AbstractAction;
-import static javax.swing.Action.NAME;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -54,7 +47,7 @@ public class ConfigFps {
                 frame.setPreferredSize(new Dimension(800, 600));
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
-                frame.add(new ResolutionPane(frame));
+                frame.add(new FPSPane(frame));
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -62,9 +55,9 @@ public class ConfigFps {
         });
     }
 
-    private class ResolutionPane extends JPanel {
+    private class FPSPane extends JPanel {
 
-        public ResolutionPane(JFrame contentFrame) {
+        public FPSPane(JFrame contentFrame) {
             final JFrame frame = contentFrame;
             setSize(800, 600);
             setLayout(new GridBagLayout());
@@ -79,7 +72,7 @@ public class ConfigFps {
             setBorder(new TitledBorder("FPS"));
             ButtonGroup bg = new ButtonGroup();
             for (String value : config.getFpsValues()) {
-                JRadioButton rb = new JRadioButton(new ResolutionAction(config, value));
+                JRadioButton rb = new JRadioButton(new FPSAction(config, value));
                 bg.add(rb);
                 add(rb, gbc);
             }
@@ -100,12 +93,12 @@ public class ConfigFps {
 
     }
 
-    private class ResolutionAction extends AbstractAction {
+    private class FPSAction extends AbstractAction {
 
         private final Config mode;
         private final String value;
 
-        public ResolutionAction(Config mode, String value) {
+        public FPSAction(Config mode, String value) {
             this.mode = mode;
             this.value = value;
             putValue(NAME, value);
