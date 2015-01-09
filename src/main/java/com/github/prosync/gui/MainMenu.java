@@ -25,7 +25,7 @@ public class MainMenu {
     private JButton buttonConfig;
 
     public MainMenu() {
-        buttonRecord = new JButton("Opptak/Ta Opptak");
+        buttonRecord = new JButton("Opptak/Ta Bilder");
         buttonConfig = new JButton("Konfigurer kameraer");
         buttonDownload = new JButton("Hent filer");
     }
