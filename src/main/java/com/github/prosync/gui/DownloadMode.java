@@ -80,7 +80,12 @@ public class DownloadMode {
 
                     JScrollPane jspFiles = new JScrollPane(files);
 
-                    dtmDownload.addRows(GUIServices.getDownloadableFiles());
+                    try{
+                        ArrayList<String> list = GUIServices.getDownloadableFiles();
+                        dtmDownload.addRows(list);
+                    }catch (NullPointerException | IllegalStateException e){
+                        JOptionPane.showMessageDialog(null, "Fant ingen kamera, bilder eller opptak. Prøv igjen.");
+                    }
 
                     add(jspFiles, gbc);
 
