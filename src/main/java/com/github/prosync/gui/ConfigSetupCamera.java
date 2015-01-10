@@ -92,12 +92,11 @@ public class ConfigSetupCamera {
             gbc.anchor = GridBagConstraints.WEST;
             gbc.weightx = 1;
             gbc.fill = GridBagConstraints.HORIZONTAL;
-
-            //Placeholder
+            
             cameras.add(new Camera("Kamera 1"));
             cameras.add(new Camera("Kamera 2"));
             cameras.add(new Camera("Kamera 3"));
-            //nics.add("wlan0");
+
 
             JPanel panel;
             if (cameras.size() > 0) {
@@ -113,9 +112,9 @@ public class ConfigSetupCamera {
 
                     try {
                         aCamera.setNic(GUIServices.findInterface(dropDown.getSelectedItem().toString()));
-                    } catch (SocketException e) {
+                    } catch (SocketException | NullPointerException e) {
                         System.out.println(cameras.size());
-                        e.printStackTrace();
+                        e.printStackTrace(System.err);
                     }
 
                     dropDown.addActionListener(new ActionListener() {
@@ -147,7 +146,7 @@ public class ConfigSetupCamera {
 
                         @Override
                         public void removeUpdate(DocumentEvent de) {
-                            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                            System.out.println(de+" removed");//To change body of generated methods, choose Tools | Templates.
                         }
 
                         @Override
